@@ -1,7 +1,7 @@
 echo 'installing g++'
 apt-get -yq install g++
 echo 'installing libraries needed for moses'
-apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip libzip-dev libbz2-dev libxmlrpc-c++4-dev libgoogle-perftools-dev libcmph-dev
+apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip-dev libbz2-dev libxmlrpc-c++4-dev libgoogle-perftools-dev libcmph-dev
 apt-get -yq install imagemagick graphviz
 echo 'downloading and installing moses'
 git clone https://github.com/moses-smt/mosesdecoder.git /opt/moses
