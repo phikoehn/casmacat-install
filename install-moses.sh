@@ -26,6 +26,3 @@ cp /opt/moses/external/fast-align/fast_align /opt/moses/external/bin
 # Moses
 cd /opt/moses
 ./bjam -j8 --with-xmlrpc-c=/usr --with-cmph=/usr --toolset=gcc --with-giza=/opt/moses/external/bin --with-tcmalloc=/usr
-# Take over ownership
-chown -R $USER /opt/moses
-chgrp -R $USER /opt/moses
