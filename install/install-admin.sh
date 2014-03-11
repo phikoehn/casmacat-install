@@ -9,6 +9,6 @@ rm 000-default.conf
 service apache2 restart
 chown -R www-data /opt/casmacat/admin
 
-sudo apt-get install xdotool
+apt-get -yq install xdotool
 firefox http://localhost/ &
 xdotool key F11
