@@ -18,6 +18,27 @@ else
   mkdir logs
   chmod o+w logs
 fi
+# mysql backend
+apt-get -yq install mysql-client-core-5.5
+export DEBIAN_FRONTEND=noninteractive
+apt-get -yq install mysql-server
+mysqladmin -u root password casmakatze
+echo "connect mysql; create user katze@localhost identified by 'miau'; create database matecat_sandbox; grant usage on *.* to katze@localhost; grant all privileges on matecat_sandbox.* to katze@localhost;" | mysql -u root -pcasmakatze
+mysql -u katze -pmiau < /opt/casmacat/web-server/lib/model/matecat.sql
+mysql -u katze -pmiau < /opt/casmacat/web-server/lib/model/casmacat.sql
+# configure 
+/opt/casmacat/admin/configure-web-server-config.perl 
+# apache config
+cp /opt/casmacat/install/apache-setup/casmacat.conf /etc/apache2/sites-available
+cd /etc/apache2/sites-enabled
+ln -s ../sites-available/casmacat.conf .
+apt-get -yq install php5
+apt-get -yq install libapache2-mod-php5
+apt-get -yq install php5-mysql
+cd /etc/apache2/mods-enabled
+ln -s ../mods-available/rewrite.load .
+chown -R www-data /opt/casmacat/web-server
+apache2ctl restart
 
 # Install CAT Server
 echo 'downloading and installing cat server'

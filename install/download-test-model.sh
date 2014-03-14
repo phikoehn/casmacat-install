@@ -3,7 +3,7 @@
 mkdir -p /opt/casmacat/engines
 
 echo 'downloading test model'
-if [ -d /opt/casmacat/test ]
+if [ -d /opt/casmacat/engines/toy-fr-en ]
 then
   echo 'already downloaded'
   # delete and re-download?
