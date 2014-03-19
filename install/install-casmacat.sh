@@ -33,11 +33,12 @@ cp /opt/casmacat/install/apache-setup/casmacat.conf /etc/apache2/sites-available
 cd /etc/apache2/sites-enabled
 ln -s ../sites-available/casmacat.conf .
 apt-get -yq install php5
-apt-get -yq install libapache2-mod-php5
+apt-get -yq install php5-json
 apt-get -yq install php5-mysql
+apt-get -yq install libapache2-mod-php5
 cd /etc/apache2/mods-enabled
 ln -s ../mods-available/rewrite.load .
-chown -R www-data /opt/casmacat/web-server
+chown -R www-data:www-data /opt/casmacat/web-server
 apache2ctl restart
 
 # Install CAT Server
