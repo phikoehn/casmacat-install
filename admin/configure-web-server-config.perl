@@ -26,7 +26,7 @@ while(<TEMPLATE>) {
     }
   }
   elsif(/^itpserver/) {
-    print MINE "itpserver = \"localhost:9999\"\n";
+    print MINE "itpserver = \"http://localhost:9999/cat\"\n";
   }
   elsif(/^itpenabled/) {
     print MINE "itpenabled = $itpenabled\n";
