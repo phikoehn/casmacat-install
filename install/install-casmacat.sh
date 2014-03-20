@@ -47,6 +47,7 @@ apt-get -yq install python-tornado
 if [ -d /opt/casmacat/cat-server ]
 then
   cd /opt/casmacat/cat-server
+  rm predict
   git pull
 else
   cd /opt/casmacat
@@ -54,7 +55,7 @@ else
 fi
 
 cd /opt/casmacat/cat-server
-g++ main.cpp -o predict
+g++ predict.cpp -o predict
 
 if [ -d /opt/casmacat/cat-server/tornadio2 ]
 then
