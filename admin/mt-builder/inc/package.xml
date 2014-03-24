@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PHPTAL</name>
+ <channel>__uri</channel>
+ <summary>Zope Page Template implementation for PHP5</summary>
+ <description>PHPTAL is a XML-based template engine that generates XML, XHTML and HTML5 using syntax of Zope&apos;s Template Attribute Language (TAL, METAL and I18N namespaces).
+PHPTAL compiles templates to PHP for best performance and supports selective caching of output.</description>
+ <lead>
+  <name>Kornel Lesiński</name>
+  <user>kornel</user>
+  <email>kornel@aardvarkmedia.co.uk</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Laurent Bedubourg</name>
+  <user>lbedubourg</user>
+  <email>lbedubourg@motion-twin.com</email>
+  <active>yes</active>
+ </developer>
+ <date>2014-03-15</date>
+ <time>19:30:16</time>
+ <version>
+  <release>1.3.0</release>
+  <api>1.2.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>alpha</api>
+ </stability>
+ <license>LGPL</license>
+ <notes>
+Test release
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="e0922ae0614192e3dcf211b516870c4e" name="PHPTAL/ConfigurationException.php" role="php" />
+   <file baseinstalldir="/" md5sum="d87b1e0e6ce2ab9ae9e60f3dfb93469a" name="PHPTAL/Context.php" role="php" />
+   <file baseinstalldir="/" md5sum="005b3e5a78ef0d5183a7676b322e93ea" name="PHPTAL/DefaultKeyword.php" role="php" />
+   <file baseinstalldir="/" md5sum="58fe45aa876e7f5543eb90e915e80437" name="PHPTAL/Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="ed4b1a8937e292276a7d54c86c06e9e0" name="PHPTAL/ExceptionHandler.php" role="php" />
+   <file baseinstalldir="/" md5sum="6b4438c72c25dd7fbcfb663409b663f5" name="PHPTAL/FileSource.php" role="php" />
+   <file baseinstalldir="/" md5sum="17c72d508ef3e47e6eaef292f2d6f84b" name="PHPTAL/FileSourceResolver.php" role="php" />
+   <file baseinstalldir="/" md5sum="d0a8e1003d9ff86bf8f1aed0c98f9075" name="PHPTAL/Filter.php" role="php" />
+   <file baseinstalldir="/" md5sum="c15bd0128b7a951a06d50ba91564c701" name="PHPTAL/GetTextTranslator.php" role="php" />
+   <file baseinstalldir="/" md5sum="120dcd513a2e91988aa11b9224447446" name="PHPTAL/InvalidVariableNameException.php" role="php" />
+   <file baseinstalldir="/" md5sum="119d123e78fa18733687d5639c6089e0" name="PHPTAL/IOException.php" role="php" />
+   <file baseinstalldir="/" md5sum="c392f018524236fbb83850040a346556" name="PHPTAL/Keywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="7e4460b642bd2dc4f88e09721c872ed5" name="PHPTAL/MacroMissingException.php" role="php" />
+   <file baseinstalldir="/" md5sum="d8cf983a1f41c0b8f1b88692cb5601f0" name="PHPTAL/Namespace.php" role="php" />
+   <file baseinstalldir="/" md5sum="f7bb706eab00d76dd3e760da75b1ab51" name="PHPTAL/NamespaceAttribute.php" role="php" />
+   <file baseinstalldir="/" md5sum="f1bd2e64f8647fee338f9a9f4fffc9f4" name="PHPTAL/NamespaceAttributeContent.php" role="php" />
+   <file baseinstalldir="/" md5sum="8338b83b2c3a0551da7451cfafdf9186" name="PHPTAL/NamespaceAttributeReplace.php" role="php" />
+   <file baseinstalldir="/" md5sum="76a65b42b9a3df6564626bca3bae7338" name="PHPTAL/NamespaceAttributeSurround.php" role="php" />
+   <file baseinstalldir="/" md5sum="3ff5e4026a15a35d4702c0d7c0c05291" name="PHPTAL/NothingKeyword.php" role="php" />
+   <file baseinstalldir="/" md5sum="b491d9594dab82490acaa973c4a9d466" name="PHPTAL/ParserException.php" role="php" />
+   <file baseinstalldir="/" md5sum="76161352d25f51abbbc8db69f4e0f555" name="PHPTAL/PreFilter.php" role="php" />
+   <file baseinstalldir="/" md5sum="b56f7b9ce306828bc4f9c2f5d7fd4e2e" name="PHPTAL/RepeatController.php" role="php" />
+   <file baseinstalldir="/" md5sum="55d91598823345b16049a9b4197a09a1" name="PHPTAL/RepeatControllerGroups.php" role="php" />
+   <file baseinstalldir="/" md5sum="f4b77d10a6f67be6ce0ff340756786e4" name="PHPTAL/Source.php" role="php" />
+   <file baseinstalldir="/" md5sum="9cedd43abd2ee06c9232a5061041686b" name="PHPTAL/SourceResolver.php" role="php" />
+   <file baseinstalldir="/" md5sum="6a996a45c02503a544f4fc79650665fe" name="PHPTAL/StringSource.php" role="php" />
+   <file baseinstalldir="/" md5sum="2745b15b2d1fdfe5ca8c0f4af11e8b53" name="PHPTAL/Tales.php" role="php" />
+   <file baseinstalldir="/" md5sum="7ae987a6f09727bb6147cc3e0b8ec085" name="PHPTAL/TalesRegistry.php" role="php" />
+   <file baseinstalldir="/" md5sum="1625dcbf249a3dc8e67d9eddb84b83b9" name="PHPTAL/TemplateException.php" role="php" />
+   <file baseinstalldir="/" md5sum="4663a89e74ad16cb8e99d081b680c070" name="PHPTAL/Tokenizer.php" role="php" />
+   <file baseinstalldir="/" md5sum="d757be53b1e536d47fcba3ada513df54" name="PHPTAL/TranslationService.php" role="php" />
+   <file baseinstalldir="/" md5sum="794f885cb97fd22453eca9c9c5c5e721" name="PHPTAL/Trigger.php" role="php" />
+   <file baseinstalldir="/" md5sum="80e4fba9683025388cdf66f34ee3fdbf" name="PHPTAL/UnknownModifierException.php" role="php" />
+   <file baseinstalldir="/" md5sum="369ec178fa6855482cfcdc5c053a4b5c" name="PHPTAL/VariableNotFoundException.php" role="php" />
+   <file baseinstalldir="/" md5sum="5b0d3646c6c5787348367c148616be44" name="PHPTAL/Dom/Attr.php" role="php" />
+   <file baseinstalldir="/" md5sum="0b0b3d1e3b3bfc09e0605878435525fe" name="PHPTAL/Dom/CDATASection.php" role="php" />
+   <file baseinstalldir="/" md5sum="ebd7cfb49a44c49bd01f07aa9267000a" name="PHPTAL/Dom/Comment.php" role="php" />
+   <file baseinstalldir="/" md5sum="dfc7d5112422c44b8ae82606c03ea612" name="PHPTAL/Dom/Defs.php" role="php" />
+   <file baseinstalldir="/" md5sum="3a0daa68e4e9dd09f0899e1fbdd13442" name="PHPTAL/Dom/DocumentBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d452151c2f6a8955944b6d6c6ea4e40" name="PHPTAL/Dom/DocumentType.php" role="php" />
+   <file baseinstalldir="/" md5sum="e812baa82192aca15babc8f558973b24" name="PHPTAL/Dom/Element.php" role="php" />
+   <file baseinstalldir="/" md5sum="e4c0b9f0b1b735b6005c29108b823aff" name="PHPTAL/Dom/Node.php" role="php" />
+   <file baseinstalldir="/" md5sum="5e257665f84da7d2af56b5320462ea07" name="PHPTAL/Dom/PHPTALDocumentBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="e712425b27e98a75cb07b8382f0ec037" name="PHPTAL/Dom/ProcessingInstruction.php" role="php" />
+   <file baseinstalldir="/" md5sum="c2b00d7cbe809a7234af784c37d6b6d0" name="PHPTAL/Dom/SaxXmlParser.php" role="php" />
+   <file baseinstalldir="/" md5sum="762cf9c067b7356e48d9031e9376f72b" name="PHPTAL/Dom/Text.php" role="php" />
+   <file baseinstalldir="/" md5sum="b222b75aac94211c2bf1acc40ac44af1" name="PHPTAL/Dom/XmlDeclaration.php" role="php" />
+   <file baseinstalldir="/" md5sum="732f18b7cf2c06c699e23fbbaf97d8a1" name="PHPTAL/Dom/XmlnsState.php" role="php" />
+   <file baseinstalldir="/" md5sum="28e97b5a836fa91d104f1ff988af2208" name="PHPTAL/Namespace/Builtin.php" role="php" />
+   <file baseinstalldir="/" md5sum="f072838c350c791664f7cf638640fdab" name="PHPTAL/Namespace/I18N.php" role="php" />
+   <file baseinstalldir="/" md5sum="596de9236c3f7e46672954775f50ce9b" name="PHPTAL/Namespace/METAL.php" role="php" />
+   <file baseinstalldir="/" md5sum="6f7a66ac1de897a7927aa3043d707d8d" name="PHPTAL/Namespace/PHPTAL.php" role="php" />
+   <file baseinstalldir="/" md5sum="f94ae9b5fd99781d4e40fe260ac57cb2" name="PHPTAL/Namespace/TAL.php" role="php" />
+   <file baseinstalldir="/" md5sum="c160012f9903899e47ff0eb880d28acb" name="PHPTAL/Php/Attribute.php" role="php" />
+   <file baseinstalldir="/" md5sum="ea3b3655fdfa92b8ec1270586ff27bf1" name="PHPTAL/Php/CodeWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="5f0c93e946a2760e6e75e00b7e58a85e" name="PHPTAL/Php/State.php" role="php" />
+   <file baseinstalldir="/" md5sum="60cd008067297a152e1e9574fe237f70" name="PHPTAL/Php/TalesChainExecutor.php" role="php" />
+   <file baseinstalldir="/" md5sum="0918491ff17f18c6b38f59e2394c7f04" name="PHPTAL/Php/TalesChainReader.php" role="php" />
+   <file baseinstalldir="/" md5sum="128ef9fe2ebc96c762700aef680cb1c7" name="PHPTAL/Php/TalesInternal.php" role="php" />
+   <file baseinstalldir="/" md5sum="feb12dd9c658b60fb6610a67c6eaf797" name="PHPTAL/Php/Transformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="8f3eb9728fba58a9bc951bc7d79bdd13" name="PHPTAL/Php/Attribute/I18N/Attributes.php" role="php" />
+   <file baseinstalldir="/" md5sum="5f2c7eb601822e432f1255c304694402" name="PHPTAL/Php/Attribute/I18N/Data.php" role="php" />
+   <file baseinstalldir="/" md5sum="72d991d13f59e758d86ac66dcca96200" name="PHPTAL/Php/Attribute/I18N/Domain.php" role="php" />
+   <file baseinstalldir="/" md5sum="daaee14685035ac6dc57170458fe76fb" name="PHPTAL/Php/Attribute/I18N/Name.php" role="php" />
+   <file baseinstalldir="/" md5sum="13890ff62cd7a50d68c988f163af0a18" name="PHPTAL/Php/Attribute/I18N/Source.php" role="php" />
+   <file baseinstalldir="/" md5sum="3da6facc9dfdae06ba25dcd9512eca69" name="PHPTAL/Php/Attribute/I18N/Target.php" role="php" />
+   <file baseinstalldir="/" md5sum="64f68380a647a5be097b68db9eeca353" name="PHPTAL/Php/Attribute/I18N/Translate.php" role="php" />
+   <file baseinstalldir="/" md5sum="14db320c801463d246899125a9cda9d8" name="PHPTAL/Php/Attribute/METAL/DefineMacro.php" role="php" />
+   <file baseinstalldir="/" md5sum="c18506204f451a1ec05c15c7fbdc5b61" name="PHPTAL/Php/Attribute/METAL/DefineSlot.php" role="php" />
+   <file baseinstalldir="/" md5sum="ee70790e63a3ad3a6708950c28bb5d4b" name="PHPTAL/Php/Attribute/METAL/FillSlot.php" role="php" />
+   <file baseinstalldir="/" md5sum="5cf402c4cfdc9e560e4a48905b5b456b" name="PHPTAL/Php/Attribute/METAL/UseMacro.php" role="php" />
+   <file baseinstalldir="/" md5sum="19a730724136b0b35c43140103b51b23" name="PHPTAL/Php/Attribute/PHPTAL/Cache.php" role="php" />
+   <file baseinstalldir="/" md5sum="28aed5fab7a2ee5580bb9f0c8bfc5672" name="PHPTAL/Php/Attribute/PHPTAL/Debug.php" role="php" />
+   <file baseinstalldir="/" md5sum="fc958264718700832b06d3294ca8219e" name="PHPTAL/Php/Attribute/PHPTAL/Id.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f3fe694876abba197e4fdf76d7ae7ad" name="PHPTAL/Php/Attribute/PHPTAL/Tales.php" role="php" />
+   <file baseinstalldir="/" md5sum="5330d3c0e373b01b5278e161f5a76c39" name="PHPTAL/Php/Attribute/TAL/Attributes.php" role="php" />
+   <file baseinstalldir="/" md5sum="96f65faaf074e697c0a385113ed847df" name="PHPTAL/Php/Attribute/TAL/Comment.php" role="php" />
+   <file baseinstalldir="/" md5sum="5573391438125156f79b8e349444b458" name="PHPTAL/Php/Attribute/TAL/Condition.php" role="php" />
+   <file baseinstalldir="/" md5sum="01c7b1c4f5000f6f57cf27e944af9b27" name="PHPTAL/Php/Attribute/TAL/Content.php" role="php" />
+   <file baseinstalldir="/" md5sum="db4f5e0c77221a07f0e4f30a90cbdf11" name="PHPTAL/Php/Attribute/TAL/Define.php" role="php" />
+   <file baseinstalldir="/" md5sum="1e6f4b89a33e73b8ed57a95011bd439e" name="PHPTAL/Php/Attribute/TAL/OmitTag.php" role="php" />
+   <file baseinstalldir="/" md5sum="bc888e8ec5444ba884c91d27051fb698" name="PHPTAL/Php/Attribute/TAL/OnError.php" role="php" />
+   <file baseinstalldir="/" md5sum="cb22310a73c4cd49054091f9f1cebb61" name="PHPTAL/Php/Attribute/TAL/Repeat.php" role="php" />
+   <file baseinstalldir="/" md5sum="a0cfdd8a268854c534740be4f7c68216" name="PHPTAL/Php/Attribute/TAL/Replace.php" role="php" />
+   <file baseinstalldir="/" md5sum="81570058eac3c24eede3b06df19015f2" name="PHPTAL/PreFilter/Compress.php" role="php" />
+   <file baseinstalldir="/" md5sum="62e6afd2f934b401b2599797a2ecddc4" name="PHPTAL/PreFilter/Normalize.php" role="php" />
+   <file baseinstalldir="/" md5sum="d89f9a9b87af68d4d07df337bf4087e6" name="PHPTAL/PreFilter/StripComments.php" role="php" />
+   <file baseinstalldir="/" md5sum="a4a3f4157bc9972029b1a17394d913be" name="tests/ArrayOverloadTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="079226f01e155445b973941cecd517c4" name="tests/AttributesInterpolationTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8b873e7b8dfe595f5174c03ceb09b609" name="tests/AutoloadTest1.php" role="test" />
+   <file baseinstalldir="/" md5sum="b05c0374766ded34ec4d1ae78310efd3" name="tests/AutoloadTest2.php" role="test" />
+   <file baseinstalldir="/" md5sum="85e4a48f9e3f14c7cd783b9036ec2d63" name="tests/BlockTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="a6274ee0f62804e25957becb66b66f08" name="tests/ClosureTalesValueTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="3b5ff5f8676f5d2a7af2ee0b69112f03" name="tests/CodeCacheTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="220007b845db4bfed088ee5f1b7652ac" name="tests/CommentFilterTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f0b7f3fae392677628a280b275ecfcf5" name="tests/CommentTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8f9b38386bf67863c69183ce1c994f43" name="tests/CompressTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8a465bbc60df8cfbbe48d2f0ff3ad59b" name="tests/config.php" role="test" />
+   <file baseinstalldir="/" md5sum="7aeffb6ef216b122e4898a560a6e4f52" name="tests/ContentEncodingTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="058fc9f33b49938f6729e92e4182ac24" name="tests/ContentInterpolationTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="d3ef10587eb666a6ef0503154fb7280d" name="tests/DoctypeTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="a53957c3cf508976c1d99c2b26e50a8a" name="tests/DomTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="cca4bc88f20cf5d09982c70f0d301af1" name="tests/EchoExecuteTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="41125c26069c93e2f60fd8edae38338c" name="tests/EscapeCDATATest.php" role="test" />
+   <file baseinstalldir="/" md5sum="cc9e3d7c9e36057a24f19422a8e8e43d" name="tests/EscapeHTMLTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="21ee063407f942d1635d26ea78940875" name="tests/gen-mos.sh" role="test" />
+   <file baseinstalldir="/" md5sum="2df3b06b20f3e32a726c978a39696313" name="tests/GetTextTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="10bbe0ece3f005d23ab2602efe23a083" name="tests/HTML5ModeTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="3fcbd8e3987ae56f52545852c3849a08" name="tests/HTMLGeneratorTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="54bed94696ad9e1e5543275bfcb28cef" name="tests/I18NAttributesTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="b0ecaf62915288e3867dd0dc0a186a05" name="tests/I18NDummyTranslator.php" role="test" />
+   <file baseinstalldir="/" md5sum="2e93efb9171f55560718f6d18a095868" name="tests/I18NNameTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="84800f8f09c9f6668e371efee9d9e983" name="tests/I18NTranslateTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f4213780e13ed2545a5c112897db962d" name="tests/KeywordClassTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="e6d552467241c4e9c0bd4d4c02276467" name="tests/Latin1Test.php" role="test" />
+   <file baseinstalldir="/" md5sum="724e62ef75d07490ab56a990d23453e5" name="tests/MetalMacroTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="c8929af49c4119a36f56891e10efa4c8" name="tests/MetalSlotTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="56c18d2e54a44601a51c6f211c4112bc" name="tests/NamespacesTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="5293d3c5ce92f67eb19f29bdc3049257" name="tests/OldPreFilterTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="1a344b15011e808ff752dbd01e70c8fc" name="tests/OldTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="4d6965e0bb6be47617b0f61228fbc624" name="tests/OverloadingTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="54b4474935a8ecf9a02b99ab0baec744" name="tests/ParserTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8c7e73834a5c07ea4d4f1ede2d1a1ed7" name="tests/PhpModeTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="7a7418c7234b7671337a6e8a53081821" name="tests/PhptalCacheTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="279f316392e72551211ef50065e8e34e" name="tests/PhptalIdTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="4d7763183b10c7a27966f0f8acd1f011" name="tests/PhptalPathTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="b7328a48dd4f9656e0d069367881f574" name="tests/PhptalTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8f0c9385265ae6bbbab2e013a05ae41f" name="tests/PhptalUsageTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="6978e2c28f599cb91f964ca510b5c078" name="tests/PhpTransformerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="775806ee3f0ebf28303590299f000d64" name="tests/PostFilterTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="7b1cd0d0d94cd92814b5e0f82141c13b" name="tests/PreFilterNormalizeTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="005d49114c155af7a30d25e170da48ee" name="tests/ReadableErrorTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="b5ce7ba929b583a7dc3ce96d8ceeb0d1" name="tests/run-tests.php" role="test" />
+   <file baseinstalldir="/" md5sum="3b8fad1af4b3d1aef7d8eb7e1bf92bb9" name="tests/SimpleGenerationTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="7bd07fa5f124f0e9eb03c58b5ca4726b" name="tests/SourceTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="d6c83a48391b95040d37bf4a936bbbe2" name="tests/TalAttributesTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="e77119ada20e09331d9894cf7985d7bd" name="tests/TalCommentTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="e40deed1e0ff264d2492f95f5e903a19" name="tests/TalConditionTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="962fbbf10a4329b19264bffce45b75f6" name="tests/TalContentTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="bebe0f4ca3b06f187eb316e5dbcd90da" name="tests/TalDefineTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="d11ee63a7723d4b17f04b533ac1e5dfe" name="tests/TalesClosuresTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="e64d633e5d6d9f093c0f6c3005abe97c" name="tests/TalesExistTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="e6424a12ed2cefa5c48c840b0cd69fa1" name="tests/TalesIssetNullTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="ed24a3c0fc6923ae5aedd02bb98c8ce7" name="tests/TalesModeTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="5780036681d1b452f9acc060fb3c5c9b" name="tests/TalesPhpTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="5f1db5edc872f112adbc1bf6c3a73318" name="tests/TalesPhpWithReplaceTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="b479696a1f36eb6adf83ac9131c68380" name="tests/TalesRegistryTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="df368e6ea98aab16cf87a0543c7f5bda" name="tests/TalesStringTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="df5aa1b852d2df1f29080f2002cacc73" name="tests/TalesTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f9f27d8890393e23b6424458efea24a0" name="tests/TalOmitTagTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="a7210dad6138e9ac5981df78a5e64b1a" name="tests/TalOnErrorTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="694c5b254f191dbf943a85ed4e6191db" name="tests/TalRepeatTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="a0e93d007d66c971a6b91dc1dce32786" name="tests/TalReplaceTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="b0e85ae68fd40cb15f669c1aa0ee0b90" name="tests/TemplateRepositoryTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f018c18134f2192864ce4b54a97fc29c" name="tests/TokenizerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="2adb3453e9cc3f199eb7f0555db82340" name="tests/TriggerTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="8de3bd3ba0f2b292d59bc00db152d7fc" name="tests/UTF8Test.php" role="test" />
+   <file baseinstalldir="/" md5sum="a3bf7ad8488be95225539f6b58846467" name="tests/XHTMLModeTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="ab8c8a3e81a956b1fda299173ff5d8ee" name="tests/XmlParserTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="0c6d7940083b8e2119f2e1738b58275c" name="tests/input/array-overload.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="564b12bbd94b68186abd795206ff1d31" name="tests/input/code-cache-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="f23b4fd5bc8bbc030fb4470adfdba14d" name="tests/input/comment-filter-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="d19ded486afe35055a45ec6a5e9b1b75" name="tests/input/content-encoding.xml" role="test" />
+   <file baseinstalldir="/" md5sum="17abad1bcff9fecb243bd2a35b26612e" name="tests/input/doctype.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="40103649b7338c9d9996d366e9a7fd12" name="tests/input/doctype.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="c1fd862d5391f0325693e6b0c2579ad3" name="tests/input/doctype.02.user.html" role="test" />
+   <file baseinstalldir="/" md5sum="3c1bc7602c2ccd91071a94b81a02c92f" name="tests/input/doctype.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="adb5a3cd751c3f424d9eb1ef169ff294" name="tests/input/doctype.03.sub1.html" role="test" />
+   <file baseinstalldir="/" md5sum="e700e593355407bb4b439e931cd7d499" name="tests/input/doctype.03.sub2.html" role="test" />
+   <file baseinstalldir="/" md5sum="e04a80020302c489d94faafc0c18049f" name="tests/input/doctype.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="ec3e01ef49a5f0bd0b3cb2fe35b22289" name="tests/input/error-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="39e5ccfbb496452b6fd041f94021fdf7" name="tests/input/error-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="c3e52c60e0c33aa9edccd3341fd77b97" name="tests/input/error-02.macro.html" role="test" />
+   <file baseinstalldir="/" md5sum="ee861b05eb64396eaa1b4e8ea47134ff" name="tests/input/error-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="10a78537514a064d4af3ad00313c4faf" name="tests/input/error-03.macro.html" role="test" />
+   <file baseinstalldir="/" md5sum="cf4eed1b989110aae1ec54464643026e" name="tests/input/error-04.html" role="test" />
+   <file baseinstalldir="/" md5sum="53d2710f89ed86317a266a7aab0988e1" name="tests/input/error-05.html" role="test" />
+   <file baseinstalldir="/" md5sum="59533f45eba13510f11253de5f3326d0" name="tests/input/error-06.html" role="test" />
+   <file baseinstalldir="/" md5sum="b2f9dcec769209e0b0f3e39f07ad3151" name="tests/input/error-07.html" role="test" />
+   <file baseinstalldir="/" md5sum="4f7aca6cc281c7edbdb8a0c6a8d6a00b" name="tests/input/error-08.html" role="test" />
+   <file baseinstalldir="/" md5sum="3b4a344a2574cc5eaa90b0a78ea8f6c7" name="tests/input/error-09.html" role="test" />
+   <file baseinstalldir="/" md5sum="c8eccf37f694d124f0ff0e868a30084e" name="tests/input/error-10.html" role="test" />
+   <file baseinstalldir="/" md5sum="016080a5a396189d4aa7ebae1f15aa98" name="tests/input/error-11.html" role="test" />
+   <file baseinstalldir="/" md5sum="6a6a220f190f6f932c9ac8631dd01bcf" name="tests/input/error-12.html" role="test" />
+   <file baseinstalldir="/" md5sum="2e697c5070d3f8dbf0a699ea87920417" name="tests/input/error-13.html" role="test" />
+   <file baseinstalldir="/" md5sum="40934559135744b66dce05f7b11be9b4" name="tests/input/escape.html" role="test" />
+   <file baseinstalldir="/" md5sum="d90cf8aae9d8a359719ef193bb289d3c" name="tests/input/gettext.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="d90cf8aae9d8a359719ef193bb289d3c" name="tests/input/gettext.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="614fe22631d1f0dfae9bdfcfcc1e0576" name="tests/input/gettext.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="61fc10dea5b5f67942a3193f8b2303c3" name="tests/input/gettext.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="235dd913887d9abd23b99447e2d78bcc" name="tests/input/gettext.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="e1b2a92d9adb642b1e92c5507c00ba17" name="tests/input/gettext.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="d0d99153c6890cebb60bc29819560d07" name="tests/input/gettext.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="f8fd074bd6db3366439a0c37178ea7e5" name="tests/input/i18n-attributes-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="6029e7c1288e995791032b461828dd88" name="tests/input/i18n-attributes-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="c142f32e76369948e13669af8b1ac47b" name="tests/input/i18n-attributes-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="6f5eb857527652351160061fee4b695d" name="tests/input/i18n-attributes-04.html" role="test" />
+   <file baseinstalldir="/" md5sum="0da9e49bb366846ecc51299e5976080b" name="tests/input/i18n-attributes-05.html" role="test" />
+   <file baseinstalldir="/" md5sum="d0e514b4533bfdacea26b6de1f6120c8" name="tests/input/i18n-name-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="7cbba01285c6f3f171a13940b9083298" name="tests/input/i18n-name-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="fec9080b4f5ed80abbabdc3bab04e27d" name="tests/input/i18n-name-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="6b7e96630848613124ac0097ad41a0c5" name="tests/input/i18n-name-04.html" role="test" />
+   <file baseinstalldir="/" md5sum="eab91dd757560ac8bdd8961aaf8d2a73" name="tests/input/i18n-name-05.html" role="test" />
+   <file baseinstalldir="/" md5sum="072680a444b4e9b0a20652d352af55f8" name="tests/input/i18n-name-06.html" role="test" />
+   <file baseinstalldir="/" md5sum="7f3e4a5d4d3512ff0c5c4f28ddeba04c" name="tests/input/i18n-translate-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="9d589aa63084c61ac9d73090a1e52886" name="tests/input/i18n-translate-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="dd4e963442b2f46455c2b27c8cc1f742" name="tests/input/metal-macro.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="f41cb8f094b179ef1e64244349117829" name="tests/input/metal-macro.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="6607cc0637e51cd092b78ba9e2de52c0" name="tests/input/metal-macro.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="4446cb8af1cdb3b41cf13edabd865c3c" name="tests/input/metal-macro.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="b6ec98ea54f5ac8429b03554c9d6f83e" name="tests/input/metal-macro.04.main.html" role="test" />
+   <file baseinstalldir="/" md5sum="0512c0b3a8f0e2647ef14b4ced5c8bad" name="tests/input/metal-macro.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="c3f095ed0130ba010f47d4c7f54c0463" name="tests/input/metal-macro.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="becf2f4018e0496ffcd63fb40aa31add" name="tests/input/metal-macro.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="07ba97f5b313212c85108489dcd4d2da" name="tests/input/metal-macro.08.html" role="test" />
+   <file baseinstalldir="/" md5sum="34271720da8b8324e491d7e9a01a7f55" name="tests/input/metal-macro.09.html" role="test" />
+   <file baseinstalldir="/" md5sum="62bd98f39a4f490bc87dd945ac7ff8f4" name="tests/input/metal-macro.10.html" role="test" />
+   <file baseinstalldir="/" md5sum="cd605ab3c0aa8bb9448c07a19a1ff2bb" name="tests/input/metal-macro.11.html" role="test" />
+   <file baseinstalldir="/" md5sum="caec1432de970c66a244c804cf9abff0" name="tests/input/metal-slot.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="d6d486bc5d2a32665e86e56884396b5f" name="tests/input/metal-slot.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="6e5b0b62338e7422df946e6936f909f4" name="tests/input/metal-slot.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="4849acdb4aee59d3df6973e3cdbe0cfd" name="tests/input/metal-slot.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="1cb8b8fe9368c59ed96b0b349347caae" name="tests/input/metal-slot.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="49d4096050ada7eb8e81f5466dfd7513" name="tests/input/multiuse.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="93b06262bcd0df54ead4cadf49bdd6c2" name="tests/input/multiuse.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="03e6a4ce41ca90b1c67701599060f3c4" name="tests/input/namespaces.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="31cb9cc75282db1a183ecb411105f3cb" name="tests/input/namespaces.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="ee99b364d32f354160be6096028c986a" name="tests/input/namespaces.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="29628435ca095c5a1a182c440c3c2dfc" name="tests/input/old-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="99e996f17c08445d05fff33d6b4b41ba" name="tests/input/old-06.html" role="test" />
+   <file baseinstalldir="/" md5sum="465d33c15024c798d4eb7b61393e848e" name="tests/input/old-08-mcr.html" role="test" />
+   <file baseinstalldir="/" md5sum="4db4a8bce299621fc2de81e3946ee1f4" name="tests/input/old-08.html" role="test" />
+   <file baseinstalldir="/" md5sum="e8c6b5096d969f3a4756a15320ea0575" name="tests/input/old-11.html" role="test" />
+   <file baseinstalldir="/" md5sum="130daa42f6602e9bc38488e58ff85b5b" name="tests/input/old-12.html" role="test" />
+   <file baseinstalldir="/" md5sum="f48d978ff021c50d7b6058d558bc15f9" name="tests/input/old-13.html" role="test" />
+   <file baseinstalldir="/" md5sum="3a70fba9d84a96aff86b9277521093be" name="tests/input/old-16.html" role="test" />
+   <file baseinstalldir="/" md5sum="6a313eaa6e60519f99c8ad8e0e168985" name="tests/input/old-17.html" role="test" />
+   <file baseinstalldir="/" md5sum="1c676d191e4a59b8c781dc382cf7a1df" name="tests/input/old-19.html" role="test" />
+   <file baseinstalldir="/" md5sum="d50aa602b7e54924a64b3384534a7668" name="tests/input/old-20.html" role="test" />
+   <file baseinstalldir="/" md5sum="3f2b4964fb1af9af5d44e51b3973841d" name="tests/input/old-21.html" role="test" />
+   <file baseinstalldir="/" md5sum="86d8d8a980896fc946d4094c1d3d0aed" name="tests/input/old-23.html" role="test" />
+   <file baseinstalldir="/" md5sum="d8abb9b148afa58541b8971c37732120" name="tests/input/old-29-mcr.html" role="test" />
+   <file baseinstalldir="/" md5sum="5af8f0154372cc24db0adeb8a3b5b93d" name="tests/input/old-29.html" role="test" />
+   <file baseinstalldir="/" md5sum="67f9981450eb7e1534f84e4a8bda3a0e" name="tests/input/old-30.html" role="test" />
+   <file baseinstalldir="/" md5sum="a02a1d40d8d844ced878961b1a39bc08" name="tests/input/old-31.html" role="test" />
+   <file baseinstalldir="/" md5sum="df963314c7c7933aa3e4771253bbb306" name="tests/input/old-32.html" role="test" />
+   <file baseinstalldir="/" md5sum="302343b33424508b8b0258cc0530a4cc" name="tests/input/overloading-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="9473417dd3168fdbabb3139dc3d648b7" name="tests/input/parser.01.xml" role="test" />
+   <file baseinstalldir="/" md5sum="66929f5296341c5c233c755f398aa1e2" name="tests/input/parser.02.xml" role="test" />
+   <file baseinstalldir="/" md5sum="9fe8725542e2a66de854057ff130f2f3" name="tests/input/parser.03.xml" role="test" />
+   <file baseinstalldir="/" md5sum="d7385a474684bab09e2709d923aa36c8" name="tests/input/php-mode.01.xml" role="test" />
+   <file baseinstalldir="/" md5sum="e11ee661561f868e6e9318579267dce1" name="tests/input/php-mode.02.xml" role="test" />
+   <file baseinstalldir="/" md5sum="3e0dde07ed7d5e4209e12b9dfc8a082f" name="tests/input/php.html" role="test" />
+   <file baseinstalldir="/" md5sum="8008b4d1e208c3a2c3c3493fd98487af" name="tests/input/phptal.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="f81685fe9cd026306671b493dfcfcd46" name="tests/input/phptal.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="00d31cb16aed52ccd0223b86117fd14a" name="tests/input/phptal.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="18e6abfdde4f30b7ffe164ce22f19d7e" name="tests/input/phptal.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="f716501fe25bed9c0b2e31dabee0cc79" name="tests/input/phptal.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="592a40fa7cde5347e75be61619f730b0" name="tests/input/phptal.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="a94261922e9be786b9967d4a72f19547" name="tests/input/phptal.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="0ee60d62b3edb7555817d798d76f2913" name="tests/input/phptal.08.html" role="test" />
+   <file baseinstalldir="/" md5sum="c122fffc6b1bf838d12e7225dc26b554" name="tests/input/phptal.09.html" role="test" />
+   <file baseinstalldir="/" md5sum="1b79712cd6699b62252328e5a4f1ccfb" name="tests/input/phptal.id.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="f8b50b6d28f817eba54f90bc5b2dc723" name="tests/input/postfilter.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="9336fd18e90d6b8d44e4291562ce5fee" name="tests/input/prefilter.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="ca65f0daaf923d40813f52228eeb99a2" name="tests/input/prefilter.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="c37acddcb5b0540236714bf1ed328c5d" name="tests/input/prefilter.02.macro.html" role="test" />
+   <file baseinstalldir="/" md5sum="cbdc2523ded08f1fba6a70d75bbdab2b" name="tests/input/prefilter.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="9287d60b5f6aa8c6ae7374bdd471552d" name="tests/input/tal-attributes.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="4c6070f09d1502004ce08f524b057b73" name="tests/input/tal-attributes.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="965328b6dd552dced8ea51cbd32c0b76" name="tests/input/tal-attributes.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="b04e27c9c8baf8bed85af013703f1413" name="tests/input/tal-attributes.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="3083f7f1333c23c29cd929d226595264" name="tests/input/tal-attributes.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="458e41ed667776e46fd1f5b7b811f25f" name="tests/input/tal-attributes.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="5bb92bf3239255a83eb14e95586398c6" name="tests/input/tal-attributes.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="6a9ca1244c5307eda3bdc8afcaf1d315" name="tests/input/tal-attributes.08.html" role="test" />
+   <file baseinstalldir="/" md5sum="7155eb685383f7bcb282bb8d595da2ee" name="tests/input/tal-attributes.09.html" role="test" />
+   <file baseinstalldir="/" md5sum="cc33024a2608121ef9d5282a465574f0" name="tests/input/tal-attributes.10.html" role="test" />
+   <file baseinstalldir="/" md5sum="c2b76638b9620443314ca46279c21a10" name="tests/input/tal-comment.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="e8e951096cd0833cefacd2c3cc5a8e4c" name="tests/input/tal-comment.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="725583c81111a5a56691a8da278dad21" name="tests/input/tal-condition.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="e6e0befabf80c1e9ccbcac85ce58cf2d" name="tests/input/tal-condition.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="3c0edd249484f94f3a74d0ab09adbda5" name="tests/input/tal-condition.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="44ce2448a621b310bcd5985336396070" name="tests/input/tal-condition.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="866b2cb812dc02d8230a302856e48cb0" name="tests/input/tal-content.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="afafeba0ada80b765c12a5ff70572862" name="tests/input/tal-content.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="0c3f3954a40c3ff119a89bb26ff49d25" name="tests/input/tal-content.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="b36865b434348471d3334a23c8051c32" name="tests/input/tal-content.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="fcdb098e0579b128f65bcf00b6ced948" name="tests/input/tal-content.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="919b13f94b44204ddc91eb56de9b7edf" name="tests/input/tal-content.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="28b947d20e426d2ccbdde9098822f766" name="tests/input/tal-define.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="9602e3cd3125ff8777176755f25b49e9" name="tests/input/tal-define.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="c1ef3cd6858aa1061065db9ea4c107c1" name="tests/input/tal-define.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="210bda500c3860621924ade0a2026b13" name="tests/input/tal-define.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="b5a972f00c5e6a4ceb171eac6610a185" name="tests/input/tal-define.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="783756735880b10955db835de2d11bd5" name="tests/input/tal-define.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="1f021d402f33bbccabc0d66f7baa24b9" name="tests/input/tal-define.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="b033056fa9842481b71784786761d4a0" name="tests/input/tal-define.08.html" role="test" />
+   <file baseinstalldir="/" md5sum="ec9c6efeb0a63b6876b530cfa45748d2" name="tests/input/tal-define.09.html" role="test" />
+   <file baseinstalldir="/" md5sum="975392d20775a6ec8b715af02a62295c" name="tests/input/tal-define.10.html" role="test" />
+   <file baseinstalldir="/" md5sum="cddaa9e6cb85278378f88e8ec247bd0c" name="tests/input/tal-define.11.html" role="test" />
+   <file baseinstalldir="/" md5sum="b782250e753b5fe688b2f7b1a21bf807" name="tests/input/tal-define.12.html" role="test" />
+   <file baseinstalldir="/" md5sum="7db32b5e16eec776e3319a7732d3f21e" name="tests/input/tal-define.13.html" role="test" />
+   <file baseinstalldir="/" md5sum="c00adf35c344c28363cfe6a29fe006d1" name="tests/input/tal-define.14.html" role="test" />
+   <file baseinstalldir="/" md5sum="ce3a4f71ffdc608c5403a708586a9885" name="tests/input/tal-omit-tag.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="9a3fe8543043739a7730a621510569d7" name="tests/input/tal-omit-tag.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="bd1f41f74a04b862530f5de88a09ffcb" name="tests/input/tal-on-error.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="6a46fca19e0ba0ab429aa2294fd91d0a" name="tests/input/tal-on-error.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="cb65c463e9aa25c6d22de81fe98bb110" name="tests/input/tal-on-error.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="f3fb315a8c4a2e57c2f226e526d495eb" name="tests/input/tal-repeat.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="fec432fdedb4757d6f56d95892317536" name="tests/input/tal-repeat.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="dfa2d53fca06e87e99242c22ccb18cf2" name="tests/input/tal-repeat.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="39c0899f35a5bdd22f9e0b740722850a" name="tests/input/tal-repeat.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="c8838998f18acc20805ee5ab1848d935" name="tests/input/tal-repeat.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="8e04655ad2e4d04a5bb06bea0a9f6386" name="tests/input/tal-repeat.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="b1d2674d9d7485104fa1ac1e3bb7bb1f" name="tests/input/tal-repeat.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="975ca10ce9190f03a01c9db5e88879fd" name="tests/input/tal-replace.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="49f65ec84c1240d4e809928fc8a60ef0" name="tests/input/tal-replace.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="df4d13753e47fcae122b64b86a31ed43" name="tests/input/tal-replace.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="91250aa58065fa9a12a8f4a7211ae70a" name="tests/input/tal-replace.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="860a1b0161a07f0a0173cb8d004d5175" name="tests/input/tal-replace.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="28fddb6c0ec568277c7b0e1d41c46dd6" name="tests/input/tal-replace.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="459173315815e5dd050a9041f5bba967" name="tests/input/tal-replace.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="fe2a2faae33e0163bb97075fa9b66813" name="tests/input/tales-exist-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="48a9d80f66db76c2910cf77b96eb6f8e" name="tests/input/tales-exist-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="17dd7d5bc9e1f4633fce809bc27e5553" name="tests/input/tales-string-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="8037e03dd4622f5ec0da8fb3303c376a" name="tests/input/tales-string-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="454687cf20fb0faa880aa17c97b9b73e" name="tests/input/tales-string-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="8b1b35fbe0b0539d3442bd33d7927aee" name="tests/input/tales-true.html" role="test" />
+   <file baseinstalldir="/" md5sum="82f8e49fa9f6b765692ccd75e95c99d4" name="tests/input/tales.mode.01.xml" role="test" />
+   <file baseinstalldir="/" md5sum="d3a066025e888f179746e0c9f474540d" name="tests/input/talesphpwithreplace.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="7a0472fca712ede1f98a4fe5b4b2a72e" name="tests/input/trigger.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="ba07f5ee4e62c02a87c4257b7f1dc6b9" name="tests/input/utf8.xml" role="test" />
+   <file baseinstalldir="/" md5sum="358bee8808620ec87363975bb0bbdf06" name="tests/input/xml.01.xml" role="test" />
+   <file baseinstalldir="/" md5sum="1a3ec8e92d34032126bb6a1823b38220" name="tests/input/xml.02.xml" role="test" />
+   <file baseinstalldir="/" md5sum="c3432c0d3095a8146393a1afff365611" name="tests/input/xml.03.xml" role="test" />
+   <file baseinstalldir="/" md5sum="2455ddb4ba423343ed1e71c1f6d12e4a" name="tests/input/xml.04.xml" role="test" />
+   <file baseinstalldir="/" md5sum="3f3143ea17bb03820ebd0cf63c0124fe" name="tests/locale/en_GB/LC_MESSAGES/test.mo" role="test" />
+   <file baseinstalldir="/" md5sum="447f209b1dbc6e845db1e8a06495e5ab" name="tests/locale/en_GB/LC_MESSAGES/test.php" role="test" />
+   <file baseinstalldir="/" md5sum="d521cbf04626669e3630cd7de2f224c6" name="tests/locale/en_GB/LC_MESSAGES/test.po" role="test" />
+   <file baseinstalldir="/" md5sum="2229d3bccd49fddfd1ce62ed18a0fdde" name="tests/locale/en_GB/LC_MESSAGES/test2.mo" role="test" />
+   <file baseinstalldir="/" md5sum="b3fb7bd3e2555e02a43003ed5e67ee3a" name="tests/locale/en_GB/LC_MESSAGES/test2.po" role="test" />
+   <file baseinstalldir="/" md5sum="e5fec2378c0291fb92e37bbb90d2e3d0" name="tests/locale/es_ES/LC_MESSAGES/test.mo" role="test" />
+   <file baseinstalldir="/" md5sum="906d19ed056fd4374cfa83f265201d70" name="tests/locale/es_ES/LC_MESSAGES/test.po" role="test" />
+   <file baseinstalldir="/" md5sum="d2cae320a0405d58363335e207437584" name="tests/locale/fr_FR/LC_MESSAGES/test.mo" role="test" />
+   <file baseinstalldir="/" md5sum="21482e005bd2cad3bda8b41b9f384136" name="tests/locale/fr_FR/LC_MESSAGES/test.php" role="test" />
+   <file baseinstalldir="/" md5sum="89d4416afb519956712a410a94480b6d" name="tests/locale/fr_FR/LC_MESSAGES/test.po" role="test" />
+   <file baseinstalldir="/" md5sum="a6e219ee84c63afa8d604be43956bfa6" name="tests/locale/fr_FR/LC_MESSAGES/test2.mo" role="test" />
+   <file baseinstalldir="/" md5sum="017ddb9beec8664e22ce15e745e21471" name="tests/locale/fr_FR/LC_MESSAGES/test2.php" role="test" />
+   <file baseinstalldir="/" md5sum="dcb2c9ef732ab98dfa270fc727aa9660" name="tests/locale/fr_FR/LC_MESSAGES/test2.po" role="test" />
+   <file baseinstalldir="/" md5sum="5c024de70c96e16edc6a193bda0bf1ad" name="tests/output/array-overload.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="1d48787f41180349dae01d145b26eb9a" name="tests/output/comment-filter-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="d19ded486afe35055a45ec6a5e9b1b75" name="tests/output/content-encoding.xml" role="test" />
+   <file baseinstalldir="/" md5sum="17abad1bcff9fecb243bd2a35b26612e" name="tests/output/doctype.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="17abad1bcff9fecb243bd2a35b26612e" name="tests/output/doctype.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="e03499a739b1b9f225258346a9a9e080" name="tests/output/doctype.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="e04a80020302c489d94faafc0c18049f" name="tests/output/doctype.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="cc4ccc42bdb78dd9b88ce4b456763e4a" name="tests/output/escape.html" role="test" />
+   <file baseinstalldir="/" md5sum="47daa25d1de02f997896ac2d7ab49d92" name="tests/output/gettext.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="97787921e8d2cee40e151296f65b44dd" name="tests/output/gettext.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="c78204e6a76c69acee68a7ca309ea176" name="tests/output/gettext.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="7396fa1bfc6fb7d79f8e975195a12a15" name="tests/output/gettext.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="b5c6206a4355667e8a4968f9093c4a18" name="tests/output/gettext.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="e497b4b3b867eb69798e41d9d6baff58" name="tests/output/gettext.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="758500b69b461eca41a9e7c3e686a686" name="tests/output/gettext.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="a9c5452f2b060578040432678363e8a4" name="tests/output/i18n-attributes-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="a9c5452f2b060578040432678363e8a4" name="tests/output/i18n-attributes-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="a9c5452f2b060578040432678363e8a4" name="tests/output/i18n-attributes-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="bce3ef6222c5ee0f99ef22300a6b74fa" name="tests/output/i18n-attributes-04.html" role="test" />
+   <file baseinstalldir="/" md5sum="12ff7b243f616a1ac686b9e046e76a4c" name="tests/output/i18n-attributes-05.html" role="test" />
+   <file baseinstalldir="/" md5sum="d6af3224a301bfd7f3a29a36d4a2e88e" name="tests/output/i18n-name-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="0eec5ee3e98d767fff307465f77d7c51" name="tests/output/i18n-name-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="831514d7ad50f33734a4d5af21851023" name="tests/output/i18n-name-04.html" role="test" />
+   <file baseinstalldir="/" md5sum="831514d7ad50f33734a4d5af21851023" name="tests/output/i18n-name-05.html" role="test" />
+   <file baseinstalldir="/" md5sum="e8af3956b1699a053ece377faf7f97e6" name="tests/output/i18n-name-06.html" role="test" />
+   <file baseinstalldir="/" md5sum="5a10806cc129ff46ef36c9119ad5a9d9" name="tests/output/i18n-translate-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="ccdfab9e7e97f2e3eee31f11447ef9a9" name="tests/output/i18n-translate-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="199c4dbf7e1604b48361fd43d425e6b2" name="tests/output/metal-macro.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="2153d56c9ac8ebd03f86531ac520425c" name="tests/output/metal-macro.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="1e95f94b58d13d415e7cbc024b185e7f" name="tests/output/metal-macro.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="9f97bbfdbcf379a61ab321e771287270" name="tests/output/metal-macro.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="41cb90afb37271026eb4b97bf482e68f" name="tests/output/metal-macro.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="41cb90afb37271026eb4b97bf482e68f" name="tests/output/metal-macro.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="5fd4ea42d7949905b153a102632e8d26" name="tests/output/metal-macro.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="bf50f95653492ed8a16ff27464871307" name="tests/output/metal-slot.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="73e782f193e16d8803477d43798ed2e2" name="tests/output/metal-slot.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="3bb4193b9b528a43ae6dc9e6c99b7e2d" name="tests/output/metal-slot.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="b9bf7bc487a72368cdc0295fd52f1c75" name="tests/output/metal-slot.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="002b6a2d58dfff04cda597cf0f16ef10" name="tests/output/namespaces.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="2654cb9aa463f048cb441912f6421f6f" name="tests/output/namespaces.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="91c9fc951490e01947e2a43082372e56" name="tests/output/namespaces.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="2717c3f7fe562d986ca4a5c34af1fee2" name="tests/output/old-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="c4590da38b2b971c7a902c2c6556b8aa" name="tests/output/old-06.html" role="test" />
+   <file baseinstalldir="/" md5sum="63cf0fdb3dae7b6c4a6ed66282fc1eab" name="tests/output/old-08.html" role="test" />
+   <file baseinstalldir="/" md5sum="acf0025ccc2dd1e8e0bad8314c7e3e42" name="tests/output/old-11.html" role="test" />
+   <file baseinstalldir="/" md5sum="9f90f50a15ab51f172325abf719053a0" name="tests/output/old-12.html" role="test" />
+   <file baseinstalldir="/" md5sum="794ce032b4125854fff530e90d3e0abd" name="tests/output/old-13.html" role="test" />
+   <file baseinstalldir="/" md5sum="7e08fbffcaf9b041b5f079edcf555b69" name="tests/output/old-16.html" role="test" />
+   <file baseinstalldir="/" md5sum="a8b656db1d4d996dd18a4bca3c2af8c4" name="tests/output/old-17.html" role="test" />
+   <file baseinstalldir="/" md5sum="2f4c9e65e4e93f6ced6d015eb2bbab0d" name="tests/output/old-19.html" role="test" />
+   <file baseinstalldir="/" md5sum="461dab8d516fcbb69a044d77cf72ef2d" name="tests/output/old-20.html" role="test" />
+   <file baseinstalldir="/" md5sum="2971534ebb5ce5fbe03dc53f95897169" name="tests/output/old-21.html" role="test" />
+   <file baseinstalldir="/" md5sum="d6cc334ffb0dd7bfa133bdb518019f69" name="tests/output/old-23.html" role="test" />
+   <file baseinstalldir="/" md5sum="f593acd86fb12fa50e218c2d9a022e22" name="tests/output/old-29.html" role="test" />
+   <file baseinstalldir="/" md5sum="c1ce62b2b6e810079fcb105c3199f063" name="tests/output/old-30.html" role="test" />
+   <file baseinstalldir="/" md5sum="10ad16e9af3568b05bddb18a77e5a873" name="tests/output/old-31.html" role="test" />
+   <file baseinstalldir="/" md5sum="4048f437fb7b52c3ff019e7d2fb92826" name="tests/output/old-32.html" role="test" />
+   <file baseinstalldir="/" md5sum="26686a6e356279614a6563c222500a41" name="tests/output/overloading-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="4f553d0f55d9e528ede85d7d8b06b3cb" name="tests/output/php-mode.01.xml" role="test" />
+   <file baseinstalldir="/" md5sum="675cbbc1a52be196fbd0dbd906080de7" name="tests/output/php-mode.02.xml" role="test" />
+   <file baseinstalldir="/" md5sum="efea97b19d1702b058eb4460a352a3fb" name="tests/output/php.html" role="test" />
+   <file baseinstalldir="/" md5sum="f81685fe9cd026306671b493dfcfcd46" name="tests/output/phptal.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="087d6255c2da253ef8bfc5fa637e553b" name="tests/output/phptal.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="a9ada906c870643c7e83e0460c4ffd56" name="tests/output/phptal.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="dd767b3089ecb4d1705d8f41cf7a1e88" name="tests/output/phptal.id.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="e116b3dd7b7e7651aecb11b4022305fc" name="tests/output/postfilter.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="e116b3dd7b7e7651aecb11b4022305fc" name="tests/output/prefilter.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="5094aebf6995d749905b34f411b9429c" name="tests/output/prefilter.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="b339422a7a916dc9f618e10a5f96cbaf" name="tests/output/tal-attributes.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="9e90e931953042bca6adb9ee71a61619" name="tests/output/tal-attributes.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="4c3e36a01081d2a41013ad823ffa281c" name="tests/output/tal-attributes.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="9e90e931953042bca6adb9ee71a61619" name="tests/output/tal-attributes.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="0c8c5c949975df14bdd60aa8b7812c0c" name="tests/output/tal-attributes.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="55cf061d74f663370879b4cfc8487693" name="tests/output/tal-attributes.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="bc3a0a1eabc25d42f3bc0fa8f60089b1" name="tests/output/tal-attributes.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="f47f3391d3ced76b4ba39135fde861b8" name="tests/output/tal-attributes.08.html" role="test" />
+   <file baseinstalldir="/" md5sum="46d446322a3497a1f2c3dad24541f3ad" name="tests/output/tal-attributes.09.html" role="test" />
+   <file baseinstalldir="/" md5sum="46d446322a3497a1f2c3dad24541f3ad" name="tests/output/tal-attributes.10.html" role="test" />
+   <file baseinstalldir="/" md5sum="6353797dee44bded1f3f45582b083a21" name="tests/output/tal-comment.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="6353797dee44bded1f3f45582b083a21" name="tests/output/tal-comment.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="b55ab29c79fdfd2e7ee751ee22ea26c4" name="tests/output/tal-condition.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="b55ab29c79fdfd2e7ee751ee22ea26c4" name="tests/output/tal-condition.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="f6b284065584f0846e68d2806206c8f3" name="tests/output/tal-condition.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="c9b7de584609316e2b49c1bf7b67a090" name="tests/output/tal-content.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="3467430c698f1cbfae4133ec61c94692" name="tests/output/tal-content.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="21886867b6c0c4789b67e76161386025" name="tests/output/tal-content.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="2b27ea7e67816c3ee8d89b5bfcdc9c52" name="tests/output/tal-content.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="f6b013741e5a491b3a86c2e38fea4012" name="tests/output/tal-content.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="c5d077c544c97038f12ef10f89cbd737" name="tests/output/tal-content.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="995acbb4662ee107e7d344c96a57f518" name="tests/output/tal-define.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="5eff4d5ce5b014c2dc754d00fc4c1d50" name="tests/output/tal-define.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="1a5e874c8c259417f9e67dca3f41c025" name="tests/output/tal-define.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="02e43421a86de97c0ffb50d89c2c8eda" name="tests/output/tal-define.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="02e43421a86de97c0ffb50d89c2c8eda" name="tests/output/tal-define.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="8ecfd6ba1839ebfe604724deafa499b6" name="tests/output/tal-define.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="27891968f1fbe1b32ac55e26d66bff43" name="tests/output/tal-define.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="2773e26a21a07cfd9824a17087cf8ea6" name="tests/output/tal-define.08.html" role="test" />
+   <file baseinstalldir="/" md5sum="6dd63cec445ca47ef46a9870bdd6ec19" name="tests/output/tal-define.09.html" role="test" />
+   <file baseinstalldir="/" md5sum="f42b3d5524bcef39ca81bbd044fb97bf" name="tests/output/tal-define.10.html" role="test" />
+   <file baseinstalldir="/" md5sum="840c505a7e07813e0ea985b079742434" name="tests/output/tal-define.11.html" role="test" />
+   <file baseinstalldir="/" md5sum="55f8881ef3cd48d88d76b1ed7603af7c" name="tests/output/tal-define.12.html" role="test" />
+   <file baseinstalldir="/" md5sum="b84bc5f1cb8645bed7a0df58ae96b497" name="tests/output/tal-define.13.html" role="test" />
+   <file baseinstalldir="/" md5sum="214dfe00b361443883fffbea3066aaa5" name="tests/output/tal-define.14.html" role="test" />
+   <file baseinstalldir="/" md5sum="ec49336f99dec8cbab05e8bad1f791a1" name="tests/output/tal-omit-tag.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="8cb165a11d9bb8fc316a0ed34322a894" name="tests/output/tal-omit-tag.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="28e3be7801ec7f8d6a6fc32650089c3b" name="tests/output/tal-on-error.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="tests/output/tal-on-error.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="e4d4037661601aabd1257b1f2c430cfa" name="tests/output/tal-on-error.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="7bdebde23aaa755663943f317a4d3b4d" name="tests/output/tal-repeat.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="36819bb1a6dfe21c74703dbe2d50dd3f" name="tests/output/tal-repeat.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="2b15e10837a02c79c1962e3b4cd38b45" name="tests/output/tal-repeat.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="7baa03423dfb5813d79eb6ad2b91067f" name="tests/output/tal-repeat.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="93a3000b29c7013d0ebed26790864d88" name="tests/output/tal-repeat.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="93a3000b29c7013d0ebed26790864d88" name="tests/output/tal-repeat.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="7baa03423dfb5813d79eb6ad2b91067f" name="tests/output/tal-repeat.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="1b99a7070eb4c947e621de2a6d99572b" name="tests/output/tal-replace.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="4fb069d10061f054a7ec0d9afb338856" name="tests/output/tal-replace.02.html" role="test" />
+   <file baseinstalldir="/" md5sum="510c476bccf8e6b72d4023114383be31" name="tests/output/tal-replace.03.html" role="test" />
+   <file baseinstalldir="/" md5sum="68b329da9893e34099c7d8ad5cb9c940" name="tests/output/tal-replace.04.html" role="test" />
+   <file baseinstalldir="/" md5sum="f6b013741e5a491b3a86c2e38fea4012" name="tests/output/tal-replace.05.html" role="test" />
+   <file baseinstalldir="/" md5sum="f6b013741e5a491b3a86c2e38fea4012" name="tests/output/tal-replace.06.html" role="test" />
+   <file baseinstalldir="/" md5sum="391ebb4c8dada0793c3d9a1ef3bb1a58" name="tests/output/tal-replace.07.html" role="test" />
+   <file baseinstalldir="/" md5sum="de6f7bc2765c983968c64165389d4389" name="tests/output/tales-exist-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="de6f7bc2765c983968c64165389d4389" name="tests/output/tales-exist-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="dcfe2e7da4365bdbb6d7528b103dd5c4" name="tests/output/tales-string-01.html" role="test" />
+   <file baseinstalldir="/" md5sum="035191fe67024ade642dd4c98b524a89" name="tests/output/tales-string-02.html" role="test" />
+   <file baseinstalldir="/" md5sum="aff113b39512e951afec7224bd12b00b" name="tests/output/tales-string-03.html" role="test" />
+   <file baseinstalldir="/" md5sum="bb066abbbe85516df21964aff1a2fe71" name="tests/output/tales-true.html" role="test" />
+   <file baseinstalldir="/" md5sum="d5cd5e0a03c8c751a4cb4c91f544f5f7" name="tests/output/talesphpwithreplace.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="57845741fad6c43faef8a4ef68644727" name="tests/output/trigger.01.html" role="test" />
+   <file baseinstalldir="/" md5sum="6c3e01bc2658480fa9a6e7f6cebfa2c9" name="tests/output/xml.03.xml" role="test" />
+   <file baseinstalldir="/" md5sum="83c580eec8ad59a71fdb81d167a232cb" name="COPYING" role="doc" />
+   <file baseinstalldir="/" md5sum="873689ab011e2bbbba2f9edebcf7c022" name="PHPTAL.php" role="php" />
+   <file baseinstalldir="/" md5sum="fbe69e95cb167f03e1bf1de483cb8461" name="phptal_lint.php" role="php" />
+   <file baseinstalldir="/" md5sum="096689c6d48176a1d0852cb00dc77455" name="phpunit.xml" role="test" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.6</min>
+   </pearinstaller>
+   <extension>
+    <name>pcre</name>
+   </extension>
+   <extension>
+    <name>ctype</name>
+   </extension>
+   <extension>
+    <name>hash</name>
+   </extension>
+   <extension>
+    <name>SPL</name>
+   </extension>
+  </required>
+  <optional>
+   <extension>
+    <name>gettext</name>
+   </extension>
+   <extension>
+    <name>SimpleXML</name>
+   </extension>
+   <extension>
+    <name>json</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>1.2.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>alpha</api>
+   </stability>
+   <date>2014-03-15</date>
+   <license>LGPL</license>
+   <notes>
+Test release
+   </notes>
+  </release>
+ </changelog>
+</package>

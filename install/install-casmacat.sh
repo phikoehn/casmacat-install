@@ -67,6 +67,7 @@ else
 fi
 cd /opt/casmacat/cat-server/tornadio2
 python setup.py install
+chown -R www-data:www-data /opt/casmacat/cat-server
 
 # Install MT Server
 echo 'downloading and installing mt server'
@@ -80,4 +81,5 @@ else
   cd /opt/casmacat
   git clone git://github.com/christianbuck/matecat_util.git mt-server
 fi
+chown -R www-data:www-data /opt/casmacat/mt-server
 

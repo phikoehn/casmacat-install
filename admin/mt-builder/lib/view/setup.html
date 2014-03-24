@@ -1,0 +1,21 @@
+<?php include "/opt/casmacat/admin/mt-builder/lib/view/_header.html" ?>
+<h1>Build New Engline</h1>
+<form method="post" action="/mt-builder/" enctype="multipart/form-data">
+<input type="hidden" name="action" value="upload"/>
+<table class="formtable">
+<tr><td>Input language</td>
+<td><select name="input-extension">
+<option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_source" tal:content="l/name"></option>
+</select></td></tr>
+<tr><td>Output language</td>
+<td><select name="output-extension">
+<option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_target" tal:content="l/name"></option>
+</select></td></tr>
+<tr><td>Translation memory (XLIFF)</td>
+<td><input type="file" name="file" id="file"/></td></tr>
+<tr><td>&nbsp;</td><td><input type="submit" value="continue"/></td></tr>
+</table>
+Do not specify a translation memory, if already uploaded or you use 
+only external resources.
+</form>
+<?php include "/opt/casmacat/admin/mt-builder/lib/view/_footer.html" ?>

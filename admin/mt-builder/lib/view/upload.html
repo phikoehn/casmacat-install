@@ -1,0 +1,34 @@
+<?php include "/opt/casmacat/admin/mt-builder/lib/view/_header.html" ?>
+<h1>Select Corpora</h1>
+<p tal:content="msg"></p>
+<form action="/mt-builder/" method="post">
+<input type="hidden" name="action" value="build"/>
+<table class="formtable">
+<tr><td>Input language</td><td tal:content="inputLanguage"></td></tr>
+<input type="hidden" name="input-extension" tal:attributes="value inputExtension"/>
+<tr><td>Output language</td><td tal:content="outputLanguage"></td></tr>
+<input type="hidden" name="output-extension" tal:attributes="value outputExtension"/>
+<tr><td valign="top">Corpora</td><td>
+<table border="1" cellspacing="0" class="corpustable">
+<thead><tr><td>Use</td><td>ID</td><td>Name</td><td>Segments</td><td>Uploaded</td></tr></thead>
+<tbody>
+<tr tal:repeat="corpus corpora">
+<td><input type="checkbox" tal:attributes="value corpus/checkbox_name" name="corpus[]"/></td>
+<td tal:content="corpus/id">ID</td>
+<td tal:content="corpus/name">Name</td>
+<td tal:content="corpus/lines">Segments</td>
+<td tal:content="corpus/upload_time">Uploaded</td>
+</tr>
+</tbody>
+</table>
+</td></tr>
+<tr><td>Tuning set</td>
+<td>select 500 segments from corpus 1
+<input type="hidden" name="tuning-set" value="subset-corpus-1-500"/></td></tr>
+<tr><td>Evaluation set</td>
+<td>select 1000 segments from corpus 1
+<input type="hidden" name="evaluation-set" value="subset-corpus-1-1000"/></td></tr>
+</table>
+<input type="submit" value="build"/>
+</form>
+<?php include "/opt/casmacat/admin/mt-builder/lib/view/_footer.html" ?>
