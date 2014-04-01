@@ -1,12 +1,12 @@
-<?php include "/opt/casmacat/admin/mt-builder/lib/view/_header.html" ?>
+<?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
 <h1>Select Corpora</h1>
 <p tal:content="msg"></p>
-<form action="/mt-builder/" method="post">
+<form action="/" method="post">
 <input type="hidden" name="action" value="build"/>
 <table class="formtable">
-<tr><td>Input language</td><td tal:content="inputLanguage"></td></tr>
+<tr><td style="white-space:nowrap">Input language</td><td tal:content="inputLanguage"></td></tr>
 <input type="hidden" name="input-extension" tal:attributes="value inputExtension"/>
-<tr><td>Output language</td><td tal:content="outputLanguage"></td></tr>
+<tr><td style="white-space:nowrap">Output language</td><td tal:content="outputLanguage"></td></tr>
 <input type="hidden" name="output-extension" tal:attributes="value outputExtension"/>
 <tr><td valign="top">Corpora</td><td>
 <table border="1" cellspacing="0" class="corpustable">
@@ -31,4 +31,4 @@
 </table>
 <input type="submit" value="build"/>
 </form>
-<?php include "/opt/casmacat/admin/mt-builder/lib/view/_footer.html" ?>
+<?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>

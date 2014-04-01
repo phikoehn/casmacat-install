@@ -1,0 +1,28 @@
+</td></tr></table>
+<table class="statusframe"><tr><td>
+<?php
+  $ret = array();
+  exec('/usr/bin/free',$ret);
+  foreach($ret as $line) {
+    if (preg_match('/buffers\/cache:\s+(\d+)\s+(\d+)/',$line,$match)) {
+      $used = $match[1]/1024/1024;
+      $free = $match[2]/1024/1024;
+      printf ("Virtual machine memory status: %.1f GB used, %.1f GB free",$used,$free);
+    }
+  }
+?>
+<?php
+  $ret = array();
+  exec('/bin/df',$ret);
+  foreach($ret as $line) {
+    if (preg_match('/(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\% \/$/',$line,$match)) {
+      $total = $match[1]/1024/1024;
+      $used = $match[2]/1024/1024;
+      $free = $match[3]/1024/1024;
+      $ratio = $match[4];
+      printf ("<br>Virtual machine disk status: %.1f GB used, %.1f GB free",$used,$free);
+    }
+  }
+?>
+</td></tr></table></center>
+</body></html>

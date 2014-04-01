@@ -1,17 +1,15 @@
 <?php
 
-class indexController extends viewcontroller {
-    private $guid = '';
+class installController extends viewcontroller {
     public function __construct() {
         parent::__construct();
-       	parent::makeTemplate("index.html");
+       	parent::makeTemplate("install.html");
     }
     
     public function doAction(){
     }
     
     public function setTemplateVars() {
-        $this->template->upload_session_id = $this->guid;
     }
 }
 

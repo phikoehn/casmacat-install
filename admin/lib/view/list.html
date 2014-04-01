@@ -1,0 +1,29 @@
+<?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
+<h1>List of Engines</h1>
+<p tal:content="msg"></p>
+<div tal:repeat="lang_pair list">
+<h2 tal:content="lang_pair/name"></h2>
+<div tal:condition="lang_pair/has_done">
+<h3>Available Engines</h3>
+<table><tr><td>Run</td><td>Build date</td><td>Action</td><td>Size</td></tr>
+<tr tal:repeat="run lang_pair/exp_done">
+<td tal:content="run/run"></td>
+<td tal:content="run/time_started"></td>
+<td tal:condition="run/deployed">deployed</td>
+<td tal:condition="run/available"><a tal:attributes="href run/action">deploy</a></td>
+<td tal:condition="run/not_available"><a tal:attributes="href run/action">create engine</a></td>
+</tr></table>
+</div>
+<div tal:condition="lang_pair/has_building">
+<h3>Building</h3>
+<table><tr><td>Run</td><td>Status</td><td>Started</td></tr>
+<tr tal:repeat="run lang_pair/exp_building">
+<td tal:content="run/run"></td>
+<td tal:content="run/status"></td>
+<td tal:content="run/time_started"></td>
+</tr></table>
+</div>
+</div>
+
+<p><a href="inspect/?setup=1">Details</a> about the building processes</p>
+<?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>

@@ -3,7 +3,7 @@
 use strict;
 use Getopt::Long "GetOptions";
 
-my $dir = "/opt/casmacat/admin/mt-builder/scripts";
+my $dir = "/opt/casmacat/admin/scripts";
 
 my ($HELP,$F,$E,@CORPUS,$TUNING_SET,$EVALUATION_SET) = @_;
 my %LINE_COUNT;
@@ -101,7 +101,7 @@ close(CONFIG);
 close(TEMPLATE);
 
 # detailed reporting 
-my $setup = "/opt/casmacat/admin/mt-builder/inspect/setup";
+my $setup = "/opt/casmacat/admin/inspect/setup";
 open(EXP,$setup);
 my $already = 0;
 my $line_count = 0;

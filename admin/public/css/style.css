@@ -1,6 +1,59 @@
 body {
+  background: #fff;
   font-family:Calibri, Arial, Helvetica, sans-serif;
 }
+table.alertframe {
+  width: 500px;
+  border: 1px solid #000000;
+  padding: 9px;
+  background: #fee;
+  margin-bottom: 13px;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+table.mainframe {
+  width: 500px;
+  border: 1px solid #000000;
+  padding: 9px;
+  background: #eee;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+table.statusframe {
+  width: 500px;
+  border: 1px solid #000000;
+  margin-top: 13px;
+  padding: 9px 9px 9px 9px;
+  background: #eee;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+table.statusframe tr td {
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+table.corpustable {
+  font-size:9pt;
+}
+
+h1 {
+  margin-top: -2px;
+  font-size: 16pt;
+}
+
+h2 {
+  font-size: 14pt;
+}
+
+h3 {
+  font-size: 12pt;
+}
+
 .meter {
   height:15px;
   width:15%;

@@ -1,7 +1,6 @@
 <?php
 
 class setupController extends viewcontroller {
-    private $guid = '';
     public function __construct() {
         parent::__construct();
        	parent::makeTemplate("setup.html");
@@ -14,13 +13,13 @@ class setupController extends viewcontroller {
       // get default language pair
       $default_source = "de";
       $default_target = "es";
-      $dir = "/opt/casmacat/data/";
       $max_time = 0;
       $msg = "";
-      if ($handle = opendir($dir)) {
+      global $data_dir;
+      if ($handle = opendir($data_dir)) {
         while (false !== ($file = readdir($handle))) {
-          if (preg_match("/([a-z]{2})-([a-z]{2})/",$file,$match) && filectime("$dir/$file") > $max_time) {
-            $max_time = filectime("$dir/$file");
+          if (preg_match("/([a-z]{2})-([a-z]{2})/",$file,$match) && filectime("$data_dir/$file") > $max_time) {
+            $max_time = filectime("$data_dir/$file");
             $default_source = $match[1];
             $default_target = $match[2];
           }

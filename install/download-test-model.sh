@@ -12,5 +12,6 @@ else
   wget http://www.casmacat.eu/uploads/toy-fr-en.tgz
   tar xzf toy-fr-en.tgz
   mkdir /opt/casmacat/engines/log
+  echo "toy-fr-en" > /opt/casmacat/engines/deployed
   chown -R www-data:www-data /opt/casmacat/engines
 fi

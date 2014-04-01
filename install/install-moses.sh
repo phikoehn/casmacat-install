@@ -64,7 +64,7 @@ then
   cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/mt-builder/inspect/inspect
   mv /tmp/save-setup /opt/casmacat/admin/mt-builder/inspect/setup
 else
-  cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/mt-builder/inspect/inspect
+  cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/mt-builder/inspect
   rm /opt/casmacat/admin/mt-builder/inspect/setup
   touch /opt/casmacat/admin/mt-builder/inspect/setup
 fi

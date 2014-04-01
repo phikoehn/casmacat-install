@@ -30,7 +30,7 @@ class INIT {
         $root = realpath(dirname(__FILE__).'/../');
         self::$ROOT = $root;  // Accesible by Apache/PHP
 
-        self::$BASE_URL = "/mt-builder/";
+        self::$BASE_URL = "/";
 
 	set_include_path(get_include_path() . PATH_SEPARATOR . $root);
 

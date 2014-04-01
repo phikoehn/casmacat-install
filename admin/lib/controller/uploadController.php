@@ -19,14 +19,14 @@ class uploadController extends viewcontroller {
     }
 
     public function setTemplateVars() {
-      global $language;
+      global $language,$data_dir;
       $this->template->inputLanguage = $language[ $_POST["input-extension"] ];
       $this->template->inputExtension = $_POST["input-extension"];
       $this->template->outputLanguage = $language[ $_POST["output-extension"] ];
       $this->template->outputExtension = $_POST["output-extension"];
 
       $corpora = array();
-      $dir = "/opt/casmacat/data/".$_POST["input-extension"]."-".$_POST["output-extension"];
+      $dir = $data_dir."/".$_POST["input-extension"]."-".$_POST["output-extension"];
       if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
           if (preg_match("/(\d+)\.info/",$entry,$match)) {
