@@ -58,16 +58,16 @@ cd /opt/moses
 chown -R www-data:www-data /opt/moses
 
 # Experiment Web Interface
-if [ -e /opt/casmacat/admin/mt-builder/inspect/setup ]
+if [ -e /opt/casmacat/admin/inspect/setup ]
 then
-  mv /opt/casmacat/admin/mt-builder/inspect/setup /tmp/save-setup
-  cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/mt-builder/inspect/inspect
-  mv /tmp/save-setup /opt/casmacat/admin/mt-builder/inspect/setup
+  mv /opt/casmacat/admin/inspect/setup /tmp/save-setup
+  cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/inspect/inspect
+  mv /tmp/save-setup /opt/casmacat/admin/inspect/setup
 else
-  cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/mt-builder/inspect
-  rm /opt/casmacat/admin/mt-builder/inspect/setup
-  touch /opt/casmacat/admin/mt-builder/inspect/setup
+  cp -rp /opt/moses/scripts/ems/web /opt/casmacat/admin/inspect
+  rm /opt/casmacat/admin/inspect/setup
+  touch /opt/casmacat/admin/inspect/setup
 fi
-cp -p /opt/moses/bin/biconcor /opt/casmacat/admin/mt-builder/inspect
-chown -R www-data:www-data /opt/casmacat/admin/mt-builder/inspect
+cp -p /opt/moses/bin/biconcor /opt/casmacat/admin/inspect
+chown -R www-data:www-data /opt/casmacat/admin/inspect
 
