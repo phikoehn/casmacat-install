@@ -6,6 +6,7 @@
 
 # mysql
 echo 'STEP 3/7: installing software for database '`date +%s`
+export DEBIAN_FRONTEND=noninteractive
 apt-get -yq install mysql-client-core-5.5
 apt-get -yq install mysql-server
 
