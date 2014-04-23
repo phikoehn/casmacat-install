@@ -1,17 +1,20 @@
 #!/usr/bin/perl -w
 
+$|=1;
+
 use strict;
 use Getopt::Long "GetOptions";
 
 my $dir = "/opt/casmacat/admin/scripts";
 
-my ($HELP,$F,$E,@CORPUS,$TUNING_SET,$EVALUATION_SET) = @_;
+my ($HELP,$F,$E,@CORPUS,$TUNING_SET,$EVALUATION_SET,$NAME) = @_;
 my %LINE_COUNT;
 
 $HELP = 1
     unless &GetOptions('corpus=s' => \@CORPUS,
 		       'tuning-set=s' => \$TUNING_SET,
 		       'evaluation-set=s' => \$EVALUATION_SET,
+		       'name=s' => \$NAME,
 		       'f=s' => \$F,
 		       'e=s' => \$E);
 
@@ -100,29 +103,69 @@ while(<TEMPLATE>) {
 close(CONFIG);
 close(TEMPLATE);
 
-# detailed reporting 
+# is this a duplicate of a running or finished experiment?
+my $max_run = 0;
+if (-e "$exp_dir/steps") {
+  open(OLD_RUN,"ls $exp_dir/steps|");
+  while(my $old_run = <OLD_RUN>) {
+    chop($old_run);
+    next if $old_run == 0;
+    $max_run = $old_run if $old_run > $max_run;
+    # check against old configuration file
+    my $old_config = "$exp_dir/steps/$old_run/config.$old_run";
+    next unless -e $old_config;
+    my $diff = `diff $exp_dir/config $old_config`;
+    next unless $diff eq '';
+    # check if running or completed
+    if (-e "$exp_dir/evaluation/report.$old_run") {
+      # maybe todo: exception if software updated
+      print "Identical setup to finished system $old_run.\n";
+      exit;
+    }
+    my $old_running = "$exp_dir/steps/$old_run/running.$old_run";
+    if (-e $old_running) {
+      my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks) = stat($old_running);
+      if (time()-$mtime < 60) {
+        print "Already running (system $old_run)\n"; 
+        exit;
+      }
+    }
+  }
+  close(EXP);
+}
+my $run = $max_run+1;
+
+# set up directory for "inspect details"
 my $setup = "/opt/casmacat/admin/inspect/setup";
 open(EXP,$setup);
-my $already = 0;
+my $dir_id = 0;
 my $line_count = 0;
 while(<EXP>) {
   chop;
   my ($id,$owner,$name,$path) = split(/\;/);
-  $already = 1 if $path eq $exp_dir;
+  $dir_id = $id if $path eq $exp_dir;
   $line_count++;
 }
 close(EXP);
-if (!$already) {
+if (!$dir_id) {
+  $dir_id = $line_count+1;
   open(EXP,">>$setup");
-  print EXP "".($line_count+1).";casmacat;Language pair $F-$E;$exp_dir\n";
+  print EXP "$dir_id;casmacat;Language pair $F-$E;$exp_dir\n";
   close(EXP);
 }
+
+# store name
+my $comment = "/opt/casmacat/admin/inspect/comment";
+open(COMMENT,">>$comment");
+print COMMENT "$dir_id-$run;$NAME\n";
+close(COMMENT);
 
 # good to go
 chdir($exp_dir);
 #my $plan = `/opt/moses/scripts/ems/experiment.perl -config $exp_dir/config -no-graph`;
 #print $plan;
-#`/opt/moses/scripts/ems/experiment.perl -config $exp_dir/config -no-graph -exec &`
+print "Started, this may take a while.";
+`/opt/moses/scripts/ems/experiment.perl -config $exp_dir/config -no-graph -exec 2>&1 > $exp_dir/OUT.$run`;
 
 ### subs
 

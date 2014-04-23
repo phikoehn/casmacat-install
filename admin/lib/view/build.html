@@ -1,5 +1,8 @@
 <?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
 <h1>Building System</h1>
-This may take a while...
-<p tal:content="msg"></p>
+<div id="buildstatus"></div>
+<script>
+  new Ajax.PeriodicalUpdater("buildstatus", "/lib/view/_buildStatus.php", { method: 'get', evalScripts: true, frequency: 1 });
+</script>
+<font size="-3"><p tal:content="msg"></p></font>
 <?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>

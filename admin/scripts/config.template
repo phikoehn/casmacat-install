@@ -30,7 +30,7 @@ external-bin-dir = /opt/moses/external/bin
 # srilm
 #srilm-dir = $moses-src-dir/srilm/bin/i686
 # irstlm
-#irstlm-dir = $moses-src-dir/irstlm/bin
+irstlm-dir = $moses-src-dir/external/irstlm/bin
 #
 # randlm
 #randlm-dir = $moses-src-dir/randlm/bin
@@ -107,13 +107,13 @@ max-sentence-length = 80
 
 ### tool to be used for language model training
 # kenlm training
-lm-training = "$moses-script-dir/ems/support/lmplz-wrapper.perl -bin $moses-bin-dir/lmplz"
-settings = ""
+#lm-training = "$moses-script-dir/ems/support/lmplz-wrapper.perl -bin $moses-bin-dir/lmplz"
+#settings = ""
 
 # irstlm training
 # msb = modified kneser ney; p=0 no singleton pruning
-#lm-training = "$moses-script-dir/generic/trainlm-irst2.perl -irst-dir $irstlm-dir -temp-dir $working-dir/tmp"
-#settings = "-s msb -p 0"
+lm-training = "$moses-script-dir/generic/trainlm-irst2.perl -irst-dir $irstlm-dir -temp-dir $working-dir/tmp"
+settings = "-s msb -p 1"
 
 # order of the language model
 order = 4

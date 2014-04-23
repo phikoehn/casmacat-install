@@ -2,7 +2,8 @@
 
 mkdir -p /opt/casmacat/engines
 
-echo 'downloading test model'
+
+echo 'STEP 1/1: downloading '`date +%s`
 if [ -d /opt/casmacat/engines/toy-fr-en ]
 then
   echo 'already downloaded'
@@ -15,3 +16,4 @@ else
   echo "toy-fr-en" > /opt/casmacat/engines/deployed
   chown -R www-data:www-data /opt/casmacat/engines
 fi
+echo 'DONE '`date +%s`

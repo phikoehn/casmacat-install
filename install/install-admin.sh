@@ -1,16 +1,25 @@
 #!/bin/sh
 
-echo 'installing web server'
-apt-get -yq install apache2
+echo 'STEP 1/2: installing apache '`date +%s`
 cp apache-setup/casmacat-admin.conf /etc/apache2/sites-available
 cd /etc/apache2/sites-enabled
-ln -s ../sites-available/casmacat-admin.conf .
-rm 000-default.conf
+if [ -e 000-default.conf ]
+then
+  ln -s ../sites-available/casmacat-admin.conf .
+  rm 000-default.conf
+fi
 chown -R www-data:www-data /opt/casmacat/admin
 chown -R www-data:www-data /opt/casmacat/data
 chown -R www-data:www-data /opt/casmacat/experiment
+
+echo 'STEP 2/2: restarting apache '`date +%s`
 service apache2 restart
 
-apt-get -yq install xdotool
-firefox http://localhost/ &
-xdotool key F11
+if [ $USER != 'www-data' ] 
+then
+  killall -9 firefox
+  firefox http://localhost/ &
+  xdotool key F11
+fi
+
+echo 'DONE '`date +%s`

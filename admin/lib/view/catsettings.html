@@ -1,0 +1,23 @@
+<?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
+<h1>CAT Settings</h1>
+<p tal:content="msg"></p>
+<form method="post" action="/" enctype="multipart/form-data">
+<input type="hidden" name="action" value="catsettings"/>
+<input type="hidden" name="do" value="update"/>
+<table class="keyvaluetable">
+<tr><td>Interactive Translation Prediction&nbsp;&nbsp;</td>
+<td><input type="checkbox" tal:attributes="checked itpenabled" name="itpenabled" value="1" /></td></tr>
+<tr><td>Search and Replace</td>
+<td><input type="checkbox" tal:attributes="checked srenabled" name="srenabled" value="1" /></td></tr>
+<tr><td>Bilingual Concordancer</td>
+<td><input type="checkbox" tal:attributes="checked biconcorenabled" name="biconcorenabled" value="1" /></td></tr>
+<tr><td>Hide Contributions</td>
+<td><input type="checkbox" tal:attributes="checked hidecontributions" name="hidecontributions" value="1" /></td></tr>
+<tr><td>Floating Predictions</td>
+<td><input type="checkbox" tal:attributes="checked floatpredictions" name="floatpredictions" value="1" /></td></tr>
+<tr><td>Translation Options</td>
+<td><input type="checkbox" tal:attributes="checked translationoptions" name="translationoptions" value="1" /></td></tr>
+<tr><td>&nbsp;</td><td><input type="submit" value="update"/></td></tr>
+</table>
+</form>
+<?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>

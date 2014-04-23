@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo 'downloading and installing gui backend'
+echo 'STEP 1/6: installing web server '`date +%s`
 if [ -d /opt/casmacat/web-server ]
 then
   cd /opt/casmacat/web-server
@@ -18,32 +18,35 @@ else
   mkdir logs
   chmod o+w logs
 fi
+
 # mysql backend
-apt-get -yq install mysql-client-core-5.5
+echo 'STEP 2/6: installing mysql '`date +%s`
 export DEBIAN_FRONTEND=noninteractive
-apt-get -yq install mysql-server
 mysqladmin -u root password casmakatze
 echo "connect mysql; create user katze@localhost identified by 'miau'; create database matecat_sandbox; grant usage on *.* to katze@localhost; grant all privileges on matecat_sandbox.* to katze@localhost;" | mysql -u root -pcasmakatze
 mysql -u katze -pmiau < /opt/casmacat/web-server/lib/model/matecat.sql
 mysql -u katze -pmiau < /opt/casmacat/web-server/lib/model/casmacat.sql
+
 # configure 
-/opt/casmacat/admin/configure-web-server-config.perl 
+echo 'STEP 3/6: configure web server '`date +%s`
+/opt/casmacat/admin/scripts/configure-web-server-config.perl 
+
 # apache config
+echo 'STEP 4/6: configure apache mysql '`date +%s`
 cp /opt/casmacat/install/apache-setup/casmacat.conf /etc/apache2/sites-available
+chown www-data:www-data /etc/apache2/sites-available/casmacat.conf
 cd /etc/apache2/sites-enabled
-ln -s ../sites-available/casmacat.conf .
-apt-get -yq install php5
-apt-get -yq install php5-json
-apt-get -yq install php5-mysql
-apt-get -yq install libapache2-mod-php5
-cd /etc/apache2/mods-enabled
-ln -s ../mods-available/rewrite.load .
-chown -R www-data:www-data /opt/casmacat/web-server
-apache2ctl restart
+if [ ! -e casmacat.conf ]
+then
+  ln -s ../sites-available/casmacat.conf .
+  cd /etc/apache2/mods-enabled
+  ln -s ../mods-available/rewrite.load .
+  chown -R www-data:www-data /opt/casmacat/web-server
+  apache2ctl restart
+fi
 
 # Install CAT Server
-echo 'downloading and installing cat server'
-apt-get -yq install python-tornado
+echo 'STEP 5/6: downloading and installing cat server '`date +%s`
 if [ -d /opt/casmacat/cat-server ]
 then
   cd /opt/casmacat/cat-server
@@ -57,22 +60,18 @@ fi
 cd /opt/casmacat/cat-server
 g++ predict.cpp -o predict
 
-if [ -d /opt/casmacat/cat-server/tornadio2 ]
+if [ ! -d /opt/casmacat/cat-server/tornadio2 ]
 then
-  cd /opt/casmacat/cat-server/tornadio2
-  git pull
-else
   cd /opt/casmacat/cat-server
   git clone git://github.com/mrjoes/tornadio2
+  cd /opt/casmacat/cat-server/tornadio2
+  python setup.py install
 fi
-cd /opt/casmacat/cat-server/tornadio2
-python setup.py install
+
 chown -R www-data:www-data /opt/casmacat/cat-server
 
 # Install MT Server
-echo 'downloading and installing mt server'
-apt-get -yq install python-pip
-pip install CherryPy
+echo 'STEP 6/6: downloading and installing mt server '`date +%s`
 if [ -d /opt/casmacat/mt-server ]
 then
   cd /opt/casmacat/mt-server
@@ -82,4 +81,6 @@ else
   git clone git://github.com/christianbuck/matecat_util.git mt-server
 fi
 chown -R www-data:www-data /opt/casmacat/mt-server
+
+echo 'DONE '`date +%s`
 

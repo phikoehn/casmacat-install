@@ -1,13 +1,6 @@
 #!/bin/sh
 
-echo 'installing g++'
-apt-get -yq install g++
-
-echo 'installing libraries needed for moses'
-apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip-dev libbz2-dev libxmlrpc-c++4-dev libgoogle-perftools-dev libcmph-dev
-apt-get -yq install imagemagick graphviz
-
-echo 'downloading and installing moses'
+echo 'STEP 1/6: downloading moses '`date +%s`
 if [ -d /opt/moses ]
 then
   cd /opt/moses
@@ -17,6 +10,7 @@ else
 fi
 
 # GIZA
+echo 'STEP 2/6: installing giza '`date +%s`
 if [ -d /opt/moses/external/giza-pp ]
 then
   cd /opt/moses/external/giza-pp
@@ -30,6 +24,7 @@ mkdir -p /opt/moses/external/bin
 cp /opt/moses/external/giza-pp/GIZA++-v2/GIZA++ /opt/moses/external/giza-pp/GIZA++-v2/snt2cooc.out /opt/moses/external/giza-pp/GIZA++-v2/snt2plain.out /opt/moses/external/bin
 cp /opt/moses/external/giza-pp/mkcls-v2/mkcls /opt/moses/external/bin
 
+echo 'STEP 3/6: installing fast-align '`date +%s`
 # Fast Align
 if [ -d /opt/moses/external/fast-align ]
 then
@@ -43,21 +38,33 @@ make
 cp /opt/moses/external/fast-align/fast_align /opt/moses/external/bin
 
 # IRSTLM
+echo 'STEP 4/6: installing irstlm '`date +%s`
+mkdir -p /opt/moses/external/irstlm
+cd /opt/moses/external/irstlm
+if [ ! -d irstlm-5.80.03 ]
+then
+  wget http://downloads.sourceforge.net/project/irstlm/irstlm/irstlm-5.80/irstlm-5.80.03.tgz
+  tar xzf irstlm-5.80.03.tgz
+  cd irstlm-5.80.03
+  ./regenerate-makefiles.sh 
+  ./configure --prefix /opt/moses/external/irstlm
+  make -j4 install
+fi
+# somehow the svn checkout is broken
 #svn checkout svn://svn.code.sf.net/p/irstlm/code/trunk /opt/moses/external/irstlm
 #cd /opt/moses/external/irstlm
 #./regenerate-makefiles.sh 
 #./configure
 #make -j8
 
-# Perl library needed for NIST BLEU
-/opt/casmacat/install/cpanm XML::Twig
-
 # Moses
+echo 'STEP 5/6: compiling moses (may take a while) '`date +%s`
 cd /opt/moses
-./bjam -j8 --with-xmlrpc-c=/usr --with-cmph=/usr --toolset=gcc --with-giza=/opt/moses/external/bin --with-tcmalloc=/usr
+./bjam -j4 --with-xmlrpc-c=/usr --with-cmph=/usr --toolset=gcc --with-giza=/opt/moses/external/bin --with-tcmalloc=/usr
 chown -R www-data:www-data /opt/moses
 
 # Experiment Web Interface
+echo 'STEP 6/6: setting up experiment inspection '`date +%s`
 if [ -e /opt/casmacat/admin/inspect/setup ]
 then
   mv /opt/casmacat/admin/inspect/setup /tmp/save-setup
@@ -70,4 +77,5 @@ else
 fi
 cp -p /opt/moses/bin/biconcor /opt/casmacat/admin/inspect
 chown -R www-data:www-data /opt/casmacat/admin/inspect
+echo 'DONE '`date +%s`
 

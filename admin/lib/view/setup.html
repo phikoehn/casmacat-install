@@ -1,8 +1,10 @@
 <?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
-<h1>Build New Engline</h1>
+<h1>Build New Engline: Upload Corpus</h1>
 <form method="post" action="/" enctype="multipart/form-data">
 <input type="hidden" name="action" value="upload"/>
-<table class="formtable">
+<table class="keyvaluetable">
+<tr><td>Name</td>
+<td><input name="name" size="40" /></td></tr>
 <tr><td>Input language</td>
 <td><select name="input-extension">
 <option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_source" tal:content="l/name"></option>

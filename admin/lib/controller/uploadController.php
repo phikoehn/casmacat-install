@@ -12,8 +12,11 @@ class uploadController extends viewcontroller {
         // better do that with javascript on form....
       }
       if (!$_FILES["file"]["error"]) {
-        $processCmd = "scripts/process-xliff.perl ".$_POST["input-extension"]." ".$_POST["output-extension"]." ".$_FILES["file"]["tmp_name"]." ".$_FILES["file"]["name"];
-        $this->msg = "Uploaded corpus ".$_FILES["file"]["name"];
+        $name = $_POST["name"];
+        if ($name == "") { $name = $_FILES["name"]; }
+        $name = preg_replace("/'/","\"",$name);
+        $processCmd = "scripts/process-xliff.perl ".$_POST["input-extension"]." ".$_POST["output-extension"]." ".$_FILES["file"]["tmp_name"]." '$name'";
+        $this->msg = "Uploaded corpus $name";
       }
       exec($processCmd);
     }
@@ -39,12 +42,12 @@ class uploadController extends viewcontroller {
                 $corpus[$match[1]] = $match[2];
               }
             } 
+            $corpus["upload_time"] = pretty_time($corpus["upload_time"]);
             $corpora[] = $corpus;
           }
         }
       }
       $this->template->corpora = $corpora;
-      $this->template->msg = "hey!";
       $this->template->msg = $this->msg;
     }
 }

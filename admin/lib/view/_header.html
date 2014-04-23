@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <title>Machine Translation Builder</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script language="javascript" src="/inspect/javascripts/prototype.js"></script>
+<script language="javascript" src="/inspect/javascripts/scriptaculous.js"></script>
 <link rel="stylesheet" href="/public/css/style.css"/>
 </head>
 <body>
@@ -15,4 +18,10 @@
     print "<table class=\"alertframe\"><tr><td>$alert</td></tr></table>";
   }
 ?>
+<div id="install">
+<script>
+  new Ajax.Updater("install", "/lib/view/_install.php", { method: 'get', evalScripts: true });
+</script>
+</div>
+<div id="mainframe">
 <table class="mainframe"><tr><td>

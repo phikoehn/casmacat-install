@@ -25,7 +25,6 @@ open(INFO,">$dir/info");
 print INFO "source = $F\n";
 print INFO "target = $E\n";
 print INFO "run = $RUN\n";
-print INFO "name = dummy\n";
 print INFO "time_started = 1395900000\n";
 print INFO "time_done = 1395900000\n";
 print INFO "time_built = ".time()."\n";
@@ -139,3 +138,10 @@ kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_
 ";
 close(RUN);
 `chmod +x $dir/RUN`;
+
+my $size = `du -h $dir`;
+$size = / .+//;
+open(INFO,">>$dir/info");
+print INFO "size = $size\n";
+close(INFO);
+

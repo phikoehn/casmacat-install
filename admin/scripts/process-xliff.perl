@@ -1,14 +1,26 @@
 #!/usr/bin/perl -w
 
+use Digest::MD5 qw(md5_hex);
+
 use strict;
 
 my ($f,$e,$xliff,$name) = @ARGV;
+
+# create checksum
+open(XLIFF, "<", $xliff);
+my $checksum = md5_hex(<XLIFF>);
+close(XLIFF);
 
 # directory for this language pair
 my $outdir = "/opt/casmacat/data/$f-$e";
 if (! -d $outdir) {
   `mkdir -p $outdir`;
 }
+elsif (`grep 'checksum = $checksum' $outdir/*.info`) {
+  # if already uploaded, done
+  exit;
+}
+
 
 # stem for this corpus
 my $max = 0;
@@ -46,7 +58,8 @@ close(F);
 
 open(INFO,">$stem.info");
 print INFO "lines = $line_count\n";
-print INFO "upload_time = ".`date`;
+print INFO "upload_time = ".time()."\n";
 print INFO "name = $name\n";
+print INFO "checksum = $checksum\n";
 close(INFO);
 
