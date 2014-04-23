@@ -9,6 +9,8 @@ then
   rm 000-default.conf
 fi
 chown -R www-data:www-data /opt/casmacat/admin
+mkdir /opt/casmacat/data
+mkdir /opt/casmacat/experiment
 chown -R www-data:www-data /opt/casmacat/data
 chown -R www-data:www-data /opt/casmacat/experiment
 
