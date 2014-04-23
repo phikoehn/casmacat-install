@@ -38,9 +38,9 @@ while(<TEMPLATE>) {
     }
   }
   elsif(/^itpserver/) {
-    my $inet_string = `/sbin/ifconfig | grep 'inet addr' | grep -v 127.0.0.1`;
+    my $inet_string = `/sbin/ifconfig | grep 'inet addr'`;
     my $host = "localhost";
-    $host = $1 if $inet_string =~ /inet addr:(\d+\.\d+\.\d+\.\d+)/;
+    $host = $1 if $inet_string =~ /inet addr:(192\.\d+\.\d+\.\d+)/;
     print MINE "itpserver = \"http://$host:9999/cat\"\n";
   }
   elsif(/^itpenabled/) {

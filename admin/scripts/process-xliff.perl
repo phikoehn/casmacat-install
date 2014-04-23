@@ -5,6 +5,7 @@ use Digest::MD5 qw(md5_hex);
 use strict;
 
 my ($f,$e,$xliff,$name) = @ARGV;
+$name = "unnamed" unless defined($name) && $name !~ /^\s*$/;
 
 # create checksum
 open(XLIFF, "<", $xliff);

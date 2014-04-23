@@ -140,7 +140,7 @@ close(RUN);
 `chmod +x $dir/RUN`;
 
 my $size = `du -h $dir`;
-$size = / .+//;
+$size = s/ .+//;
 open(INFO,">>$dir/info");
 print INFO "size = $size\n";
 close(INFO);
