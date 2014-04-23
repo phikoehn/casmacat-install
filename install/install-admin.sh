@@ -9,6 +9,8 @@ then
   rm 000-default.conf
 fi
 chown -R www-data:www-data /opt/casmacat/admin
+mkdir /opt/casmacat/data
+mkdir /opt/casmacat/experiment
 chown -R www-data:www-data /opt/casmacat/data
 chown -R www-data:www-data /opt/casmacat/experiment
 
@@ -19,7 +21,6 @@ if [ $USER != 'www-data' ]
 then
   killall -9 firefox
   firefox http://localhost/ &
-  xdotool key F11
 fi
 
 echo 'DONE '`date +%s`

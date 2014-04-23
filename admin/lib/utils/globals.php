@@ -12,7 +12,7 @@
   $ret = array();
   exec('/sbin/ifconfig',$ret);
   foreach($ret as $line) {
-    if (preg_match('/inet addr:(\d+\.\d+\.\d+\.\d+)/',$line,$match) && $match[1] != '127.0.0.1') {
+    if (preg_match('/inet addr:(192\.\d+\.\d+\.\d+)/',$line,$match)) {
       $ip = $match[1];
     }
   }
@@ -22,7 +22,7 @@
     }
   }
   else {
-    $alert = "Networking is not set up correctly!<p>Please on your virtual machine Devices / Network / Network settings / Bridged Adapter";
+    $alert = "Networking is not set up correctly!<p>Install a NAT and Host-only adapter";
   }
 
   // pretty time printing
