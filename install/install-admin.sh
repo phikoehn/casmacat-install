@@ -19,7 +19,6 @@ if [ $USER != 'www-data' ]
 then
   killall -9 firefox
   firefox http://localhost/ &
-  xdotool key F11
 fi
 
 echo 'DONE '`date +%s`
