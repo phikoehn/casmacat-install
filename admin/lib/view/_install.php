@@ -73,7 +73,8 @@
     print "<script>";
     print "var mainframe = document.getElementById('mainframe');";
     print "mainframe.style.display = 'none';";
-    print "setTimeout(function(){ new Ajax.Updater('install', '/lib/view/_install.php', { method: 'get', evalScripts: true }); },500);";
+    print "setTimeout(function(){ $.ajax({ url: '/lib/view/_install.php', method: 'get', dataType: 'text', success: function(remoteData) { $('#install').html(remoteData); }}) },500);";
+    // print "setTimeout(function(){ new Ajax.Updater('install', '/lib/view/_install.php', { method: 'get', evalScripts: true }); },500);";
     print "</script>";
 
   }

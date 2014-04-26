@@ -3,7 +3,12 @@
 <table class="statusframe"><tr><td>
 <div id="status"></div>
 <script>
-  new Ajax.PeriodicalUpdater("status", "/lib/view/_status.php", { method: 'get', evalScripts: true, frequency: 5 });
+  $.Updater('/lib/view/_status.php',
+    { method: 'get', interval: 5000, type: 'text' }, 
+    function(remoteData, success, xhr, handle) {
+      $("#status").html(remoteData);
+  });
+  // new Ajax.PeriodicalUpdater("status", "/lib/view/_status.php", { method: 'get', evalScripts: true, frequency: 5 });
 </script>
 </td></tr></table></center>
 </body></html>

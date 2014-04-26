@@ -4,8 +4,8 @@
 <meta charset="utf-8"/>
 <title>CASMACAT</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script language="javascript" src="/public/js/prototype.js"></script>
-<script language="javascript" src="/public/js/scriptaculous.js"></script>
+<script language="javascript" src="/public/js/jquery-1.11.0.min.js"></script>
+<script language="javascript" src="/public/js/jquery.updater.js"></script>
 <link rel="stylesheet" href="/public/css/style.css"/>
 </head>
 <body>
@@ -20,7 +20,14 @@
 ?>
 <div id="install">
 <script>
-  new Ajax.Updater("install", "/lib/view/_install.php", { method: 'get', evalScripts: true });
+  $.ajax({ url: '/lib/view/_install.php',
+           method: 'get', 
+           dataType: 'text',
+           success: function(remoteData) {
+             $("#install").html(remoteData);
+  }});
+
+  // new Ajax.Updater("install", "/lib/view/_install.php", { method: 'get', evalScripts: true });
 </script>
 </div>
 <div id="mainframe">
