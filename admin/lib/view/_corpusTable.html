@@ -1,0 +1,13 @@
+<div tal:condition="haveNoCorpora">no corpus uploaded so far.</div>
+<table border="1" cellspacing="0" size="100%" class="corpustable" tal:condition="haveCorpora">
+<thead><tr><td>Use</td><td>ID</td><td>Name</td><td>Segments</td><td>Uploaded</td></tr></thead>
+<tbody>
+<tr tal:repeat="corpus corpora">
+<td><input type="checkbox" tal:attributes="value corpus/checkbox_name" name="corpus[]"/></td>
+<td tal:content="corpus/id">ID</td>
+<td tal:content="corpus/name">Name</td>
+<td tal:content="corpus/lines">Segments</td>
+<td tal:content="corpus/upload_time">Uploaded</td>
+</tr>
+</tbody>
+</table>
