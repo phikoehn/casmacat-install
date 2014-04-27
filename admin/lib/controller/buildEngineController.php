@@ -5,13 +5,11 @@ class buildEngineController extends viewcontroller {
 
     public function __construct() {
       parent::__construct();
-      if (array_key_exists("do",$_GET)) {
-        if ($_GET['do'] == 'corpus-table') {
-       	  parent::makeTemplate("_corpusTable.html");
-        }
+      if (array_key_exists("do",$_GET) && $_GET['do'] == 'corpus-table') {
+       	parent::makeTemplate("_corpusTable.html");
       }
-      else if (array_key_exists("submit-upload",$_POST)) {
-        parent::makeTemplate("_generic.html");
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload') {
+        parent::makeTemplate("_empty.html");
       }
       else {
         parent::makeTemplate("buildEngine.html");
@@ -19,16 +17,51 @@ class buildEngineController extends viewcontroller {
     }
     
     public function doAction(){
-      if (array_key_exists("submit-upload",$_POST)) {
-        if (!$_FILES["file"]["error"]) {
-          $name = $_POST["name"];
-          if ($name == "") { $name = $_FILES["name"]; }
-          $name = preg_replace("/'/","\"",$name);
-          $processCmd = "scripts/process-xliff.perl ".$_POST["input-extension"]." ".$_POST["output-extension"]." ".$_FILES["file"]["tmp_name"]." '$name'";
-          $this->msg = "Uploaded corpus $name";
+      if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload') {
+	$fileElementName = 'fileToUpload';
+	if(!empty($_FILES[$fileElementName]['error'])) {
+	  switch($_FILES[$fileElementName]['error']) {
+       	    case '1':
+		$error = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+		break;
+	    case '2':
+		$error = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+		break;
+  	    case '3':
+		$error = 'The uploaded file was only partially uploaded';
+		break;
+	    case '4':
+		$error = 'No file was uploaded.';
+		break;
+  	    case '6':
+		$error = 'Missing a temporary folder';
+		break;
+	    case '7':
+		$error = 'Failed to write file to disk';
+		break;
+	    case '8':
+		$error = 'File upload stopped by extension';
+		break;
+  	    default:
+		$error = 'No error code avaiable';
+	   }
+	}
+        elseif(empty($_FILES['fileToUpload']['tmp_name']) || $_FILES['fileToUpload']['tmp_name'] == 'none') {
+		$error = 'No file was uploaded..';
+	}
+        else {
+	  $msg .= " File Name: " . $_FILES['fileToUpload']['name'] . ", ";
+	  $msg .= " File Size: " . @filesize($_FILES['fileToUpload']['tmp_name']);
+          $name = $_FILES['fileToUpload']['name'];
+          $processCmd = "scripts/process-xliff.perl ".$_GET["input-extension"]." ".$_GET["output-extension"]." ".$_FILES["fileToUpload"]["tmp_name"]." '$name'";
+          // $msg .= ", Command: " . $processCmd;
 	  exec($processCmd);
+	//for security reason, we force to remove all uploaded file
+	//		@unlink($_FILES['fileToUpload']);		
+	}		
+	$this->msg = "{error: '" . $error . "',\nmsg: '" . $msg . "'\n}";
+
         }
-      }
     }
 
     public function setLanguagePairSelect() {
@@ -47,8 +80,6 @@ class buildEngineController extends viewcontroller {
           }
         }
       }
-      $default_source = "";
-      $default_target = "";
       
       global $language;
       $language[""] = "(select)";
@@ -67,13 +98,9 @@ class buildEngineController extends viewcontroller {
 
     public function buildCorpusTable() {
       global $language,$data_dir;
-      $this->template->inputLanguage = $language[ $_POST["input-extension"] ];
-      $this->template->inputExtension = $_POST["input-extension"];
-      $this->template->outputLanguage = $language[ $_POST["output-extension"] ];
-      $this->template->outputExtension = $_POST["output-extension"];
 
       $corpora = array();
-      $dir = $data_dir."/".$_POST["input-extension"]."-".$_POST["output-extension"];
+      $dir = $data_dir."/".$_GET["input-extension"]."-".$_GET["output-extension"];
       if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
           if (preg_match("/(\d+)\.info/",$entry,$match)) {
@@ -97,13 +124,11 @@ class buildEngineController extends viewcontroller {
     }
 
     public function setTemplateVars() {
-      if (array_key_exists("do",$_GET)) {
-        if ($_GET['do'] == 'corpus-table') {
-          $this->buildCorpusTable();
-        }
+      if (array_key_exists("do",$_GET) && $_GET['do'] == 'corpus-table') {
+        $this->buildCorpusTable();
       }
-      else if (array_key_exists("submit-upload",$_POST)) {
-        $this->template->msg = '<script>uploadComplete();</script>';
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload') {
+        $this->template->msg = $this->msg;
       }
       else {
         $this->setLanguagePairSelect();

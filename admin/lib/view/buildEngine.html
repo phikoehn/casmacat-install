@@ -1,5 +1,7 @@
 <?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
-<h1>Build New Engline</h1>
+<script src="/public/js/ajaxfileupload.js"></script>
+
+<h1>Build New Engine</h1>
 
 <form id='build-form' method='post' enctype="multipart/form-data" target="upload-target">
 <input type="hidden" name="action" value="buildEngine"/>
@@ -18,17 +20,30 @@
 <option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_target" tal:content="l/name"></option>
 </select></td></tr>
 
-<tr id="upload" style="display:none"><td>Add corpus<br/>(XLIFF,SGM)</td>
-<td><input type="file" name="file" id="file"/><br/>
-<input id="submit-upload" name="submit-upload" type="submit" value="upload" onLoad="uploadLoading()" onComplete="uploadComplete"/>
-<span id="upload-status">green</span></td></tr>
+<tr id="upload"><td>Add corpus</td>
+<td>
+<p id="loading" style="display:none;">loading...</p>
+<form name="form" action="" method="POST" enctype="multipart/form-data">
+<input id="fileToUpload" type="file" size="45" name="fileToUpload" class="input"/>
+<button class="button" id="buttonUpload" onclick="return ajaxFileUpload();">Upload</button>
+</form>
+</td></tr>
 
-<tr id="corpus-table" style="display:none"><td>Corpora</td><td id="corpus-table-content"></td></tr>
+<tr id="corpus-table" style="display:none"><td valign="top">Corpora</td><td id="corpus-table-content"></td></tr>
+
+<tr class="config" style="display:none"><td>Tuning set</td>
+<td><select name="tuning-corpus"></select> 
+    <input type="radio" name="tuning-select" value="all" checked="checked"/> all 
+    <input type="radio" name="tuning-select" value="all"/> select 
+    <select id="tuning-count" name="tuning-count"><option>500</option><option>1000</option><option>2000</option></select>
+</td></tr>
+<tr class="config" style="display:none"><td>Evaluation set</td>
+<td>select 1000 segments from corpus 1
+<input type="hidden" name="evaluation-set" value="subset-corpus-1-1000"/></td></tr>
 
 <tr id="submit" style="display:none"><td>&nbsp;</td><td><input id="submit-build" name="submit-build" type="submit" value="build"/></td></tr>
 </table>
 </form>
-<iframe id="upload-target" onChange="uploadComplete()"></iframe>
 <script language="javascript" src="/lib/js/buildEngine.js"></script>
 <script>
 changeLanguagePair();
