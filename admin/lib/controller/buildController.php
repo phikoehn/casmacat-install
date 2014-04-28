@@ -9,7 +9,17 @@ class buildController extends viewcontroller {
     }
     
     public function doAction(){
-      $buildCmd = "scripts/build-system.perl -f ".$_POST["input-extension"]." -e ".$_POST["output-extension"]." -tuning-set ".$_POST["tuning-set"]." -evaluation-set ".$_POST["evaluation-set"];
+      $buildCmd = "scripts/build-system.perl -f ".$_POST["input-extension"]." -e ".$_POST["output-extension"];
+
+      $buildCmd .= " -tuning-corpus ".$_POST["tuning-corpus"];
+      if ($_POST["tuning-select"] != "all") {
+        $buildCmd .= " -tuning-select ".$_POST["tuning-count"];
+      } 
+
+      $buildCmd .= " -evaluation-corpus ".$_POST["evaluation-corpus"];
+      if ($_POST["evaluation-select"] != "all") {
+        $buildCmd .= " -evaluation-select ".$_POST["evaluation-count"];
+      } 
 
       $name = $_POST["name"];
       if ($name == "") { $name = "not named"; }
@@ -20,7 +30,7 @@ class buildController extends viewcontroller {
         $buildCmd .= " -corpus $corpus >/tmp/build_status &";
       }
 
-      exec($buildCmd);
+      // exec($buildCmd);
       $this->msg = $buildCmd;
     }
 

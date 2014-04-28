@@ -106,7 +106,7 @@ class buildEngineController extends viewcontroller {
           if (preg_match("/(\d+)\.info/",$entry,$match)) {
             $corpus = array();
             $corpus["id"] = $match[1];
-            $corpus["checkbox_name"] = "corpus-".$match[1];
+            $corpus["checkbox_name"] = $match[1];
             $info = file($dir."/".$entry);
             foreach($info as $line) {
               if (preg_match("/^(\S+) = (.+)/",$line,$match)) {

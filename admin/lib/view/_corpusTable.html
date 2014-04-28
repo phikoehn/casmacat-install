@@ -4,9 +4,9 @@
 <tbody>
 <tr tal:repeat="corpus corpora">
 <td><input type="checkbox" tal:attributes="value corpus/checkbox_name" name="corpus[]"/></td>
-<td tal:content="corpus/id">ID</td>
-<td tal:content="corpus/name">Name</td>
-<td tal:content="corpus/lines">Segments</td>
+<td class="corpus-id" tal:content="corpus/id">ID</td>
+<td class="corpus-name" tal:content="corpus/name">Name</td>
+<td class="corpus-size" tal:content="corpus/lines">Segments</td>
 <td tal:content="corpus/upload_time">Uploaded</td>
 </tr>
 </tbody>

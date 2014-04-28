@@ -62,8 +62,7 @@
 ?>
 <?php
   exec('/usr/bin/uptime',$uptime);
-  //preg_match('/up (.+), \d+ users, load average: (.+)/',$uptime[0],$match);
-  preg_match('/up (.+), *\d+ users, *load average: (.+)/',$uptime[0],$match);
+  preg_match('/up (.+), *\d+ users?, *load average: (.+)/',$uptime[0],$match);
   print "<tr><td><b>Uptime:</b></td><td colspan=\"2\">".$match[1]."</td></tr>";;
   print "<tr><td><b>Load:</b></td><td colspan=\"2\">".$match[2]."</td></tr>";;
 ?>

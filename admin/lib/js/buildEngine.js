@@ -1,33 +1,3 @@
-
-// refresh the configuration settings
-
-function refreshConfig() {
-  $('#have-corpora').each(function() {
-    $(this).find('td input:checked').each(function () {
-      alert(this);
-    });
-  });
-
-  $('.config').css('display', 'table-row');
-}
-
-// refresh the table with available corpora
-
-function refreshCorpusTable() {
-  $('#corpus-table').css('display', 'table-row');
-  var inputExtension = $('[name="input-extension"]').val();
-  var outputExtension = $('[name="output-extension"]').val();
-  $.ajax({ url: '/?action=buildEngine&do=corpus-table&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
-           method: 'get',
-           dataType: 'text',
-           success: function(remoteData) {
-             $("#corpus-table-content").html(remoteData);
-             if ($('#have-corpora').length) {
-               refreshConfig();
-             }
-  }});
-}
-
 // change of language pair
 
 var currentInputExtension = "";
@@ -59,55 +29,88 @@ function changeLanguagePair() {
 }
 
 // upload corpus form
-	function ajaxFileUpload()
-	{
-		$("#loading")
-		.ajaxStart(function(){
-			$(this).show();
-		})
-		.ajaxComplete(function(){
-			$(this).hide();
-		});
 
-		$.ajaxFileUpload
-		(
-			{
-				url:'/?action=buildEngine&do=upload&input-extension=fr&output-extension=en',
-				secureuri:false,
-				fileElementId:'fileToUpload',
-				dataType: 'xml',
-				beforeSend:function()
-				{
-					alert("beforeSend");
-					$("#loading").show();
-				},
-				complete:function()
-				{
-					//alert("uploaded successfully");
-					refreshCorpusTable()
-					$("#loading").hide();
-				},				
-				success: function (data, status)
-				{
-					if(typeof(data.error) != 'undefined')
-					{
-						if(data.error != '')
-						{
-							alert(data.error);
-						}else
-						{
-							alert(data.msg);
-						}
-					}
-				},
-				error: function (data, status, e)
-				{
-					alert(e);
-				}
-			}
-		)
-		
-		return false;
+function ajaxFileUpload() {
+  $("#loading").ajaxStart(function(){ $(this).show(); })
+	       .ajaxComplete(function(){ $(this).hide(); });
+  $.ajaxFileUpload({
+	url:'/?action=buildEngine&do=upload&input-extension=fr&output-extension=en',
+	secureuri:false,
+	fileElementId:'fileToUpload',
+	dataType: 'xml',
+	beforeSend:function() {
+	  alert("beforeSend");
+	  $("#loading").show();
+	},
+	complete:function() {
+	  //alert("uploaded successfully");
+	  refreshCorpusTable()
+	  $("#loading").hide();
+	},				
+	success: function (data, status) {
+	  if (typeof(data.error) != 'undefined') {
+	    if (data.error != '') {
+	      alert(data.error);
+	    }
+            else {
+	      alert(data.msg);
+	    }
+	  }
+	},
+	error: function (data, status, e) { alert(e); }
+  })
+  return false;
+}
 
-	}
+// refresh the table with available corpora
+
+function refreshCorpusTable() {
+  $('#corpus-table').css('display', 'table-row');
+  var inputExtension = $('[name="input-extension"]').val();
+  var outputExtension = $('[name="output-extension"]').val();
+  $.ajax({ url: '/?action=buildEngine&do=corpus-table&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
+           method: 'get',
+           dataType: 'text',
+           success: function(remoteData) {
+             $("#corpus-table-content").html(remoteData);
+             if ($('#have-corpora').length) {
+               refreshConfig();
+             }
+  }});
+}
+
+// refresh the configuration settings
+
+function refreshConfig() {
+  $('#have-corpora').each(function() {
+    $(this).find('td input:checked').each(function () {
+      alert(this);
+    });
+  });
+
+  refreshTuning();
+  $('.config').css('display', 'table-row');
+}
+
+// refresh options for tuning sets
+
+function refreshTuning() {
+  // get the list of corpora 
+  var corpusList = [];
+  $('#have-corpora > tbody > tr').each(function() {
+    var corpus = {};
+    corpus.id = $(this).find('.corpus-id').html();
+    corpus.name = $(this).find('.corpus-name').html();
+    corpus.size = $(this).find('.corpus-size').html();
+    corpusList.push( corpus );
+  });
+  $("#tuning-corpus").empty();
+  $("#evaluation-corpus").empty();
+  for(var i=0; i<corpusList.length; i++) {
+    corpus = corpusList[i];
+    var option = '<option value="' + corpus.id + '">' + corpus.name + '</option>';
+    $("#tuning-corpus").append( option );
+    $("#evaluation-corpus").append( option );
+  }
+}
 

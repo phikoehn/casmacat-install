@@ -7,13 +7,15 @@ use Getopt::Long "GetOptions";
 
 my $dir = "/opt/casmacat/admin/scripts";
 
-my ($HELP,$F,$E,@CORPUS,$TUNING_SET,$EVALUATION_SET,$NAME) = @_;
+my ($HELP,$F,$E,@CORPUS,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME) = @_;
 my %LINE_COUNT;
 
 $HELP = 1
     unless &GetOptions('corpus=s' => \@CORPUS,
-		       'tuning-set=s' => \$TUNING_SET,
-		       'evaluation-set=s' => \$EVALUATION_SET,
+		       'tuning-corpus=s' => \$TUNING_CORPUS,
+		       'tuning-select=s' => \$TUNING_SELECT,
+		       'evaluation-corpus=s' => \$EVALUATION_CORPUS,
+		       'evaluation-select=s' => \$EVALUATION_SELECT,
 		       'name=s' => \$NAME,
 		       'f=s' => \$F,
 		       'e=s' => \$E);
@@ -31,65 +33,60 @@ $CONFIG{"F"} = $F;
 
 # tuning
 my %USED_IN_TUNING_OR_EVAL;
-if ($TUNING_SET =~ /^subset-corpus-(\d+)-(\d+)$/) {
-  my $name = &create_subsample("tuning",$1,$2,\%{$USED_IN_TUNING_OR_EVAL{$1}});
+if (defined($TUNING_SELECT)) {
+  my $name = &create_subsample("tuning",$TUNING_CORPUS,$TUNING_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$1}});
   $CONFIG{"TUNING_INPUT_SGM"} = $name."-src.sgm";
   $CONFIG{"TUNING_REFERENCE_SGM"} = $name."-ref.sgm";
 }
 
 # evaluation
-if ($EVALUATION_SET =~ /^subset-corpus-(\d+)-(\d+)$/) {
-  my $name = &create_subsample("evaluation",$1,$2,\%{$USED_IN_TUNING_OR_EVAL{$1}});
-  $CONFIG{"EVALUATION"} = "[EVALUATION:$EVALUATION_SET]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
+if (defined($EVALUATION_SELECT)) {
+  my $name = &create_subsample("evaluation",$EVALUATION_CORPUS,$EVALUATION_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$1}});
+  $CONFIG{"EVALUATION"} = "[EVALUATION:corpus-$EVALUATION_CORPUS]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
 }
 
 # build corpus sections
-foreach my $corpus (@CORPUS) {
-  if ($corpus =~ /^corpus-(\d+)$/) {
-    my $id = $1;
-    if (!defined($USED_IN_TUNING_OR_EVAL{$id})) {
-      $CONFIG{"CORPUS"} .= "[CORPUS:$corpus]\n";
-      $CONFIG{"CORPUS"} .= "raw-stem = $corpus_dir/$id\n";
+foreach my $id (@CORPUS) {
+  if (!defined($USED_IN_TUNING_OR_EVAL{$id})) {
+    $CONFIG{"CORPUS"} .= "[CORPUS:corpus-$id]\n";
+    $CONFIG{"CORPUS"} .= "raw-stem = $corpus_dir/$id\n";
+  }
+  else {
+    my $name = "reduced$id";
+    $name .= "-not".$TUNING_SELECT if $TUNING_CORPUS == $id;
+    $name .= "-noe".$EVALUATION_SELECT if $EVALUATION_CORPUS == $id;
+    $CONFIG{"CORPUS"} .= "[CORPUS:$name]\n";
+    $CONFIG{"CORPUS"} .= "raw-stem = $data_dir/$name\n";
+    next if -e "$data_dir/$name.$E";
+    open(CORPUS_E,"$corpus_dir/$id.$E");
+    open(CORPUS_F,"$corpus_dir/$id.$F");
+    open(REDUCED_E,">$data_dir/$name.$E");
+    open(REDUCED_F,">$data_dir/$name.$F");
+    my $line = 0;
+    while(my $e = <CORPUS_E>) {
+      my $f = <CORPUS_F>;
+      next if defined($USED_IN_TUNING_OR_EVAL{$id}{$line++});
+      print REDUCED_E $e;
+      print REDUCED_F $f; 
     }
-    else {
-      my $name = "reduced$id";
-      $name .= "-not$1" if $TUNING_SET =~ /subset-corpus-$id-(.+)/;
-      $name .= "-noe$1" if $EVALUATION_SET =~ /subset-corpus-$id-(.+)/;
-      $CONFIG{"CORPUS"} .= "[CORPUS:$name]\n";
-      $CONFIG{"CORPUS"} .= "raw-stem = $data_dir/$name\n";
-      next if -e "$data_dir/$name.$E";
-      open(CORPUS_E,"$corpus_dir/$id.$E");
-      open(CORPUS_F,"$corpus_dir/$id.$F");
-      open(REDUCED_E,">$data_dir/$name.$E");
-      open(REDUCED_F,">$data_dir/$name.$F");
-      my $line = 0;
-      while(my $e = <CORPUS_E>) {
-        my $f = <CORPUS_F>;
-        next if defined($USED_IN_TUNING_OR_EVAL{$id}{$line++});
-        print REDUCED_E $e;
-        print REDUCED_F $f; 
-      }
-      close(REDUCED_E);
-      close(REDUCED_F);
-    }
+    close(REDUCED_E);
+    close(REDUCED_F);
   }
 }
 
 # build lm section
-foreach my $corpus (@CORPUS) {
-  if ($corpus =~ /^corpus-(\d+)$/) {
-    my $id = $1;
-    if (!$USED_IN_TUNING_OR_EVAL{$id}) {
-      $CONFIG{"LM"} .= "[LM:$corpus]\n";
-      $CONFIG{"LM"} .= "raw-corpus = $corpus_dir/$id.$F\n";
-    }
-    else {
-      my $name = "reduced$id";
-      $name .= "-not$1" if $TUNING_SET =~ /subset-corpus-$id-(.+)/;
-      $name .= "-noe$1" if $EVALUATION_SET =~ /subset-corpus-$id-(.+)/;
-      $CONFIG{"LM"} .= "[LM:$name]\n";
-      $CONFIG{"LM"} .= "raw-corpus = $data_dir/$name.$F\n";
-    } 
+foreach my $id (@CORPUS) {
+  my $id = $1;
+  if (!$USED_IN_TUNING_OR_EVAL{$id}) {
+    $CONFIG{"LM"} .= "[LM:corpus-$id]\n";
+    $CONFIG{"LM"} .= "raw-corpus = $corpus_dir/$id.$F\n";
+  }
+  else {
+    my $name = "reduced$id";
+    $name .= "-not".$TUNING_SELECT if $TUNING_CORPUS == $id;
+    $name .= "-noe".$EVALUATION_SELECT if $EVALUATION_CORPUS == $id;
+    $CONFIG{"LM"} .= "[LM:$name]\n";
+    $CONFIG{"LM"} .= "raw-corpus = $data_dir/$name.$F\n";
   }
 }
 
