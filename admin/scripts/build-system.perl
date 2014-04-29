@@ -34,14 +34,14 @@ $CONFIG{"F"} = $F;
 # tuning
 my %USED_IN_TUNING_OR_EVAL;
 if (defined($TUNING_SELECT)) {
-  my $name = &create_subsample("tuning",$TUNING_CORPUS,$TUNING_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$1}});
+  my $name = &create_subsample("tuning",$TUNING_CORPUS,$TUNING_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$TUNING_CORPUS}});
   $CONFIG{"TUNING_INPUT_SGM"} = $name."-src.sgm";
   $CONFIG{"TUNING_REFERENCE_SGM"} = $name."-ref.sgm";
 }
 
 # evaluation
 if (defined($EVALUATION_SELECT)) {
-  my $name = &create_subsample("evaluation",$EVALUATION_CORPUS,$EVALUATION_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$1}});
+  my $name = &create_subsample("evaluation",$EVALUATION_CORPUS,$EVALUATION_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$EVALUATION_CORPUS}});
   $CONFIG{"EVALUATION"} = "[EVALUATION:corpus-$EVALUATION_CORPUS]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
 }
 
@@ -76,7 +76,6 @@ foreach my $id (@CORPUS) {
 
 # build lm section
 foreach my $id (@CORPUS) {
-  my $id = $1;
   if (!$USED_IN_TUNING_OR_EVAL{$id}) {
     $CONFIG{"LM"} .= "[LM:corpus-$id]\n";
     $CONFIG{"LM"} .= "raw-corpus = $corpus_dir/$id.$F\n";

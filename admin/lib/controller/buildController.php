@@ -30,7 +30,7 @@ class buildController extends viewcontroller {
         $buildCmd .= " -corpus $corpus >/tmp/build_status &";
       }
 
-      // exec($buildCmd);
+      exec($buildCmd);
       $this->msg = $buildCmd;
     }
 

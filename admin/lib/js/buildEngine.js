@@ -92,10 +92,9 @@ function refreshConfig() {
   $('.config').css('display', 'table-row');
 }
 
-// refresh options for tuning sets
+// get a list of corpora from table
 
-function refreshTuning() {
-  // get the list of corpora 
+function getCorpusList() {
   var corpusList = [];
   $('#have-corpora > tbody > tr').each(function() {
     var corpus = {};
@@ -104,13 +103,47 @@ function refreshTuning() {
     corpus.size = $(this).find('.corpus-size').html();
     corpusList.push( corpus );
   });
+  return corpusList;
+}
+
+// refresh options for tuning sets
+
+function refreshTuning() {
+  corpusList = getCorpusList();
   $("#tuning-corpus").empty();
   $("#evaluation-corpus").empty();
   for(var i=0; i<corpusList.length; i++) {
     corpus = corpusList[i];
-    var option = '<option value="' + corpus.id + '">' + corpus.name + '</option>';
+    var option = $('<option/>', { value:corpus.id, text:corpus.name });
     $("#tuning-corpus").append( option );
-    $("#evaluation-corpus").append( option );
+    $("#evaluation-corpus").append( option.clone() );
+  }
+  guessTuningSelect("#tuning");
+  guessTuningSelect("#evaluation");
+}
+
+function guessTuningSelect( field ) {
+  tuningCorpusId = $("select"+field+"-corpus option").filter(":selected").val();
+  var corpusList = getCorpusList();
+  for(var i=0; i<corpusList.length; i++) {
+    var corpus = corpusList[i];
+    if (corpus.id == tuningCorpusId) {
+      if (corpus.size >= 4000) {
+        $(field+"-select-select").prop("checked", true);
+      }
+      else {
+        $(field+"-select-all").prop("checked", true);
+      }
+      refreshTuningCount( field );
+    }
   }
 }
 
+function refreshTuningCount( field ) {
+  if ($(field+"-select-select").prop("checked")) {
+    $(field+"-count").removeAttr("disabled");
+  }
+  else {
+    $(field+"-count").attr("disabled", 1);
+  }
+}
