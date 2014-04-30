@@ -33,16 +33,45 @@ $CONFIG{"F"} = $F;
 
 # tuning
 my %USED_IN_TUNING_OR_EVAL;
-if (defined($TUNING_SELECT)) {
-  my $name = &create_subsample("tuning",$TUNING_CORPUS,$TUNING_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$TUNING_CORPUS}});
-  $CONFIG{"TUNING_INPUT_SGM"} = $name."-src.sgm";
-  $CONFIG{"TUNING_REFERENCE_SGM"} = $name."-ref.sgm";
-}
+my $name = &create_dev("TUNING",$TUNING_SELECT,$TUNING_CORPUS);
+print STDERR $name;
+$CONFIG{"TUNING_INPUT_SGM"} = $name."-src.sgm";
+$CONFIG{"TUNING_REFERENCE_SGM"} = $name."-ref.sgm";
 
 # evaluation
-if (defined($EVALUATION_SELECT)) {
-  my $name = &create_subsample("evaluation",$EVALUATION_CORPUS,$EVALUATION_SELECT,\%{$USED_IN_TUNING_OR_EVAL{$EVALUATION_CORPUS}});
-  $CONFIG{"EVALUATION"} = "[EVALUATION:corpus-$EVALUATION_CORPUS]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
+$name = &create_dev("EVALUATION",$EVALUATION_SELECT,$EVALUATION_CORPUS);
+$CONFIG{"EVALUATION"} = "[EVALUATION:corpus-$EVALUATION_CORPUS]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
+
+sub create_dev {
+  my ($type,$select,$corpus) = @_;
+  if (defined($select)) {
+    return &create_subsample("tuning",$corpus,$select,\%{$USED_IN_TUNING_OR_EVAL{$corpus}});
+  }
+
+  if (! -e "$corpus_dir/$corpus-src.sgm") {
+    open(F,"$corpus_dir/$corpus.$F");
+    open(E,"$corpus_dir/$corpus.$E");
+    open(F_SGM,">$corpus_dir/$corpus-src.sgm");
+    open(E_SGM,">$corpus_dir/$corpus-ref.sgm");
+    print F_SGM "<srcset setid=\"dummy\" srclang=\"$F\">\n";
+    print F_SGM "<doc docid=\"dummy\">\n";
+    print E_SGM "<refset trglang=\"$E\" setid=\"dummy\" srclang=\"$F\">\n";
+    print E_SGM "<doc sysid=\"ref\" docid=\"dummy\">\n";
+    my $i=1;
+    while(my $e = <E>) {
+      my $f = <F>;
+      print F_SGM "<seg id=\$i\">$f</seg>\n";
+      print E_SGM "<seg id=\$i\">$e</seg>\n";
+      $i++;
+    }
+    print F_SGM "</doc>\n</srcset>\n";
+    print E_SGM "</doc>\n</refset>\n";
+    close(E_SGM);
+    close(F_SGM);
+    close(E);
+    close(F);
+  }
+  return "$corpus_dir/$corpus";
 }
 
 # build corpus sections
@@ -78,14 +107,14 @@ foreach my $id (@CORPUS) {
 foreach my $id (@CORPUS) {
   if (!$USED_IN_TUNING_OR_EVAL{$id}) {
     $CONFIG{"LM"} .= "[LM:corpus-$id]\n";
-    $CONFIG{"LM"} .= "raw-corpus = $corpus_dir/$id.$F\n";
+    $CONFIG{"LM"} .= "raw-corpus = $corpus_dir/$id.$E\n";
   }
   else {
     my $name = "reduced$id";
     $name .= "-not".$TUNING_SELECT if $TUNING_CORPUS == $id;
     $name .= "-noe".$EVALUATION_SELECT if $EVALUATION_CORPUS == $id;
     $CONFIG{"LM"} .= "[LM:$name]\n";
-    $CONFIG{"LM"} .= "raw-corpus = $data_dir/$name.$F\n";
+    $CONFIG{"LM"} .= "raw-corpus = $data_dir/$name.$E\n";
   }
 }
 
@@ -168,9 +197,10 @@ print "Started, this may take a while.";
 sub create_subsample {
   my ($type,$corpus,$count,$USED) = @_;
   my $total = &line_count($corpus);
-  my $offset = ($type eq "tuning") ? 0 : 1;
+  my $offset = ($type eq "TUNING") ? 0 : 1;
   my $step = $total/$count;
   my $name = "$data_dir/$type-$corpus-$count";
+  $name =~ tr/A-Z/a-z/;
   &create_subsample_file("$corpus_dir/$corpus.$F","$name-src.sgm",$offset,$step);
   &create_subsample_file("$corpus_dir/$corpus.$E","$name-ref.sgm",$offset,$step,$USED);
   return $name;

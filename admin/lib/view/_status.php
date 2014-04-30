@@ -19,8 +19,10 @@
                       $steps_to_run++;
                     }
                   }
+                  $finished = array();
                   exec("ls $lang_dir/steps/$run/*DONE | wc -l",$finished);
                   printf ("<tr><td><b>Building:</b></td><td>%d of %d steps finished</td><td><progress value=\"%d\" max=\"%d\"></progress> <img src=\"/inspect/spinner.gif\" width=12 height=12></td></tr>",$finished[0],$steps_to_run,$finished[0],$steps_to_run);
+                  $step = array();
 		  exec("ls -t $lang_dir/steps/$run | grep '^[A-Z]'",$step);
                   printf ("<tr><td></td><td colspan=\"2\">%s</td></tr>",$step[1]);
                 }
