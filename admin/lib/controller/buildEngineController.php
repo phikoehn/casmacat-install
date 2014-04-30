@@ -11,6 +11,9 @@ class buildEngineController extends viewcontroller {
       else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload') {
         parent::makeTemplate("_empty.html");
       }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'public-corpora') {
+        parent::makeTemplate("_publicCorpora.html");
+      }
       else {
         parent::makeTemplate("buildEngine.html");
       }
@@ -60,8 +63,7 @@ class buildEngineController extends viewcontroller {
 	//		@unlink($_FILES['fileToUpload']);		
 	}		
 	$this->msg = "{error: '" . $error . "',\nmsg: '" . $msg . "'\n}";
-
-        }
+      }
     }
 
     public function setLanguagePairSelect() {
@@ -121,6 +123,10 @@ class buildEngineController extends viewcontroller {
       $this->template->corpora = $corpora;
       $this->template->haveCorpora = count($corpora);
       $this->template->haveNoCorpora = (count($corpora) == 0);
+    }
+
+    public function buildPublicCorpora() {
+      $url = "http://www.casmacat.eu/service/corpus-list.php?source=".$_GET["input-extension"]."&target=".$_GET["output-extension"];
     }
 
     public function setTemplateVars() {

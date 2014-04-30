@@ -19,13 +19,17 @@
 <option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_target" tal:content="l/name"></option>
 </select></td></tr>
 
-<tr id="upload"><td>Add corpus</td>
+<tr id="upload" valign="top"><td>Add corpus</td>
 <td>
 <p id="loading" style="display:none;">loading...</p>
 <form name="form" action="" method="POST" enctype="multipart/form-data">
 <input id="fileToUpload" type="file" size="45" name="fileToUpload" class="input"/>
 <button class="button" id="buttonUpload" onclick="return ajaxFileUpload();">Upload</button>
 </form>
+<br/>
+<div id="public-corpora">
+<a href="#" onclick="showPublicCorpora();">Download public corpora</a>
+</div>
 </td></tr>
 
 <tr id="corpus-table" style="display:none"><td valign="top">Corpora</td><td id="corpus-table-content"></td></tr>

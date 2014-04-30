@@ -72,6 +72,10 @@ table.statusframe tr td {
 table.corpustable {
   font-size:11pt;
 }
+#public-corpora {
+  font-size:11pt;
+}
+
 
 .keyvaluetable tr > td:first-child { font-weight: bold; } /* first column */
 

@@ -62,6 +62,19 @@ function ajaxFileUpload() {
   return false;
 }
 
+// download public corpora
+
+function showPublicCorpora() {
+  var inputExtension = $('[name="input-extension"]').val();
+  var outputExtension = $('[name="output-extension"]').val();
+  $.ajax({ url: '/?action=buildEngine&do=public-corpora&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
+           method: 'get',
+           dataType: 'text',
+           success: function(remoteData) {
+             $("#public-corpora").html(remoteData);
+  }});
+}
+
 // refresh the table with available corpora
 
 function refreshCorpusTable() {
