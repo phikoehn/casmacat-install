@@ -22,6 +22,7 @@ function changeLanguagePair() {
       $('#upload').css('display', 'table-row');
       $('#corpus-table').css('display', 'table-row');
       refreshCorpusTable();
+      $('#public-corpora').html('<a href="#" onclick="showPublicCorpora();">Public corpora</a>');
     }
     currentInputExtension = inputExtension;
     currentOutputExtension = outputExtension;
@@ -65,14 +66,14 @@ function ajaxFileUpload() {
 // upload public corpora
 
 function showPublicCorpora() {
-  $("#public-corpora").html("Loading public corpus information... <img src=\"/inspect/spinner.gif\" width=12 height=12>");
+  $('#public-corpora').html("Loading public corpus information... <img src=\"/inspect/spinner.gif\" width=12 height=12>");
   var inputExtension = $('[name="input-extension"]').val();
   var outputExtension = $('[name="output-extension"]').val();
   $.ajax({ url: '/?action=buildEngine&do=public-corpora&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
            method: 'get',
            dataType: 'html',
            success: function(remoteData) {
-             $("#public-corpora").html(remoteData);
+             $('#public-corpora').html(remoteData);
   }});
 }
 
