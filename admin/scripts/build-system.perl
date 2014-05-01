@@ -31,16 +31,18 @@ my %CONFIG;
 $CONFIG{"E"} = $E;
 $CONFIG{"F"} = $F;
 
-# tuning
+# evaluation
 my %USED_IN_TUNING_OR_EVAL;
-my $name = &create_dev("TUNING",$TUNING_SELECT,$TUNING_CORPUS);
+my $name = &create_dev("EVALUATION",$EVALUATION_SELECT,$EVALUATION_CORPUS);
+my $label = "corpus-$EVALUATION_CORPUS";
+$label .= "-".$EVALUATION_SELECT if defined($EVALUATION_SELECT);
+$CONFIG{"EVALUATION"} = "[EVALUATION:$label]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
+
+# tuning
+$name = &create_dev("TUNING",$TUNING_SELECT,$TUNING_CORPUS);
 print STDERR $name;
 $CONFIG{"TUNING_INPUT_SGM"} = $name."-src.sgm";
 $CONFIG{"TUNING_REFERENCE_SGM"} = $name."-ref.sgm";
-
-# evaluation
-$name = &create_dev("EVALUATION",$EVALUATION_SELECT,$EVALUATION_CORPUS);
-$CONFIG{"EVALUATION"} = "[EVALUATION:corpus-$EVALUATION_CORPUS]\ninput-sgm = $name-src.sgm\nreference-sgm = $name-ref.sgm\n";
 
 sub create_dev {
   my ($type,$select,$corpus) = @_;
