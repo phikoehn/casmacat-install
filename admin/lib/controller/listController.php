@@ -9,7 +9,7 @@ class listController extends viewcontroller {
     }
     
     public function doAction(){
-      if ($engine = $_GET["deploy-engine"]) {
+      if (array_key_exists("deploy-engine",$_GET) && $engine = $_GET["deploy-engine"]) {
         $handle = fopen("/opt/casmacat/engines/deployed","w");
         fwrite($handle,$engine."\n");
         fclose($handle);
@@ -32,6 +32,7 @@ class listController extends viewcontroller {
 
     public function setTemplateVars() {
       $list = array();
+      $lang_pair_hash = array();
       global $exp_dir,$engine_dir;
 
       # get names of engines
@@ -146,11 +147,6 @@ class listController extends viewcontroller {
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
                 }
-              }
-            }
-            function run_cmp($a,$b) {
-              if ($a["run"] == $b["run"]) return 0;
-              return $a["run"] < $b["run"] ? 1 : -1;
             }
             if ($lang_pair_hash[$key]["has_engines"]) {
               usort($lang_pair_hash[$key]["engines"], 'run_cmp');
@@ -161,7 +157,6 @@ class listController extends viewcontroller {
             if ($lang_pair_hash[$key]["has_building"]) {
               usort($lang_pair_hash[$key]["exp_building"], 'run_cmp');
             }
-
           }
         }
       }
@@ -175,6 +170,11 @@ class listController extends viewcontroller {
       $this->template->list = $list;
       $this->template->msg = $this->msg;
     }
+}
+function run_cmp($a,$b) {
+  if ($a["run"] == $b["run"]) return 0;
+    return $a["run"] < $b["run"] ? 1 : -1;
+  }
 }
 
 ?>

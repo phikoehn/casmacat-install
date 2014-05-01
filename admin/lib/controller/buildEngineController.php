@@ -139,7 +139,7 @@ class buildEngineController extends viewcontroller {
     }
 
     public function getPublicCorpora() {
-      $url = "http://www.casmacat.eu/service/corpus-list.php?source=".$_GET["input-extension"]."&target=".$_GET["output-extension"];
+      $url = "http://www.casmacat.eu/corpus/corpus-list.php?source=".$_GET["input-extension"]."&target=".$_GET["output-extension"];
       $json = file_get_contents($url);
       $corpus_list = json_decode($json);
       if (count($corpus_list) == 0) {
