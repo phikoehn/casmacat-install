@@ -71,6 +71,9 @@ table.statusframe tr td {
 }
 table.corpustable {
   font-size:11pt;
+  border: 1px solid #000000;
+  border-spacing: 0;
+  size: '100%';
 }
 #public-corpora {
   font-size:11pt;

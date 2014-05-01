@@ -62,16 +62,31 @@ function ajaxFileUpload() {
   return false;
 }
 
-// download public corpora
+// upload public corpora
 
 function showPublicCorpora() {
+  $("#public-corpora").html("Loading public corpus information... <img src=\"/inspect/spinner.gif\" width=12 height=12>");
   var inputExtension = $('[name="input-extension"]').val();
   var outputExtension = $('[name="output-extension"]').val();
   $.ajax({ url: '/?action=buildEngine&do=public-corpora&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
            method: 'get',
-           dataType: 'text',
+           dataType: 'html',
            success: function(remoteData) {
              $("#public-corpora").html(remoteData);
+  }});
+}
+
+function uploadPublicCorpus( id, url, name ) {
+  $(id).html("loading... <img src=\"/inspect/spinner.gif\" width=12 height=12>");
+  var inputExtension = $('[name="input-extension"]').val();
+  var outputExtension = $('[name="output-extension"]').val();
+
+  $.ajax({ url: '/?action=buildEngine&do=upload-public&url=' + encodeURIComponent( url ) + '&input-extension=' + inputExtension + '&output-extension=' + outputExtension + '&name=' + encodeURIComponent( name ),
+           method: 'get',
+           dataType: 'html',
+           success: function(remoteData) {
+             $(id).html(remoteData);
+             refreshCorpusTable();
   }});
 }
 

@@ -12,7 +12,10 @@ class buildEngineController extends viewcontroller {
         parent::makeTemplate("_empty.html");
       }
       else if (array_key_exists("do",$_GET) && $_GET['do'] == 'public-corpora') {
-        parent::makeTemplate("_publicCorpora.html");
+        parent::makeTemplate("_empty.html");
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload-public') {
+        parent::makeTemplate("_empty.html");
       }
       else {
         parent::makeTemplate("buildEngine.html");
@@ -21,6 +24,17 @@ class buildEngineController extends viewcontroller {
     
     public function doAction(){
       if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload') {
+        $this->uploadCorpus();
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'public-corpora') {
+        $this->getPublicCorpora();
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload-public') {
+        $this->uploadPublic();
+      }
+    }
+
+    public function uploadCorpus() {
 	$fileElementName = 'fileToUpload';
 	if(!empty($_FILES[$fileElementName]['error'])) {
 	  switch($_FILES[$fileElementName]['error']) {
@@ -56,14 +70,13 @@ class buildEngineController extends viewcontroller {
 	  $msg .= " File Name: " . $_FILES['fileToUpload']['name'] . ", ";
 	  $msg .= " File Size: " . @filesize($_FILES['fileToUpload']['tmp_name']);
           $name = $_FILES['fileToUpload']['name'];
-          $processCmd = "scripts/process-xliff.perl ".$_GET["input-extension"]." ".$_GET["output-extension"]." ".$_FILES["fileToUpload"]["tmp_name"]." '$name'";
+          $processCmd = "scripts/process-xliff.perl -f ".$_GET["input-extension"]." -e ".$_GET["output-extension"]." -tmp ".$_FILES["fileToUpload"]["tmp_name"]." '$name'";
           // $msg .= ", Command: " . $processCmd;
 	  exec($processCmd);
 	//for security reason, we force to remove all uploaded file
 	//		@unlink($_FILES['fileToUpload']);		
 	}		
 	$this->msg = "{error: '" . $error . "',\nmsg: '" . $msg . "'\n}";
-      }
     }
 
     public function setLanguagePairSelect() {
@@ -125,8 +138,31 @@ class buildEngineController extends viewcontroller {
       $this->template->haveNoCorpora = (count($corpora) == 0);
     }
 
-    public function buildPublicCorpora() {
+    public function getPublicCorpora() {
       $url = "http://www.casmacat.eu/service/corpus-list.php?source=".$_GET["input-extension"]."&target=".$_GET["output-extension"];
+      $json = file_get_contents($url);
+      $corpus_list = json_decode($json);
+      if (count($corpus_list) == 0) {
+        $this->msg = "No public corpora available for this language pair";
+      }
+      else {
+        $this->msg = "<table border=\"1\" cellspacing=\"0\" width=\"100%\" class=\"corpustable\"><tr><td><b>Name</b></td><td align=\"right\"><b>Segments</b></td><td><b>Publisher</b></td><td>&nbsp;</td></tr>";
+        foreach ($corpus_list as $id => $corpus) {
+          //$this->msg .= "<tr><td>".var_export($corpus)."</td></tr>";
+          $this->msg .= "<tr><td><a href=\"".$corpus->info_link."\" target=\"_blank\" title=\"".$corpus->info."\">".$corpus->name."</a></td>";
+          $this->msg .= "<td align=\"right\">".number_format($corpus->segments)."</td>";
+          $this->msg .= "<td align=\"center\">".$corpus->publisher."</td>";
+          $this->msg .= "<td id=\"upload-public-$id\"><a href=\"#\" onclick=\"uploadPublicCorpus('#upload-public-$id','".$corpus->url."','".$corpus->name."');\">upload</a></td></tr>";
+        }
+        $this->msg .= "</table>";
+      }
+    }
+
+    public function uploadPublic() {
+      $url = $_GET["url"];
+      $uploadCmd = "scripts/process-xliff.perl -f ".$_GET["input-extension"]." -e ".$_GET["output-extension"]." -url '".$_GET["url"]."' -name '".$_GET["name"]."'";
+      exec($uploadCmd);
+      $this->msg .= "uploaded";
     }
 
     public function setTemplateVars() {
@@ -134,6 +170,12 @@ class buildEngineController extends viewcontroller {
         $this->buildCorpusTable();
       }
       else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload') {
+        $this->template->msg = $this->msg;
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'public-corpora') {
+        $this->template->msg = $this->msg;
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload-public') {
         $this->template->msg = $this->msg;
       }
       else {

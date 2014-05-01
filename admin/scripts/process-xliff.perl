@@ -1,14 +1,25 @@
 #!/usr/bin/perl -w
 
+use strict;
+use Getopt::Long "GetOptions";
 use Digest::MD5 qw(md5_hex);
 
-use strict;
+my ($f,$e,$tmp_file,$name,$url);
+die unless &GetOptions('f=s' => \$f,
+                       'e=s' => \$e,
+                       'tmp=s' => \$tmp_file,
+                       'name=s' => \$name,
+                       'url=s' => \$url);
 
-my ($f,$e,$xliff,$name) = @ARGV;
 $name = "unnamed" unless defined($name) && $name !~ /^\s*$/;
 
+if (defined($url)) {
+  $tmp_file = "/tmp/process.$$.gz";
+  `wget -O $tmp_file $url`;
+}
+
 # create checksum
-open(XLIFF, "<", $xliff);
+open(XLIFF, "<", $tmp_file);
 my $checksum = md5_hex(<XLIFF>);
 close(XLIFF);
 
@@ -22,7 +33,6 @@ elsif (`grep 'checksum = $checksum' $outdir/*.info`) {
   exit;
 }
 
-
 # stem for this corpus
 my $max = 0;
 open(LS,"ls $outdir|");
@@ -34,19 +44,32 @@ while(<LS>) {
 close(LS);
 my $stem = $outdir."/".($max+1);
 
-open(XLIFF,$xliff);
+# process the file
+
+if (defined($url)) {
+  open(XLIFF,"zcat $tmp_file|");
+}
+else {
+  open(XLIFF,$tmp_file);
+}
 my ($source,$target);
 my $line_count = 0;
 open(E,">$stem.$e");
 open(F,">$stem.$f");
 while(<XLIFF>) {
-   if (/^<source>(.+)<\/source>$/) {
+   if (/^<source>(.+)<\/source>$/) { # XLIFF
      $source = $1;
    }
-   if (/^<target>(.+)<\/target>$/) {
+   elsif (/<tuv xml:lang="$f[^\"]*"><seg>(.+)<\/seg><\/tuv>/) { # TMX
+     $source = $1;
+   }
+   elsif (/^<target>(.+)<\/target>$/) { # XLIFF
      $target = $1;
    }
-   if (/<\/trans-unit>/) { 
+   elsif (/<tuv xml:lang="$e[^\"]*"><seg>(.+)<\/seg><\/tuv>/) { # TMX
+     $target = $1;
+   }
+   elsif (/<\/trans-unit>/ || /<\/tu>/) { 
      if (defined($source) && defined($target)) {
        print F $source."\n";
        print E $target."\n";
@@ -64,3 +87,4 @@ print INFO "name = $name\n";
 print INFO "checksum = $checksum\n";
 close(INFO);
 
+`rm $tmp_file` if defined($url);
