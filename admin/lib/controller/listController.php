@@ -16,8 +16,45 @@ class listController extends viewcontroller {
         exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
         exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
       }
+      if (array_key_exists("stop-building",$_GET) && $run = $_GET["stop-building"]) {
+        // get information about process tree
+        exec("ps -o \"%p %P %a\"",$process);
+        // pattern to match a running step
+        $pattern = "/\/".$_GET["lp"]."\/steps\/$run\//";
+        foreach ($process as $p) {
+          if (preg_match("/^ *(\d+) +(\d+) +(.+)$/",$p,$match)) {
+            if (preg_match($pattern,$match[3])) {
+              $root = $match[1];
+            }
+            $parent[$match[1]] = $match[2];
+            $child[$match[2]][] = $match[1];
+          } 
+        } 
+        // if there is a process matching the specified language pair and run number...
+        if ($root) {
+          // get the root of the process tree for the experiment
+          while($parent[$root] != 1) {
+            $root = $parent[$root];
+          }
+          // get all processes in the tree
+          $process_list = $this->get_children($root,$child);
+          $killCmd = "kill $process_list"; 
+          exec($killCmd);
+          $this->msg = "Stopped #$run";
+        }
+      }
     }
     
+    private function get_children($parent,$child) {
+      $list = " ".$parent;
+      if (array_key_exists($parent,$child)) {
+        foreach ($child[$parent] as $c) {
+          $list .= $this->get_children($c,$child);
+        }
+      }
+      return $list;
+    }
+
     private function init_lang_pair($source,$target) {
       global $language;
       $lang_pair = array();
@@ -133,11 +170,20 @@ class listController extends viewcontroller {
                   else if (file_exists("$lang_dir/steps/$run/running.$run")) {
                     $lang_pair_hash[$key]["has_building"] = 1;
                     if (filectime("$lang_dir/steps/$run/running.$run")+60 > time()) {
-                      $info["status"] = "building";
+                      if (array_key_exists("stop-building",$_GET) && $_GET["stop-building"] == $run && 
+                          array_key_exists("lpg",$_GET) && $_GET["lp"] = "$source-$target") {
+                        $info["action"] = "";
+                        $info["status"] = "stopped";
+                      }
+                      else {
+	                $info["action"] = "<a href=\"/?action=list&stop-building=$run&lp=$source-$target\">stop</a>";
+                        $info["status"] = "building";
+                      }
                     }
                     else {
                       $info["status"] = "crashed";
                       $info["time_crashed"] = pretty_time(filectime("$lang_dir/steps/$run/running.$run"));
+	              $info["action"] = "";
                     }
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
@@ -147,6 +193,7 @@ class listController extends viewcontroller {
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
                 }
+              }
             }
             if ($lang_pair_hash[$key]["has_engines"]) {
               usort($lang_pair_hash[$key]["engines"], 'run_cmp');
@@ -172,9 +219,8 @@ class listController extends viewcontroller {
     }
 }
 function run_cmp($a,$b) {
-  if ($a["run"] == $b["run"]) return 0;
-    return $a["run"] < $b["run"] ? 1 : -1;
-  }
+  if ($a["run"] == $b["run"]) { return 0; }
+  return $a["run"] < $b["run"] ? 1 : -1;
 }
 
 ?>

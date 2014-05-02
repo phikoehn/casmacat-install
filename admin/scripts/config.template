@@ -2,6 +2,8 @@
 ### CONFIGURATION FILE FOR AN SMT EXPERIMENT ###
 ################################################
 
+# JSON: <XXX INFO>
+
 [GENERAL]
 
 ### directory in which experiment is run

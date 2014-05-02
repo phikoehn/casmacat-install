@@ -22,7 +22,7 @@ function changeLanguagePair() {
       $('#upload').css('display', 'table-row');
       $('#corpus-table').css('display', 'table-row');
       refreshCorpusTable();
-      $('#public-corpora').html('<a href="#" onclick="showPublicCorpora();">Public corpora</a>');
+      $('#public-corpora').html('<a href="javascript:showPublicCorpora();">Public corpora</a>');
     }
     currentInputExtension = inputExtension;
     currentOutputExtension = outputExtension;
@@ -88,6 +88,19 @@ function uploadPublicCorpus( id, url, name ) {
            success: function(remoteData) {
              $(id).html(remoteData);
              refreshCorpusTable();
+  }});
+}
+
+// setup form to select prior settings
+
+function refreshPriorSettingSelection() {
+  var inputExtension = $('[name="input-extension"]').val();
+  var outputExtension = $('[name="output-extension"]').val();
+  $.ajax({ url: '/?action=buildEngine&do=get-prior-settings&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
+           method: 'get',
+           dataType: 'json',
+           success: function(remoteData) {
+             alert('got prior settings: ' + remoteData);
   }});
 }
 

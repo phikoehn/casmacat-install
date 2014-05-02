@@ -27,12 +27,13 @@
 </div>
 <div tal:condition="lang_pair/has_building">
 <h3>Building</h3>
-<table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Status</td><td>Started</td></tr>
+<table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Status</td><td>Started</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/exp_building">
 <td tal:content="run/run"></td>
 <td tal:content="run/name"></td>
 <td tal:content="run/status"></td>
 <td tal:content="run/time_started"></td>
+<td tal:content="structure run/action"></td>
 </tr></table>
 </div>
 </div>

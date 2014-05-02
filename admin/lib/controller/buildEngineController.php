@@ -133,6 +133,12 @@ class buildEngineController extends viewcontroller {
           }
         }
       }
+      function id_cmp($a,$b) {
+         if ($a["id"] < $b["id"]) return -1;
+         if ($a["id"] > $b["id"]) return  1;
+         return 0;
+      }
+      usort($corpora,"id_cmp");
       $this->template->corpora = $corpora;
       $this->template->haveCorpora = count($corpora);
       $this->template->haveNoCorpora = (count($corpora) == 0);
@@ -152,7 +158,7 @@ class buildEngineController extends viewcontroller {
           $this->msg .= "<tr><td><a href=\"".$corpus->info_link."\" target=\"_blank\" title=\"".$corpus->info."\">".$corpus->name."</a></td>";
           $this->msg .= "<td align=\"right\">".number_format($corpus->segments)."</td>";
           $this->msg .= "<td align=\"center\">".$corpus->publisher."</td>";
-          $this->msg .= "<td id=\"upload-public-$id\"><a href=\"#\" onclick=\"uploadPublicCorpus('#upload-public-$id','".$corpus->url."','".$corpus->name."');\">upload</a></td></tr>";
+          $this->msg .= "<td id=\"upload-public-$id\"><a href=\"javascript:uploadPublicCorpus('#upload-public-$id','".$corpus->url."','".$corpus->name."');\">upload</a></td></tr>";
         }
         $this->msg .= "</table>";
       }

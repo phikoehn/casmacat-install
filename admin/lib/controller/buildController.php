@@ -27,8 +27,12 @@ class buildController extends viewcontroller {
       $buildCmd .= " -name '$name'";
 
       foreach($_POST["corpus"] as $corpus ) {
-        $buildCmd .= " -corpus $corpus >/tmp/build_status &";
+        $buildCmd .= " -corpus $corpus";
       }
+
+      $buildCmd .= " -info '".json_encode($_POST)."'";
+
+      $buildCmd .= " >/tmp/build_status &";
 
       exec($buildCmd);
       $this->msg = $buildCmd;

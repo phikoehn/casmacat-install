@@ -7,7 +7,7 @@ use Getopt::Long "GetOptions";
 
 my $dir = "/opt/casmacat/admin/scripts";
 
-my ($HELP,$F,$E,@CORPUS,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME) = @_;
+my ($HELP,$F,$E,@CORPUS,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME,$INFO) = @_;
 my %LINE_COUNT;
 
 $HELP = 1
@@ -17,6 +17,7 @@ $HELP = 1
 		       'evaluation-corpus=s' => \$EVALUATION_CORPUS,
 		       'evaluation-select=s' => \$EVALUATION_SELECT,
 		       'name=s' => \$NAME,
+		       'info=s' => \$INFO,
 		       'f=s' => \$F,
 		       'e=s' => \$E);
 
@@ -30,6 +31,7 @@ my $corpus_dir = "/opt/casmacat/data/$F-$E";
 my %CONFIG;
 $CONFIG{"E"} = $E;
 $CONFIG{"F"} = $F;
+$CONFIG{"INFO"} = $INFO;
 
 # evaluation
 my %USED_IN_TUNING_OR_EVAL;
@@ -119,6 +121,7 @@ foreach my $id (@CORPUS) {
     $CONFIG{"LM"} .= "raw-corpus = $data_dir/$name.$E\n";
   }
 }
+
 
 # customize the configuration template 
 open(TEMPLATE,"$dir/config.template");
