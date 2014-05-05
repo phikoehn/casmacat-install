@@ -23,6 +23,7 @@ function changeLanguagePair() {
       $('#corpus-table').css('display', 'table-row');
       refreshCorpusTable();
       $('#public-corpora').html('<a href="javascript:showPublicCorpora();">Public corpora</a>');
+      refreshPreviousSettings();
     }
     currentInputExtension = inputExtension;
     currentOutputExtension = outputExtension;
@@ -93,15 +94,50 @@ function uploadPublicCorpus( id, url, name ) {
 
 // setup form to select prior settings
 
-function refreshPriorSettingSelection() {
+function refreshPreviousSettings() {
   var inputExtension = $('[name="input-extension"]').val();
   var outputExtension = $('[name="output-extension"]').val();
-  $.ajax({ url: '/?action=buildEngine&do=get-prior-settings&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
+  $.ajax({ url: '/?action=buildEngine&do=get-previous-settings&input-extension=' + inputExtension + '&output-extension=' + outputExtension,
            method: 'get',
            dataType: 'json',
            success: function(remoteData) {
-             alert('got prior settings: ' + remoteData);
+             $("#previous-settings").html('Previous setting <select name="previous-settings" id="previous-setting-options" onchange="reUsePreviousSetting();"><option selected="selected" value="0">none</option></select>');
+             for (var run in remoteData) {
+               var option = $('<option/>', { value:JSON.stringify(remoteData[run]), text:run });
+               $("#previous-setting-options").append(option);
+             } 
   }});
+}
+
+function reUsePreviousSetting() {
+  var json = $('select[id=previous-setting-options]').val();
+  var setting = $.parseJSON( json );
+  for (var parameter in setting) {
+    // special case corpus - multiple values
+    if (parameter == "corpus") {
+      $("input[name='corpus[]']").prop('checked',false);
+      for (var i in setting[parameter]) {
+        $("input[name='corpus[]'][value=" + setting[parameter][i] + "]").prop('checked','checked');
+      }
+    }
+    // radio buttons
+    else if (parameter == "tuning-select") {
+      $('input[name=tuning-select][value=' + setting[parameter] + ']').prop('checked','checked');
+      refreshDevCount("#tuning");
+    }
+    else if (parameter == "evaluation-select") {
+      $('input[name=evaluation-select][value=' + setting[parameter] + ']').prop('checked','checked');
+      refreshDevCount("#evaluation");
+    }
+    // all others (except the ones to be ignored)
+    else if (parameter != "input-extension" &&
+             parameter != "output-extension" &&
+             parameter != "action" &&
+             parameter != "previous-settings" &&
+             parameter != "submit-build") {
+      $('[name="' + parameter + '"]').val( setting[parameter] );
+    }
+  }
 }
 
 // refresh the table with available corpora
@@ -160,11 +196,11 @@ function refreshTuning() {
     $("#tuning-corpus").append( option );
     $("#evaluation-corpus").append( option.clone() );
   }
-  guessTuningSelect("#tuning");
-  guessTuningSelect("#evaluation");
+  guessDevSelect("#tuning");
+  guessDevSelect("#evaluation");
 }
 
-function guessTuningSelect( field ) {
+function guessDevSelect( field ) {
   tuningCorpusId = $("select"+field+"-corpus option").filter(":selected").val();
   var corpusList = getCorpusList();
   for(var i=0; i<corpusList.length; i++) {
@@ -176,12 +212,12 @@ function guessTuningSelect( field ) {
       else {
         $(field+"-select-all").prop("checked", true);
       }
-      refreshTuningCount( field );
+      refreshDevCount( field );
     }
   }
 }
 
-function refreshTuningCount( field ) {
+function refreshDevCount( field ) {
   if ($(field+"-select-select").prop("checked")) {
     $(field+"-count").removeAttr("disabled");
   }

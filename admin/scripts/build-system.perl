@@ -49,7 +49,7 @@ $CONFIG{"TUNING_REFERENCE_SGM"} = $name."-ref.sgm";
 sub create_dev {
   my ($type,$select,$corpus) = @_;
   if (defined($select)) {
-    return &create_subsample("tuning",$corpus,$select,\%{$USED_IN_TUNING_OR_EVAL{$corpus}});
+    return &create_subsample($type,$corpus,$select,\%{$USED_IN_TUNING_OR_EVAL{$corpus}});
   }
 
   if (! -e "$corpus_dir/$corpus-src.sgm") {
@@ -64,6 +64,7 @@ sub create_dev {
     my $i=1;
     while(my $e = <E>) {
       my $f = <F>;
+      next if &is_too_long($e,$f);
       print F_SGM "<seg id=\$i\">$f</seg>\n";
       print E_SGM "<seg id=\$i\">$e</seg>\n";
       $i++;
@@ -206,15 +207,16 @@ sub create_subsample {
   my $step = $total/$count;
   my $name = "$data_dir/$type-$corpus-$count";
   $name =~ tr/A-Z/a-z/;
-  &create_subsample_file("$corpus_dir/$corpus.$F","$name-src.sgm",$offset,$step);
-  &create_subsample_file("$corpus_dir/$corpus.$E","$name-ref.sgm",$offset,$step,$USED);
+  &create_subsample_file("$corpus_dir/$corpus.$F","$corpus_dir/$corpus.$E","$name-src.sgm",$offset,$step);
+  &create_subsample_file("$corpus_dir/$corpus.$E","$corpus_dir/$corpus.$F","$name-ref.sgm",$offset,$step,$USED);
   return $name;
 }
 
 sub create_subsample_file {
-  my ($in,$out,$offset,$step,$USED) = @_;
+  my ($in,$parallel,$out,$offset,$step,$USED) = @_;
   my $write = 1;
   open(IN,$in);
+  open(PARALLEL,$parallel);
   if (-e $out) { 
     open(OUT,">/dev/null");
   }
@@ -234,7 +236,8 @@ sub create_subsample_file {
   my @USED;
   while(<IN>) {
     chomp;
-    if ($line >= $next+$offset && !defined($$USED{$line})) {
+    my $parallel = <PARALLEL>;
+    if ($line >= $next+$offset && !defined($$USED{$line}) && !&is_too_long($_,$parallel)) {
       $$USED{$line}++;
       print OUT "<seg id=$line>$_</seg>\n";
       $next += $step;
@@ -250,6 +253,13 @@ sub create_subsample_file {
   close(OUT);
   close(IN);
   return @USED;
+}
+
+sub is_too_long {
+  my ($e,$f) = @_;
+  return 1 if scalar(split(/\s+/,$e)) > 100;
+  return 1 if scalar(split(/\s+/,$f)) > 100;
+  return 0;
 }
 
 # could also get that out of the info file...

@@ -7,8 +7,6 @@
 <input type="hidden" name="action" value="build"/>
 <table class="keyvaluetable">
 
-<tr><td>Name</td>
-<td><input name="name" size="40" /></td></tr>
 
 <tr><td>Input language</td>
 <td><select name="input-extension" onchange="changeLanguagePair()">
@@ -34,18 +32,24 @@
 
 <tr id="corpus-table" style="display:none"><td valign="top">Corpora</td><td id="corpus-table-content"></td></tr>
 
+<tr class="config"><td>Re-Use</td>
+<td id="previous-settings"></td></tr>
+
 <tr class="config" style="display:none"><td>Tuning set</td>
 <td><select id="tuning-corpus" name="tuning-corpus" onChange="guessTuningSelect('#tuning');"></select> 
-    <input id="tuning-select-all" type="radio" name="tuning-select" value="all" checked="checked" onChange="refreshTuningCount('#tuning');"/> all 
-    <input id="tuning-select-select" type="radio" name="tuning-select" value="select" onChange="refreshTuningCount('#tuning');"/> select 
-    <select id="tuning-count" name="tuning-count" onChange="$('#tuning-select-select').attr('checked', true);"><option>500</option><option selected="selected">1000</option><option>2000</option></select>
+    <input id="tuning-select-all" type="radio" name="tuning-select" value="all" checked="checked" onChange="refreshDevCount('#tuning');"/> all 
+    <input id="tuning-select-select" type="radio" name="tuning-select" value="select" onChange="refreshDevCount('#tuning');"/> select 
+    <select id="tuning-count" name="tuning-count"><option>500</option><option selected="selected">1000</option><option>2000</option></select>
 </td></tr>
 <tr class="config" style="display:none"><td>Evaluation set</td>
 <td><select id="evaluation-corpus" name="evaluation-corpus" onChange="guessTuningSelect('#evaluation');"></select> 
-    <input id="evaluation-select-all" type="radio" name="evaluation-select" value="all" checked="checked" onChange="refreshTuningCount('#evaluation');"/> all 
-    <input id="evaluation-select-select" type="radio" name="evaluation-select" value="select" onChange="refreshTuningCount('#evaluation');"/> select 
-    <select id="evaluation-count" name="evaluation-count" onChange="$('#evaluation-select-select').attr('checked', true);"><option>500</option><option selected="selected">1000</option><option>2000</option></select>
+    <input id="evaluation-select-all" type="radio" name="evaluation-select" value="all" checked="checked" onChange="refreshDevCount('#evaluation');"/> all 
+    <input id="evaluation-select-select" type="radio" name="evaluation-select" value="select" onChange="refreshDevCount('#evaluation');"/> select 
+    <select id="evaluation-count" name="evaluation-count"><option>500</option><option selected="selected">1000</option><option>2000</option></select>
 </td></tr>
+
+<tr class="config"><td>Name</td>
+<td><input name="name" size="40" /></td></tr>
 
 <tr class="config" style="display:none"><td>&nbsp;</td><td><input id="submit-build" name="submit-build" type="submit" value="build"/></td></tr>
 </table>

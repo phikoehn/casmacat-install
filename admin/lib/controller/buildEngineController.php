@@ -17,6 +17,9 @@ class buildEngineController extends viewcontroller {
       else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload-public') {
         parent::makeTemplate("_empty.html");
       }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'get-previous-settings') {
+        parent::makeTemplate("_empty.html");
+      }
       else {
         parent::makeTemplate("buildEngine.html");
       }
@@ -31,6 +34,9 @@ class buildEngineController extends viewcontroller {
       }
       else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload-public') {
         $this->uploadPublic();
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'get-previous-settings') {
+        $this->getPreviousSettings();
       }
     }
 
@@ -171,6 +177,22 @@ class buildEngineController extends viewcontroller {
       $this->msg .= "uploaded";
     }
 
+    public function getPreviousSettings() {
+      global $exp_dir;
+      $response = array();
+      exec("ls $exp_dir/".$_GET["input-extension"]."-".$_GET["output-extension"]."/steps/*/config*", $configFile);
+      foreach( $configFile as $file ) {
+        preg_match("/steps\/(\d+)\//",$file,$match);
+        $run = $match[1];
+        $json_line = array();
+        exec("grep JSON $file",$json_line);
+        if (preg_match("/JSON: (.+)/",$json_line[0],$match)) {
+          $response[$run] = json_decode($match[1]);
+        }
+      }
+      $this->msg = json_encode($response);
+    }
+
     public function setTemplateVars() {
       if (array_key_exists("do",$_GET) && $_GET['do'] == 'corpus-table') {
         $this->buildCorpusTable();
@@ -182,6 +204,9 @@ class buildEngineController extends viewcontroller {
         $this->template->msg = $this->msg;
       }
       else if (array_key_exists("do",$_GET) && $_GET['do'] == 'upload-public') {
+        $this->template->msg = $this->msg;
+      }
+      else if (array_key_exists("do",$_GET) && $_GET['do'] == 'get-previous-settings') {
         $this->template->msg = $this->msg;
       }
       else {
