@@ -1,9 +1,18 @@
 <?php
   global $language, $data_dir,$exp_dir,$id,$alert;
-  $language = array( "en" => "English",
-                     "fr" => "French",
+  $language = array( "da" => "Danish",
+                     "nl" => "Dutch",
+                     "cs" => "Czech",
+                     "en" => "English",
                      "de" => "German",
-                     "es" => "Spanish" );
+                     "el" => "Greek",
+		     "hu" => "Hungarian",
+                     "fi" => "Finnish",
+                     "it" => "Italian",
+                     "fr" => "French",
+                     "pt" => "Portuguese",
+                     "es" => "Spanish",
+                     "sv" => "Swedish" );
   $data_dir = "/opt/casmacat/data";
   $exp_dir = "/opt/casmacat/experiment";
   $engine_dir = "/opt/casmacat/engines";
