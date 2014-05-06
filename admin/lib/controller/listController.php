@@ -190,6 +190,7 @@ class listController extends viewcontroller {
                   else {
                     $lang_pair_hash[$key]["has_building"] = 1;
                     $info["status"] = "starting";
+	            $info["action"] = "";
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
                 }
