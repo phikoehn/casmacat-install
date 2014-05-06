@@ -10,12 +10,14 @@ function changeLanguagePair() {
     // hide
     $('#upload').css('display', 'none');
     $('#corpus-table').css('display', 'none');
+    $('.config').css('display', 'none');
   }
   else if (inputExtension != currentInputExtension || currentOutputExtension != outputExtension) {
     if (inputExtension == outputExtension) { 
       // same languages -> hide
       $('#upload').css('display', 'none');
       $('#corpus-table').css('display', 'none');
+      $('.config').css('display', 'none');
     }
     else {
       // show and refresh
@@ -24,6 +26,7 @@ function changeLanguagePair() {
       refreshCorpusTable();
       $('#public-corpora').html('<a href="javascript:showPublicCorpora();">Public corpora</a>');
       refreshPreviousSettings();
+      refreshConfig();
     }
     currentInputExtension = inputExtension;
     currentOutputExtension = outputExtension;
@@ -151,23 +154,20 @@ function refreshCorpusTable() {
            dataType: 'text',
            success: function(remoteData) {
              $("#corpus-table-content").html(remoteData);
-             if ($('#have-corpora').length) {
-               refreshConfig();
-             }
+             refreshConfig();
   }});
 }
 
 // refresh the configuration settings
 
 function refreshConfig() {
-  $('#have-corpora').each(function() {
-    $(this).find('td input:checked').each(function () {
-      alert(this);
-    });
-  });
-
-  refreshTuning();
-  $('.config').css('display', 'table-row');
+  if ($('#have-corpora').length) {
+    refreshTuning();
+    $('.config').css('display', 'table-row');
+  }
+  else {
+    $('.config').css('display', 'none');
+  }
 }
 
 // get a list of corpora from table
@@ -231,6 +231,9 @@ function refreshDevField( field ) {
     if (corpusList[i].id == devCorpusId) {
       corpus = corpusList[i];
     }
+  }
+  if (!corpus) {
+    return;
   }
 
   // can't have same full corpus for tuning and evaluation

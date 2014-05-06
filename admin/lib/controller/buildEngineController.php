@@ -160,8 +160,11 @@ class buildEngineController extends viewcontroller {
       else {
         $this->msg = "<table border=\"1\" cellspacing=\"0\" width=\"100%\" class=\"corpustable\"><tr><td><b>Name</b></td><td align=\"right\"><b>Segments</b></td><td><b>Publisher</b></td><td>&nbsp;</td></tr>";
         foreach ($corpus_list as $id => $corpus) {
-          //$this->msg .= "<tr><td>".var_export($corpus)."</td></tr>";
-          $this->msg .= "<tr><td><a href=\"".$corpus->info_link."\" target=\"_blank\" title=\"".$corpus->info."\">".$corpus->name."</a></td>";
+          $this->msg .= "<tr><td><a href=\"".$corpus->info_link."\" target=\"_blank\" title=\"".$corpus->info."\">".$corpus->name."</a>";
+          if ($corpus->source != $_GET["input-extension"] || $corpus->target != $_GET["output-extension"]) {
+            $this->msg .= " (" . $corpus->source . "-" . $corpus->target . ")";
+          }
+          $this->msg .= "</td>";
           $this->msg .= "<td align=\"right\">".number_format($corpus->segments)."</td>";
           $this->msg .= "<td align=\"center\">".$corpus->publisher."</td>";
           $this->msg .= "<td id=\"upload-public-$id\"><a href=\"javascript:uploadPublicCorpus('#upload-public-$id','".$corpus->url."','".$corpus->name."');\">upload</a></td></tr>";

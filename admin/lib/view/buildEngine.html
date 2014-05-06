@@ -35,14 +35,14 @@
 <tr class="config"><td>Re-Use</td>
 <td id="previous-settings"></td></tr>
 
-<tr class="config" style="display:none"><td valign="top">Tuning set</td>
+<tr class="config"><td valign="top">Tuning set</td>
 <td><select id="tuning-corpus" name="tuning-corpus" onChange="guessDevSelect('#tuning');"></select> 
     <input id="tuning-select-all" type="radio" name="tuning-select" value="all" checked="checked" onChange="refreshDev();"/> all 
     <input id="tuning-select-select" type="radio" name="tuning-select" value="select" onChange="refreshDev();"/> select 
     <select id="tuning-count" name="tuning-count" onChange="refreshDev();"><option>500</option><option selected="selected">1000</option><option>2000</option><option>3000</option></select>
     <div id="tuning-alert" class="alert"></div>
 </td></tr>
-<tr class="config" style="display:none"><td valign="top">Evaluation set</td>
+<tr class="config"><td valign="top">Evaluation set</td>
 <td><select id="evaluation-corpus" name="evaluation-corpus" onChange="guessDevSelect('#evaluation');"></select> 
     <input id="evaluation-select-all" type="radio" name="evaluation-select" value="all" checked="checked" onChange="refreshDev();"/> all 
     <input id="evaluation-select-select" type="radio" name="evaluation-select" value="select" onChange="refreshDev();"/> select 
@@ -53,7 +53,7 @@
 <tr class="config"><td>Name</td>
 <td><input name="name" size="40" /></td></tr>
 
-<tr class="config" style="display:none"><td>&nbsp;</td><td><input id="submit-build" name="submit-build" type="submit" value="build"/></td></tr>
+<tr class="config"><td>&nbsp;</td><td><input id="submit-build" name="submit-build" type="submit" value="build"/></td></tr>
 </table>
 </form>
 <script language="javascript" src="/lib/js/buildEngine.js"></script>
