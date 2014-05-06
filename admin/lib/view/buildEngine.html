@@ -35,17 +35,19 @@
 <tr class="config"><td>Re-Use</td>
 <td id="previous-settings"></td></tr>
 
-<tr class="config" style="display:none"><td>Tuning set</td>
-<td><select id="tuning-corpus" name="tuning-corpus" onChange="guessTuningSelect('#tuning');"></select> 
-    <input id="tuning-select-all" type="radio" name="tuning-select" value="all" checked="checked" onChange="refreshDevCount('#tuning');"/> all 
-    <input id="tuning-select-select" type="radio" name="tuning-select" value="select" onChange="refreshDevCount('#tuning');"/> select 
-    <select id="tuning-count" name="tuning-count"><option>500</option><option selected="selected">1000</option><option>2000</option></select>
+<tr class="config" style="display:none"><td valign="top">Tuning set</td>
+<td><select id="tuning-corpus" name="tuning-corpus" onChange="guessDevSelect('#tuning');"></select> 
+    <input id="tuning-select-all" type="radio" name="tuning-select" value="all" checked="checked" onChange="refreshDev();"/> all 
+    <input id="tuning-select-select" type="radio" name="tuning-select" value="select" onChange="refreshDev();"/> select 
+    <select id="tuning-count" name="tuning-count" onChange="refreshDev();"><option>500</option><option selected="selected">1000</option><option>2000</option><option>3000</option></select>
+    <div id="tuning-alert" class="alert"></div>
 </td></tr>
-<tr class="config" style="display:none"><td>Evaluation set</td>
-<td><select id="evaluation-corpus" name="evaluation-corpus" onChange="guessTuningSelect('#evaluation');"></select> 
-    <input id="evaluation-select-all" type="radio" name="evaluation-select" value="all" checked="checked" onChange="refreshDevCount('#evaluation');"/> all 
-    <input id="evaluation-select-select" type="radio" name="evaluation-select" value="select" onChange="refreshDevCount('#evaluation');"/> select 
-    <select id="evaluation-count" name="evaluation-count"><option>500</option><option selected="selected">1000</option><option>2000</option></select>
+<tr class="config" style="display:none"><td valign="top">Evaluation set</td>
+<td><select id="evaluation-corpus" name="evaluation-corpus" onChange="guessDevSelect('#evaluation');"></select> 
+    <input id="evaluation-select-all" type="radio" name="evaluation-select" value="all" checked="checked" onChange="refreshDev();"/> all 
+    <input id="evaluation-select-select" type="radio" name="evaluation-select" value="select" onChange="refreshDev();"/> select 
+    <select id="evaluation-count" name="evaluation-count" onChange="refreshDev();"><option>500</option><option selected="selected">1000</option><option>2000</option><option>3000</option></select>
+    <div id="evaluation-alert" class="alert"></div>
 </td></tr>
 
 <tr class="config"><td>Name</td>

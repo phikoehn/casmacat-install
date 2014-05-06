@@ -13,7 +13,7 @@ class indexController extends viewcontroller {
 
       if (array_key_exists("do",$_GET)) {
         if ($_GET['do'] == 'start-mt-server') {
-          exec('scripts/start-mt-server.perl 2> err');
+          exec('scripts/start-mt-server.perl');
         }
         if ($_GET['do'] == 'start-cat-server') {
           exec('scripts/start-cat-server.sh');

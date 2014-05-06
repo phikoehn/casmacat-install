@@ -78,6 +78,10 @@ table.corpustable {
 #public-corpora {
   font-size:11pt;
 }
+.alert {
+  color:#f00;
+  font-size:11pt;
+}
 
 
 .keyvaluetable tr > td:first-child { font-weight: bold; } /* first column */

@@ -123,11 +123,11 @@ function reUsePreviousSetting() {
     // radio buttons
     else if (parameter == "tuning-select") {
       $('input[name=tuning-select][value=' + setting[parameter] + ']').prop('checked','checked');
-      refreshDevCount("#tuning");
+      refreshDev();
     }
     else if (parameter == "evaluation-select") {
       $('input[name=evaluation-select][value=' + setting[parameter] + ']').prop('checked','checked');
-      refreshDevCount("#evaluation");
+      refreshDev();
     }
     // all others (except the ones to be ignored)
     else if (parameter != "input-extension" &&
@@ -178,7 +178,8 @@ function getCorpusList() {
     var corpus = {};
     corpus.id = $(this).find('.corpus-id').html();
     corpus.name = $(this).find('.corpus-name').html();
-    corpus.size = $(this).find('.corpus-size').html();
+    corpus.size = parseInt($(this).find('.corpus-size').html());
+    corpus.used = $(this).find('.corpus-used').is(':checked');
     corpusList.push( corpus );
   });
   return corpusList;
@@ -201,23 +202,72 @@ function refreshTuning() {
 }
 
 function guessDevSelect( field ) {
-  tuningCorpusId = $("select"+field+"-corpus option").filter(":selected").val();
+  devCorpusId = $(field+"-corpus option").filter(":selected").val();
   var corpusList = getCorpusList();
   for(var i=0; i<corpusList.length; i++) {
     var corpus = corpusList[i];
-    if (corpus.id == tuningCorpusId) {
+    if (corpus.id == devCorpusId) {
       if (corpus.size >= 4000) {
         $(field+"-select-select").prop("checked", true);
       }
       else {
         $(field+"-select-all").prop("checked", true);
       }
-      refreshDevCount( field );
     }
   }
+  refreshDev();
 }
 
-function refreshDevCount( field ) {
+function refreshDev() {
+  refreshDevField( '#tuning' );
+  refreshDevField( '#evaluation' );
+}
+
+function refreshDevField( field ) {
+  var devCorpusId = $(field+"-corpus option").filter(":selected").val();
+  var corpusList = getCorpusList();
+  var corpus;
+  for(var i=0; i<corpusList.length; i++) {
+    if (corpusList[i].id == devCorpusId) {
+      corpus = corpusList[i];
+    }
+  }
+
+  // can't have same full corpus for tuning and evaluation
+  var alert = "";
+  var tuningCorpusId = $("#tuning-corpus option").filter(":selected").val();
+  var evaluationCorpusId = $("#evaluation-corpus option").filter(":selected").val();
+  if (tuningCorpusId == evaluationCorpusId && 
+      ($("#tuning-select-all").prop("checked") || $("#evaluation-select-all").prop("checked"))) {
+    alert += "cannot use all of the same corpus for tuning and evaluation</br>";
+  }
+
+  // can't have same full corpus as for training
+  if ($(field + "-select-all").prop("checked") && corpus.used) {
+    alert += "cannot use all of corpus, if also used for training<br/>";
+  }
+
+  // can't have too big of a dev corpus
+  if ($(field + "-select-all").prop("checked") && corpus.size > 5000) {
+    alert += "corpus too large (use max. 3000 segments)<br/>";
+  }
+
+  // can't subsample more than there is
+  if ($(field + "-select-select").prop("checked") && corpus.size < parseInt($(field + "-count").val())) {
+    alert += "cannot select more segments than corpus size (" + corpus.size + ")<br/>";
+  }
+
+  // can't subsample more for tuning and evaluation combined than there is
+  else if (tuningCorpusId == evaluationCorpusId &&
+      $("#tuning-select-select").prop("checked") && $("#evaluation-select-select").prop("checked") &&
+      corpus.size < parseInt($("#tuning-count").val()) + parseInt($("#evaluation-count").val())) {
+    alert += "cannot select more segments (tuning and evaluation) than corpus size (" + corpus.size + ")<br/>";
+  }
+
+  // show alert
+  $(field + "-alert").html(alert);
+
+  // enable / disable subsample size selection
   if ($(field+"-select-select").prop("checked")) {
     $(field+"-count").removeAttr("disabled");
   }
