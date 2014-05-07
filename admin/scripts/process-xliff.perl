@@ -46,7 +46,7 @@ my $stem = $outdir."/".($max+1);
 
 # process the file
 
-if (defined($url)) {
+if (defined($url) || $tmp_file =~ /gz$/) {
   open(XLIFF,"zcat $tmp_file|");
 }
 else {
@@ -54,22 +54,35 @@ else {
 }
 my ($source,$target);
 my $line_count = 0;
+my $next;
 open(E,">$stem.$e");
 open(F,">$stem.$f");
 while(<XLIFF>) {
-   if (/^<source>(.+)<\/source>$/) { # XLIFF
+   if (/^<source>(.+)<\/source>$/i) { # XLIFF
      $source = $1;
    }
-   elsif (/<tuv xml:lang="$f[^\"]*"><seg>(.+)<\/seg><\/tuv>/) { # TMX
+   elsif (/<tuv xml:lang="$f[^\"]*"><seg>(.+)<\/seg><\/tuv>/i) { # TMX
      $source = $1;
    }
-   elsif (/^<target>(.+)<\/target>$/) { # XLIFF
+   elsif (/<tuv xml:lang="$f[^\"]*">\s*$/i) {
+     my $next = <XLIFF>;
+     if ($next =~ /<seg>(.+)<\/seg>/) {
+       $source = $1;
+     }
+   }
+   elsif (/^<target>(.+)<\/target>$/i) { # XLIFF
      $target = $1;
    }
-   elsif (/<tuv xml:lang="$e[^\"]*"><seg>(.+)<\/seg><\/tuv>/) { # TMX
+   elsif (/<tuv xml:lang="$e[^\"]*"><seg>(.+)<\/seg><\/tuv>/i) { # TMX
      $target = $1;
    }
-   elsif (/<\/trans-unit>/ || /<\/tu>/) { 
+   elsif (/<tuv xml:lang="$e[^\"]*">\s*$/i) {
+     my $next = <XLIFF>;
+     if ($next =~ /<seg>(.+)<\/seg>/) {
+       $target = $1;
+     }
+   }
+   elsif (/<\/trans-unit>/i || /<\/tu>/i) { 
      if (defined($source) && defined($target)) {
        print F $source."\n";
        print E $target."\n";
