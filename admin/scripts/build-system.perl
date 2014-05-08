@@ -196,7 +196,7 @@ chdir($exp_dir);
 #my $plan = `/opt/moses/scripts/ems/experiment.perl -config $exp_dir/config -no-graph`;
 #print $plan;
 print "Started, this may take a while.";
-`/opt/moses/scripts/ems/experiment.perl -config $exp_dir/config -no-graph -exec 2>&1 > $exp_dir/OUT.$run`;
+`/opt/moses/scripts/ems/experiment.perl -config $exp_dir/config -no-graph -max-active 1 -sleep 1 -exec 2>&1 > $exp_dir/OUT.$run`;
 
 ### subs
 

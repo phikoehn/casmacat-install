@@ -10,41 +10,52 @@ class listController extends viewcontroller {
     
     public function doAction(){
       if (array_key_exists("deploy-engine",$_GET) && $engine = $_GET["deploy-engine"]) {
-        $handle = fopen("/opt/casmacat/engines/deployed","w");
-        fwrite($handle,$engine."\n");
-        fclose($handle);
-        exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
-        exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
+        $this->deploy($engine);
       }
-      if (array_key_exists("stop-building",$_GET) && $run = $_GET["stop-building"]) {
-        // get information about process tree
-        exec("ps -o \"%p %P %a\"",$process);
-        // pattern to match a running step
-        $pattern = "/\/".$_GET["lp"]."\/steps\/$run\//";
-        foreach ($process as $p) {
-          if (preg_match("/^ *(\d+) +(\d+) +(.+)$/",$p,$match)) {
-            if (preg_match($pattern,$match[3])) {
-              $root = $match[1];
-            }
-            $parent[$match[1]] = $match[2];
-            $child[$match[2]][] = $match[1];
-          } 
-        } 
-        // if there is a process matching the specified language pair and run number...
-        if ($root) {
-          // get the root of the process tree for the experiment
-          while($parent[$root] != 1) {
-            $root = $parent[$root];
-          }
-          // get all processes in the tree
-          $process_list = $this->get_children($root,$child);
-          $killCmd = "kill $process_list"; 
-          exec($killCmd);
-          $this->msg = "Stopped #$run";
-        }
+      else if (array_key_exists("stop-building",$_GET) && $run = $_GET["stop-building"]) {
+        $this->stop_building($run);
+      }
+      else if (array_key_exists("restart",$_GET) && $run = $_GET["restart"]) {
+        $this->restart($run);
       }
     }
     
+    private function deploy($engine) {
+      $handle = fopen("/opt/casmacat/engines/deployed","w");
+      fwrite($handle,$engine."\n");
+      fclose($handle);
+      exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
+      exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
+    }
+
+    private function stop_building($run) {
+      // get information about process tree
+      exec("ps -o \"%p %P %a\"",$process);
+      // pattern to match a running step
+      $pattern = "/\/".$_GET["lp"]."\/steps\/$run\//";
+      foreach ($process as $p) {
+        if (preg_match("/^ *(\d+) +(\d+) +(.+)$/",$p,$match)) {
+          if (preg_match($pattern,$match[3])) {
+            $root = $match[1];
+          }
+          $parent[$match[1]] = $match[2];
+          $child[$match[2]][] = $match[1];
+        } 
+      } 
+      // if there is a process matching the specified language pair and run number...
+      if ($root) {
+        // get the root of the process tree for the experiment
+        while($parent[$root] != 1) {
+          $root = $parent[$root];
+        }
+        // get all processes in the tree
+        $process_list = $this->get_children($root,$child);
+        $killCmd = "kill $process_list"; 
+        exec($killCmd);
+        $this->msg = "Stopped #$run";
+      }
+    }
+
     private function get_children($parent,$child) {
       $list = " ".$parent;
       if (array_key_exists($parent,$child)) {
@@ -53,6 +64,14 @@ class listController extends viewcontroller {
         }
       }
       return $list;
+    }
+
+    private function restart($run) {
+      $deleteCrashedCmd = "cd /opt/casmacat/experiment/".$GET["lp"] ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
+      $continueCmd = "/opt/moses/scripts/ems/experiment.perl -continue $run -no-graph -max-active 1 -sleep 1 -exec 2>&1 > OUT.$run &";
+      exec($deleteCrashedCmd);
+      exec($continueCmd);
+      $this->msg = $deleteCrashedCmd . " ; ".$continueCmd;
     }
 
     private function init_lang_pair($source,$target) {
@@ -183,8 +202,13 @@ class listController extends viewcontroller {
                     else {
                       $info["status"] = "crashed";
                       $info["time_crashed"] = pretty_time(filectime("$lang_dir/steps/$run/running.$run"));
-	              $info["action"] = "";
+	              $info["action"] = "<a href=\"/?action=list&restart=$run&lp=$source-$target\">restart</a>";
                     }
+                    $lang_pair_hash[$key]["exp_building"][] = $info;
+                  }
+                  else if (filectime("$lang_dir/steps/$run/config.$run") < time()-3600) {
+                    $info["status"] = "misconfigured";
+                    $info["action"] = "";
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
                   else {
