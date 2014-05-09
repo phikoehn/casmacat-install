@@ -67,7 +67,7 @@ class listController extends viewcontroller {
     }
 
     private function restart($run) {
-      $deleteCrashedCmd = "cd /opt/casmacat/experiment/".$GET["lp"] ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
+      $deleteCrashedCmd = "cd /opt/casmacat/experiment/".$GET["lp"]." ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
       $continueCmd = "/opt/moses/scripts/ems/experiment.perl -continue $run -no-graph -max-active 1 -sleep 1 -exec 2>&1 > OUT.$run &";
       exec($deleteCrashedCmd);
       exec($continueCmd);
