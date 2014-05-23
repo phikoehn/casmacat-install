@@ -18,6 +18,9 @@ class listController extends viewcontroller {
       else if (array_key_exists("restart",$_GET) && $run = $_GET["restart"]) {
         $this->restart($run);
       }
+      else if (array_key_exists("delete-run",$_GET) && $run = $_GET["delete-run"]) {
+        $this->delete_run($run);
+      }
     }
     
     private function deploy($engine) {
@@ -29,14 +32,16 @@ class listController extends viewcontroller {
     }
 
     private function stop_building($run) {
+      global $exp_dir;
       // get information about process tree
       exec("ps -o \"%p %P %a\"",$process);
       // pattern to match a running step
-      $pattern = "/\/".$_GET["lp"]."\/steps\/$run\//";
+      $pattern = "/\/".$_GET["lp"]."\/steps\/$run\/(\S+\.$run)/";
       foreach ($process as $p) {
         if (preg_match("/^ *(\d+) +(\d+) +(.+)$/",$p,$match)) {
-          if (preg_match($pattern,$match[3])) {
-            $root = $match[1];
+          if (preg_match($pattern,$match[3],$match2)) {
+            $root = $match[1]; // one relevant process - still need to climb up
+            $running_step[] = $match2[1];
           }
           $parent[$match[1]] = $match[2];
           $child[$match[2]][] = $match[1];
@@ -48,11 +53,19 @@ class listController extends viewcontroller {
         while($parent[$root] != 1) {
           $root = $parent[$root];
         }
-        // get all processes in the tree
+	// note steps as killed
+        foreach ($running_step as $s) {
+	  $noteKillCmd = "echo 'killed' >> $exp_dir/".$_GET["lp"]."/steps/$run/$s.STDERR.digest";
+          exec($noteKillCmd);
+        }
+        // get all processes in the tree to be killed
         $process_list = $this->get_children($root,$child);
-        $killCmd = "kill $process_list"; 
+        $killCmd = "kill -9 $process_list"; 
         exec($killCmd);
-        $this->msg = "Stopped #$run";
+	// mark run as stopped
+	$touchCmd = "touch $exp_dir/".$_GET["lp"]."/steps/$run/stopped.$run";
+        exec($touchCmd);
+        $this->msg = "Stopped #$run + $killCmd + $touchCmd";
       }
     }
 
@@ -67,11 +80,20 @@ class listController extends viewcontroller {
     }
 
     private function restart($run) {
-      $deleteCrashedCmd = "cd /opt/casmacat/experiment/".$GET["lp"]." ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
-      $continueCmd = "/opt/moses/scripts/ems/experiment.perl -continue $run -no-graph -max-active 1 -sleep 1 -exec 2>&1 > OUT.$run &";
-      exec($deleteCrashedCmd);
+      chdir("/opt/casmacat/experiment/".$_GET["lp"]);
+      $prepCmd = "rm -f steps/$run/stopped.$run";
+      $prepCmd .= " ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
+      $prepCmd .= " ; touch steps/$run/running.$run";
+      $continueCmd = "/opt/moses/scripts/ems/experiment.perl -continue $run -no-graph -max-active 1 -sleep 1 -exec > OUT.$run 2>&1 &";
+      exec($prepCmd);
       exec($continueCmd);
-      $this->msg = $deleteCrashedCmd . " ; ".$continueCmd;
+      $this->msg = $prepCmd . " ; ".$continueCmd;
+    }
+
+    private function delete_run($run) {
+      $deleteCmd = "cd /opt/casmacat/experiment/".$_GET["lp"]." ; /opt/moses/scripts/ems/experiment.perl -delete-run $run -no-graph -exec";
+      exec($deleteCmd);
+      $this->msg = $deleteCmd;
     }
 
     private function init_lang_pair($source,$target) {
@@ -143,6 +165,7 @@ class listController extends viewcontroller {
             if (!$deployed_flag) {
 	      $info["action"] = "/?action=list&deploy-engine=$engine";
             }
+	    $info["delete"] = "/?action=list&delete-engine=$engine";
 	    $info["not_available"] = 0;
             $lang_pair_hash[$key]["has_engines"] = 1;
             $lang_pair_hash[$key]["engines"][] = $info;
@@ -167,38 +190,51 @@ class listController extends viewcontroller {
               while (false !== ($file = readdir($handle2))) {
                 if (preg_match("/^(\d+)$/",$file,$match) && $match[1]>0) {
                   $run = $match[1];
-                
+
+                  # ignore deleted
+                  if (file_exists("$lang_dir/steps/$run/deleted.$run")) {
+                    continue;
+                  }
+ 
                   # get info on run
 		  $info = array();
 		  $info["time_started"] = pretty_time(filectime("$lang_dir/steps/$run/config.$run"));
 		  $info["run"] = $run;
 	          $info["name"] = $engine_name[$key][$run];
                   $built = array_key_exists($key,$is_engine) && array_key_exists($run,$is_engine[$key]);
+	          $info["delete"] = "/?action=list&delete-run=$run&lp=$source-$target";
+
+                  # successfully completed run
                   if (file_exists("$lang_dir/evaluation/report.$run")) {
                     $info["status"] = "done";
                     $info["time_done"] = pretty_time(filectime("$lang_dir/evaluation/report.$run"));
 		    $info["deployed"] = 0;
 		    $info["available"] = 0; # todo
 		    $info["not_available"] = 1; # todo
-		    $info["action"] = "/?action=createEngine&input-extension=$source&output-extension=$target&run=$run";
-                    if (!$built) {
-                      $lang_pair_hash[$key]["has_done"] = 1;
-                      $lang_pair_hash[$key]["exp_done"][] = $info;
-                    }
+                    
+		    $info["create"] = ($built) ? 0 : "/?action=createEngine&input-extension=$source&output-extension=$target&run=$run";
+                    $lang_pair_hash[$key]["has_done"] = 1;
+                    $lang_pair_hash[$key]["exp_done"][] = $info;
                   }
+
+		  # various stages of building
                   else if (file_exists("$lang_dir/steps/$run/running.$run")) {
                     $lang_pair_hash[$key]["has_building"] = 1;
-                    if (filectime("$lang_dir/steps/$run/running.$run")+60 > time()) {
-                      if (array_key_exists("stop-building",$_GET) && $_GET["stop-building"] == $run && 
-                          array_key_exists("lpg",$_GET) && $_GET["lp"] = "$source-$target") {
-                        $info["action"] = "";
-                        $info["status"] = "stopped";
-                      }
-                      else {
-	                $info["action"] = "<a href=\"/?action=list&stop-building=$run&lp=$source-$target\">stop</a>";
-                        $info["status"] = "building";
-                      }
+
+		    # stopped
+                    if (file_exists("$lang_dir/steps/$run/stopped.$run")) {
+                      $info["status"] = "stopped";
+	              $info["action"] = "<a href=\"/?action=list&restart=$run&lp=$source-$target\">restart</a>";
                     }
+		
+		    # actively building
+                    else if (filectime("$lang_dir/steps/$run/running.$run")+60 > time()) {
+	              $info["action"] = "<a href=\"/?action=list&stop-building=$run&lp=$source-$target\">stop</a>";
+                      $info["status"] = "building";
+	 	      $info["delete"] = 0;
+                    }
+
+		    # crashed
                     else {
                       $info["status"] = "crashed";
                       $info["time_crashed"] = pretty_time(filectime("$lang_dir/steps/$run/running.$run"));
@@ -206,16 +242,21 @@ class listController extends viewcontroller {
                     }
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
+
+		  # not properly started -> old: misconfigured
                   else if (filectime("$lang_dir/steps/$run/config.$run") < time()-3600) {
                     $info["status"] = "misconfigured";
                     $info["action"] = "";
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
+
+		  # ... -> new: still starting up
                   else {
                     $lang_pair_hash[$key]["has_building"] = 1;
                     $info["status"] = "starting";
 	            $info["action"] = "";
                     $lang_pair_hash[$key]["exp_building"][] = $info;
+		    $info["delete"] = 0;
                   }
                 }
               }

@@ -142,6 +142,9 @@ if (-e "$exp_dir/steps") {
     chop($old_run);
     next if $old_run == 0;
     $max_run = $old_run if $old_run > $max_run;
+    # check if old run is deleted
+    my $old_deleted = "$exp_dir/steps/$old_run/deleted.$old_run";
+    next if -e $old_deleted;
     # check against old configuration file
     my $old_config = "$exp_dir/steps/$old_run/config.$old_run";
     next unless -e $old_config;

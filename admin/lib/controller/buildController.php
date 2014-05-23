@@ -30,6 +30,7 @@ class buildController extends viewcontroller {
         $buildCmd .= " -corpus $corpus";
       }
 
+      $_POST["previous-settings"] = ""; # TODO: delete array element instead
       $buildCmd .= " -info '".json_encode($_POST)."'";
 
       $buildCmd .= " >/tmp/build_status &";

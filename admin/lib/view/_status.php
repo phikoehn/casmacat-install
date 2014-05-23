@@ -10,12 +10,14 @@
             if (preg_match("/^(\d+)$/",$file,$match) && $match[1]>0) {
               $run = $match[1];
               if (!file_exists("$lang_dir/evaluation/report.$run") &&
+                  !file_exists("$lang_dir/steps/$run/stopped.$run") &&
                   file_exists("$lang_dir/steps/$run/running.$run")) {
                 if (filectime("$lang_dir/steps/$run/running.$run")+60 > time()) {
                   $log = file("$lang_dir/OUT.$run");
                   $steps_to_run = 0;
                   foreach($log as $line) {
-                    if (preg_match("/\s*\-\>\s*run$/",$line)) {
+                    if (preg_match("/\s*\-\>\s*run$/",$line) ||
+			preg_match("/\s*\-\>\s*re-using \($run\)/",$line)) {
                       $steps_to_run++;
                     }
                   }

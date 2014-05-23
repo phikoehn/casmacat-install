@@ -3,8 +3,10 @@
 <p tal:content="msg"></p>
 <div tal:repeat="lang_pair list">
 <h2 tal:content="lang_pair/name"></h2>
+
 <div tal:condition="lang_pair/has_engines">
 <h3>Available Engines</h3>
+
 <table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Build date</td><td>Size</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/engines">
 <td tal:content="run/run"></td>
@@ -12,19 +14,24 @@
 <td tal:content="run/time_started"></td>
 <td tal:content="run/size"></td>
 <td tal:condition="run/deployed">deployed</td>
-<td tal:condition="run/available"><a tal:attributes="href run/action">deploy</a></td>
+<td tal:condition="run/available"><a tal:attributes="href run/action">deploy</a>
+<a tal:condition="run/delete" tal:attributes="href run/delete">delete</a></td>
 </tr></table>
 </div>
+
 <div tal:condition="lang_pair/has_done">
-<h3>Built Systems</h3>
+<h3>Built Prototypes</h3>
+
 <table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Build date</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/exp_done">
 <td tal:content="run/run"></td>
 <td tal:content="run/name"></td>
 <td tal:content="run/time_started"></td>
-<td><a tal:attributes="href run/action">create engine</a></td>
+<td><a tal:condition="run/create" tal:attributes="href run/create">create engine</a>
+<a tal:condition="run/delete" tal:attributes="href run/delete">delete</a></td>
 </tr></table>
 </div>
+
 <div tal:condition="lang_pair/has_building">
 <h3>Building</h3>
 <table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Status</td><td>Started</td><td>Action</td></tr>
@@ -33,7 +40,8 @@
 <td tal:content="run/name"></td>
 <td tal:content="run/status"></td>
 <td tal:content="run/time_started"></td>
-<td tal:content="structure run/action"></td>
+<td><div tal:content="structure run/action"></div>
+<a tal:condition="run/delete" tal:attributes="href run/delete">delete</a></td>
 </tr></table>
 </div>
 </div>

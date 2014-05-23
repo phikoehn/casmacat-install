@@ -187,6 +187,9 @@ class buildEngineController extends viewcontroller {
       foreach( $configFile as $file ) {
         preg_match("/steps\/(\d+)\//",$file,$match);
         $run = $match[1];
+        if (file_exists("$exp_dir/".$_GET["input-extension"]."-".$_GET["output-extension"]."/steps/$run/deleted.$run")) {
+          $run .= " (deleted)";
+        }
         $json_line = array();
         exec("grep JSON $file",$json_line);
         if (preg_match("/JSON: (.+)/",$json_line[0],$match)) {
