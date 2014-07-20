@@ -2,6 +2,7 @@
 
 class listController extends viewcontroller {
     private $msg = '';
+    private $lp2id = array();
 
     public function __construct() {
         parent::__construct();
@@ -15,8 +16,8 @@ class listController extends viewcontroller {
       else if (array_key_exists("stop-building",$_GET) && $run = $_GET["stop-building"]) {
         $this->stop_building($run);
       }
-      else if (array_key_exists("restart",$_GET) && $run = $_GET["restart"]) {
-        $this->restart($run);
+      else if (array_key_exists("resume",$_GET) && $run = $_GET["resume"]) {
+        $this->resume($run);
       }
       else if (array_key_exists("delete-run",$_GET) && $run = $_GET["delete-run"]) {
         $this->delete_run($run);
@@ -79,7 +80,7 @@ class listController extends viewcontroller {
       return $list;
     }
 
-    private function restart($run) {
+    private function resume($run) {
       chdir("/opt/casmacat/experiment/".$_GET["lp"]);
       $prepCmd = "rm -f steps/$run/stopped.$run";
       $prepCmd .= " ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
@@ -88,6 +89,7 @@ class listController extends viewcontroller {
       exec($prepCmd);
       exec($continueCmd);
       $this->msg = $prepCmd . " ; ".$continueCmd;
+      chdir("/opt/casmacat/admin");
     }
 
     private function delete_run($run) {
@@ -105,6 +107,7 @@ class listController extends viewcontroller {
       $lang_pair["has_building"] = 0;
       $lang_pair["has_engines"] = 0;
       $lang_pair["has_done"] = 0;
+      $lang_pair["inspect_link"] = "/inspect/?setup=".$this->lp2id["$source-$target"];;
       return $lang_pair;
     }
 
@@ -118,6 +121,7 @@ class listController extends viewcontroller {
       foreach($setup_file as $line) {
         if (preg_match("/^(\d+).+\/([a-z]{2}\-[a-z]{2})$/",$line,$match)) {
           $id2lp[$match[1]] = $match[2];
+          $this->lp2id[$match[2]] = $match[1];
         }
       }
       $comment_file = file("inspect/comment");
@@ -190,6 +194,7 @@ class listController extends viewcontroller {
               while (false !== ($file = readdir($handle2))) {
                 if (preg_match("/^(\d+)$/",$file,$match) && $match[1]>0) {
                   $run = $match[1];
+		  $setup_id = $this->lp2id[$key];
 
                   # ignore deleted
                   if (file_exists("$lang_dir/steps/$run/deleted.$run")) {
@@ -200,9 +205,10 @@ class listController extends viewcontroller {
 		  $info = array();
 		  $info["time_started"] = pretty_time(filectime("$lang_dir/steps/$run/config.$run"));
 		  $info["run"] = $run;
-	          $info["name"] = $engine_name[$key][$run];
+	          $info["name"] = "<a id=\"run-name-$setup_id-$run\" href='javascript:createCommentBox(\"$setup_id-$run\");'>".$engine_name[$key][$run]."</a>";
                   $built = array_key_exists($key,$is_engine) && array_key_exists($run,$is_engine[$key]);
 	          $info["delete"] = "/?action=list&delete-run=$run&lp=$source-$target";
+		  $info["inspect_graph_link"] = "/inspect/?setup=$setup_id&show=graph.$run.png";
 
                   # successfully completed run
                   if (file_exists("$lang_dir/evaluation/report.$run")) {
@@ -224,7 +230,7 @@ class listController extends viewcontroller {
 		    # stopped
                     if (file_exists("$lang_dir/steps/$run/stopped.$run")) {
                       $info["status"] = "stopped";
-	              $info["action"] = "<a href=\"/?action=list&restart=$run&lp=$source-$target\">restart</a>";
+	              $info["action"] = "<a href=\"/?action=list&resume=$run&lp=$source-$target\">resume</a>";
                     }
 		
 		    # actively building
@@ -238,7 +244,7 @@ class listController extends viewcontroller {
                     else {
                       $info["status"] = "crashed";
                       $info["time_crashed"] = pretty_time(filectime("$lang_dir/steps/$run/running.$run"));
-	              $info["action"] = "<a href=\"/?action=list&restart=$run&lp=$source-$target\">restart</a>";
+	              $info["action"] = "<a href=\"/?action=list&resume=$run&lp=$source-$target\">resume</a>";
                     }
                     $lang_pair_hash[$key]["exp_building"][] = $info;
                   }

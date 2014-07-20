@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo 'STEP 1/6: downloading moses '`date +%s`
+echo 'STEP 1/7: downloading moses '`date +%s`
 if [ -d /opt/moses ]
 then
   cd /opt/moses
@@ -10,7 +10,7 @@ else
 fi
 
 # GIZA
-echo 'STEP 2/6: installing giza '`date +%s`
+echo 'STEP 2/7: installing giza '`date +%s`
 if [ -d /opt/moses/external/giza-pp ]
 then
   cd /opt/moses/external/giza-pp
@@ -24,7 +24,35 @@ mkdir -p /opt/moses/external/bin
 cp /opt/moses/external/giza-pp/GIZA++-v2/GIZA++ /opt/moses/external/giza-pp/GIZA++-v2/snt2cooc.out /opt/moses/external/giza-pp/GIZA++-v2/snt2plain.out /opt/moses/external/bin
 cp /opt/moses/external/giza-pp/mkcls-v2/mkcls /opt/moses/external/bin
 
-echo 'STEP 3/6: installing fast-align '`date +%s`
+# mGIZA
+echo 'STEP 3/7: installing mgiza '`date +%s`
+if [ -e /opt/moses/external/bin/mgiza ]
+then
+  echo 'mgiza already installed'
+  #cd /opt/moses/external/mgiza
+  #svn up
+else
+  cd /opt/moses/external
+  svn checkout svn://svn.code.sf.net/p/mgizapp/code/trunk mgiza
+  cd /opt/moses/external/mgiza/mgizapp
+  /opt/casmacat/install/compile-mgiza.sh
+fi
+
+# online mGIZA
+echo 'STEP 4/7: installing online mgiza '`date +%s`
+if [ -e /opt/moses/external/bin/onlinemgiza ]
+then
+  echo 'online mgiza already installed'
+  cd /opt/moses/external
+  wget https://hermessvn.fbk.eu/svn/hermes/open/software/onlineMGIZA++/onlineMGIZA++_v0.2.tgz
+  tar xzf onlineMGIZA++_v0.2.tgz
+  cd onlineMGIZA++_v0.2
+  cmake .
+  make
+  cp bin/mgiza /opt/moses/external/bin/online-mgiza
+fi
+
+echo 'STEP 4/7: installing fast-align '`date +%s`
 # Fast Align
 if [ -d /opt/moses/external/fast-align ]
 then
@@ -38,7 +66,7 @@ make
 cp /opt/moses/external/fast-align/fast_align /opt/moses/external/bin
 
 # IRSTLM
-echo 'STEP 4/6: installing irstlm '`date +%s`
+echo 'STEP 5/7: installing irstlm '`date +%s`
 mkdir -p /opt/moses/external/irstlm
 cd /opt/moses/external/irstlm
 if [ ! -d irstlm-5.80.03 ]
@@ -58,13 +86,13 @@ fi
 #make -j8
 
 # Moses
-echo 'STEP 5/6: compiling moses (may take a while) '`date +%s`
+echo 'STEP 6/7: compiling moses (may take a while) '`date +%s`
 cd /opt/moses
 ./bjam -j4 --with-xmlrpc-c=/usr --with-cmph=/usr --toolset=gcc --with-giza=/opt/moses/external/bin --with-tcmalloc=/usr
 chown -R www-data:www-data /opt/moses
 
 # Experiment Web Interface
-echo 'STEP 6/6: setting up experiment inspection '`date +%s`
+echo 'STEP 7/7: setting up experiment inspection '`date +%s`
 if [ -e /opt/casmacat/admin/inspect/setup ]
 then
   mv /opt/casmacat/admin/inspect/setup /tmp/save-setup

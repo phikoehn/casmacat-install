@@ -109,13 +109,13 @@ max-sentence-length = 80
 
 ### tool to be used for language model training
 # kenlm training
-#lm-training = "$moses-script-dir/ems/support/lmplz-wrapper.perl -bin $moses-bin-dir/lmplz"
-#settings = ""
+lm-training = "$moses-script-dir/ems/support/lmplz-wrapper.perl -bin $moses-bin-dir/lmplz"
+settings = "--prune '0 0 1' -T $working-dir/lm/tmp -S 50%"
 
 # irstlm training
 # msb = modified kneser ney; p=0 no singleton pruning
-lm-training = "$moses-script-dir/generic/trainlm-irst2.perl -irst-dir $irstlm-dir -temp-dir $working-dir/tmp"
-settings = "-s msb -p 1"
+#lm-training = "$moses-script-dir/generic/trainlm-irst2.perl -irst-dir $irstlm-dir -temp-dir $working-dir/tmp"
+#settings = "-s msb -p 1"
 
 # order of the language model
 order = 4
@@ -242,7 +242,7 @@ script = $moses-script-dir/training/train-model.perl
 # * "-sort-buffer-size 8G -sort-compress gzip" to reduce on-disk sorting
 # * "-sort-parallel 8 -cores 8" to speed up phrase table building
 #
-#training-options = ""
+training-options = "-mgiza -mgiza-cpus 1 -giza-option 'nodumps=0 onlyaldumps=0 model1dumpfrequency=0 hmmdumpfrequency=5'"
 
 ### factored training: specify here which factors used
 # if none specified, single factor training is assumed
@@ -276,7 +276,7 @@ alignment-symmetrization-method = grow-diag-final-and
 
 ### use of Chris Dyer's fast align for word alignment
 #
-fast-align-settings = "-d -o -v"
+#fast-align-settings = "-d -o -v"
 
 ### use of berkeley aligner for word alignment
 #

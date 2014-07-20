@@ -14,9 +14,11 @@ class indexController extends viewcontroller {
       if (array_key_exists("do",$_GET)) {
         if ($_GET['do'] == 'start-mt-server') {
           exec('scripts/start-mt-server.perl');
+          usleep(2000000);
         }
         if ($_GET['do'] == 'start-cat-server') {
           exec('scripts/start-cat-server.sh');
+          usleep(2000000);
         }
         if ($_GET['do'] == 'update') {
           exec('/opt/casmacat/install/update.sh');

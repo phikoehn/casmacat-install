@@ -22,7 +22,7 @@ pip install CherryPy
 # needed to compile
 echo 'STEP 6/8: installing c++ compiler '`date +%s`
 apt-get -yq install g++
-apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip-dev libbz2-dev libxmlrpc-c++4-dev libxmlrpc-c++8-dev libgoogle-perftools-dev libcmph-dev
+apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip-dev libbz2-dev libxmlrpc-c++4-dev libxmlrpc-c++8-dev libgoogle-perftools-dev libcmph-dev cmake
 
 # dependencies of moses tools
 echo 'STEP 7/8: installing software for moses tools '`date +%s`

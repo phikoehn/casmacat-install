@@ -81,9 +81,17 @@ else {
 
 # copy bilingual concordancer
 if (defined($STEP{"TRAINING_build-biconcor"})) {
-  `cp $exp_dir/model/biconcor.1.* $dir`;
-  `cp $exp_dir/model/biconcor.1 $dir`;
+  `cp $exp_dir/model/biconcor.$RUN.* $dir`;
+  `cp $exp_dir/model/biconcor.$RUN $dir`;
 }
+
+# build memory mapped suffix array for parallel corpus (needed for incremental updating)
+# TODO: something has to be done with the config file
+`mkdir $dir/mmsapt`;
+`/opt/moses/bin/mtt-build < $exp_dir/training.$RUN.$F -i -o $dir/mmsapt/$F`;
+`/opt/moses/bin/mtt-build < $exp_dir/training.$RUN.$E -i -o $dir/mmsapt/$E`;
+`/opt/moses/bin/symal2mam < $exp_dir/model/aligned.$RUN.grow-diag-final-and $dir/mmsapt/$F-$E.mam`;
+`/opt/moses/bin/mmlex-build $dir/mmsapt/ $F $E -o $dir/mmsapt/$F-$E.lex -c $dir/mmsapt/fr-en.cooc`;
 
 # copy truecase model
 if (defined($STEP{"TRUECASER_train"})) {
