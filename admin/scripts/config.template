@@ -46,7 +46,7 @@ data = /opt/casmacat/data
 decoder = $moses-bin-dir/moses
 
 # conversion of phrase table into binary on-disk format
-ttable-binarizer = $moses-bin-dir/processPhraseTable
+ttable-binarizer = $moses-bin-dir/processPhraseTableMin
 
 # conversion of rule table into binary on-disk format
 #ttable-binarizer = "$moses-bin-dir/CreateOnDiskPt 1 1 4 100 2"
@@ -242,7 +242,7 @@ script = $moses-script-dir/training/train-model.perl
 # * "-sort-buffer-size 8G -sort-compress gzip" to reduce on-disk sorting
 # * "-sort-parallel 8 -cores 8" to speed up phrase table building
 #
-training-options = "-mgiza -mgiza-cpus 1 -giza-option 'nodumps=0 onlyaldumps=0 model1dumpfrequency=0 hmmdumpfrequency=5'"
+training-options = "-mgiza -mgiza-cpus 1  -giza-option 'nodumps=0 onlyaldumps=0 model1dumpfrequency=0 hmmdumpfrequency=5'"
 
 ### factored training: specify here which factors used
 # if none specified, single factor training is assumed
@@ -335,6 +335,11 @@ biconcor = $moses-bin-dir/biconcor
 
 ############################################################
 
+
+### build memory mapped suffix array phrase table
+#
+mmsapt = "num-features=9 pfwd=g+ pbwd=g+ smooth=0 sample=1000 workers=1"
+binarize-all = $moses-script-dir/training/binarize-model.perl
 
 ### lexicalized reordering: specify orientation type
 # (default: only distance-based reordering model)

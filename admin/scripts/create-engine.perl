@@ -36,7 +36,7 @@ open(STEP,"ls $exp_dir/steps/$RUN/*INFO|");
 while(<STEP>) {
   /\/([^\/]+)\.\d+\.INFO/;
   $STEP{$1} = $RUN;
-  print "from info: $1 -> $RUN\n";
+  #print "from info: $1 -> $RUN\n";
 }
 close(STEP);
 
@@ -46,26 +46,24 @@ while(<RE_USE>) {
   s/\:/\_/g;
   my($step,$run) = split;
   $STEP{$step} = $run;
-  print "from info: $step -> $run\n";
+  #print "from re-use: $step -> $run\n";
 }
 close(RE_USE);
 
-# process ttable
-my $ttable = "$exp_dir/model/phrase-table.".$STEP{"TRAINING_build-ttable"}.".gz";
-my $first_line = `zcat $ttable | head -1`;
-my @FIELD = split(/ \|\|\| /,$first_line);
-my @SCORE = split(/ /,$FIELD[2]);
-my $nscores = scalar @SCORE;
-$ttable =~ /\/([^\/]+).gz$/;
-`/opt/moses/bin/processPhraseTableMin -in $ttable -out $dir/$1 -threads all -nscores $nscores`;
+# process ttable - old static phrase table
+#my $ttable = "$exp_dir/model/phrase-table.".$STEP{"TRAINING_build-ttable"}.".gz";
+#my $first_line = `zcat $ttable | head -1`;
+#my @FIELD = split(/ \|\|\| /,$first_line);
+#my @SCORE = split(/ /,$FIELD[2]);
+#my $nscores = scalar @SCORE;
+#$ttable =~ /\/([^\/]+).gz$/;
+#`/opt/moses/bin/processPhraseTableMin -in $ttable -out $dir/$1 -threads all -nscores $nscores`;
 
-# process reordering table
-if (defined($STEP{"TRAINING_build-reordering"})) {
-  my $reordering_table = `ls $exp_dir/model/reordering-table.$STEP{"TRAINING_build-reordering"}.*`;
-  chop($reordering_table);
-  $reordering_table =~ /\/([^\/]+).gz$/;
-  `/opt/moses/bin/processLexicalTableMin -in $reordering_table -out $dir/$1 -threads all`;
-}
+# copy phrase table (memory mapped suffix array)
+`cp -r $exp_dir/model/phrase-table-mmsapt.$STEP{"TRAINING_build-mmsapt"} $dir`;
+
+# copy reordering table
+`cp $exp_dir/model/moses.bin.ini.$STEP{"TRAINING_create-config"}.tables/reordering-table.$STEP{"TRAINING_build-reordering"}.wbe-msd-bidirectional-fe.minlexr $dir`;
 
 # copy language model
 if (defined($STEP{"INTERPOLATED-LM_binarize"})) {
@@ -85,13 +83,10 @@ if (defined($STEP{"TRAINING_build-biconcor"})) {
   `cp $exp_dir/model/biconcor.$RUN $dir`;
 }
 
-# build memory mapped suffix array for parallel corpus (needed for incremental updating)
-# TODO: something has to be done with the config file
-`mkdir $dir/mmsapt`;
-`/opt/moses/bin/mtt-build < $exp_dir/training.$RUN.$F -i -o $dir/mmsapt/$F`;
-`/opt/moses/bin/mtt-build < $exp_dir/training.$RUN.$E -i -o $dir/mmsapt/$E`;
-`/opt/moses/bin/symal2mam < $exp_dir/model/aligned.$RUN.grow-diag-final-and $dir/mmsapt/$F-$E.mam`;
-`/opt/moses/bin/mmlex-build $dir/mmsapt/ $F $E -o $dir/mmsapt/$F-$E.lex -c $dir/mmsapt/fr-en.cooc`;
+# copy word alignment models
+`cp -r $exp_dir/training/giza.$STEP{"TRAINING_run-giza"} $dir`;
+`cp -r $exp_dir/training/giza-inverse.$STEP{"TRAINING_run-giza-inverse"} $dir`;
+`cp -r $exp_dir/training/prepared.$STEP{"TRAINING_prepare-data"} $dir`;
 
 # copy truecase model
 if (defined($STEP{"TRUECASER_train"})) {
@@ -103,8 +98,8 @@ my $config = "$exp_dir/tuning/moses.tuned.ini.".$STEP{"TUNING_apply-weights"};
 open(CONFIG,$config);
 open(OUT,">$dir/moses.tuned.ini.".$STEP{"TUNING_apply-weights"});
 while(<CONFIG>) {
+  s/moses.bin.ini.\d+.tables\/(reordering-table)/$1/;
   s/experiment\/..-..\/[^\/]+/engines\/$engine/g;
-  s/PhraseDictionaryMemory/PhraseDictionaryCompact/;
   s/(reordering-table.+).gz/$1/;
   print OUT $_;
 }
@@ -115,12 +110,17 @@ open(RUN,">$dir/RUN");
 print RUN "#!/bin/bash
 
 export ROOTDIR=/opt/casmacat
-export SRCLANG=$F
-export TGTLANG=$E
-export MODELDIR=$dir
 export SCRIPTDIR=\$ROOTDIR/engines/scripts
 export PYTHONPATH=\$ROOTDIR/mt-server/python_server/python-module
 export ENGINEPATH=\$ROOTDIR/engines
+export USER=www-data
+
+export SRCLANG=$F
+export TGTLANG=$E
+export MODELDIR=$dir
+export T2SMODEL=\$MODELDIR/giza.".$STEP{"TRAINING_run-giza"}."/\${TGTLANG}-\${SRCLANG}
+export S2TMODEL=\$MODELDIR/giza-inverse.".$STEP{"TRAINING_run-giza-inverse"}."/\${SRCLANG}-\${TGTLANG}
+export PREPARED=\$MODELDIR/prepared.".$STEP{"TRAINING_prepare-data"}."
 
 mkdir -p \$ENGINEPATH/log
 
@@ -129,6 +129,8 @@ killall -9 mosesserver
   >  \$ENGINEPATH/log/$engine.moses.stdout \\
   2> \$ENGINEPATH/log/$engine.moses.stderr &
 
+killall -9 online-mgiza
+killall -9 symal
 kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_server/server.py' | grep -v grep | cut -c1-5`
 \$ROOTDIR/mt-server/python_server/server.py \\
   -tokenizer \"\$SCRIPTDIR/tokenizer.perl -b -a -l $F\" \\
@@ -136,6 +138,10 @@ kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_
   -prepro \"\$SCRIPTDIR/normalize-punctuation.perl -b $F\" \\
   -detruecaser \"\$SCRIPTDIR/detruecase.perl -b\" \\
   -detokenizer \"\$SCRIPTDIR/detokenizer.perl -b -l $E\" \\
+  -tgt-tokenizer \"\$SCRIPTDIR/tokenizer.perl -b -a -l en\" \\
+  -omgiza_src2tgt \"/opt/moses/external/bin/online-mgiza \${S2TMODEL}.gizacfg -onlineMode 1 -coocurrencefile \${S2TMODEL}.cooc -corpusfile \${PREPARED}/\${SRCLANG}-\${TGTLANG}-int-train.snt -previousa \${S2TMODEL}.a3.final -previousd \${S2TMODEL}.d3.final -previousd4 \${S2TMODEL}.d4.final -previousd42 \${S2TMODEL}.D4.final -previoushmm \${S2TMODEL}.hhmm.5 -previousn \${S2TMODEL}.n3.final -previoust \${S2TMODEL}.t3.final -sourcevocabularyfile \${PREPARED}/\$TGTLANG.vcb -sourcevocabularyclasses \${PREPARED}/\$TGTLANG.vcb.classes -targetvocabularyfile \${PREPARED}/\$SRCLANG.vcb -targetvocabularyclasses \${PREPARED}/\$SRCLANG.vcb.classes -o \$ENGINEPATH/log -m1 0 -m2 0 -m3 0 -m4 3 -mh 0 -restart 1\" \\
+  -omgiza_tgt2src \"/opt/moses/external/bin/online-mgiza \${T2SMODEL}.gizacfg -onlineMode 1 -coocurrencefile \${T2SMODEL}.cooc -corpusfile \${PREPARED}/\${TGTLANG}-\${SRCLANG}-int-train.snt -previousa \${T2SMODEL}.a3.final -previousd \${T2SMODEL}.d3.final -previousd4 \${T2SMODEL}.d4.final -previousd42 \${T2SMODEL}.D4.final -previoushmm \${T2SMODEL}.hhmm.5 -previousn \${T2SMODEL}.n3.final -previoust \${T2SMODEL}.t3.final -sourcevocabularyfile \${PREPARED}/\$SRCLANG.vcb -sourcevocabularyclasses \${PREPARED}/\$SRCLANG.vcb.classes -targetvocabularyfile \${PREPARED}/\$TGTLANG.vcb -targetvocabularyclasses \${PREPARED}/\$TGTLANG.vcb.classes -o \$ENGINEPATH/log -m1 0 -m2 0 -m3 0 -m4 3 -mh 0 -restart 1\" \\
+  -symal \"/opt/moses/bin/symal -alignment=grow -diagonal=yes -final=yes -both=yes\" \\
   -persist \\
   -nthreads 1 \\
   -ip 127.0.0.1 \\
@@ -147,8 +153,8 @@ kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_
 close(RUN);
 `chmod +x $dir/RUN`;
 
-my $size = `du -h $dir`;
-$size = s/ .+//;
+my $size = `du -hd0 $dir`;
+$size =~ s/ .+//;
 open(INFO,">>$dir/info");
 print INFO "size = $size\n";
 close(INFO);

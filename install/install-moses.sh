@@ -40,7 +40,7 @@ fi
 
 # online mGIZA
 echo 'STEP 4/7: installing online mgiza '`date +%s`
-if [ -e /opt/moses/external/bin/onlinemgiza ]
+if [ -e /opt/moses/external/bin/online-mgiza ]
 then
   echo 'online mgiza already installed'
   cd /opt/moses/external
@@ -88,7 +88,7 @@ fi
 # Moses
 echo 'STEP 6/7: compiling moses (may take a while) '`date +%s`
 cd /opt/moses
-./bjam -j4 --with-xmlrpc-c=/usr --with-cmph=/usr --toolset=gcc --with-giza=/opt/moses/external/bin --with-tcmalloc=/usr
+./bjam -j4 --with-xmlrpc-c=/usr --with-cmph=/usr --toolset=gcc --with-giza=/opt/moses/external/bin --with-tcmalloc=/usr --with-mm
 chown -R www-data:www-data /opt/moses
 
 # Experiment Web Interface

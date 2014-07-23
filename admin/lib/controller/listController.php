@@ -82,7 +82,8 @@ class listController extends viewcontroller {
 
     private function resume($run) {
       chdir("/opt/casmacat/experiment/".$_GET["lp"]);
-      $prepCmd = "rm -f steps/$run/stopped.$run";
+      $prepCmd .= "export USER=www-data";
+      $prepCmd .= " ; rm -f steps/$run/stopped.$run";
       $prepCmd .= " ; /opt/moses/scripts/ems/experiment.perl -delete-crashed $run -no-graph -exec";
       $prepCmd .= " ; touch steps/$run/running.$run";
       $continueCmd = "/opt/moses/scripts/ems/experiment.perl -continue $run -no-graph -max-active 1 -sleep 1 -exec > OUT.$run 2>&1 &";
