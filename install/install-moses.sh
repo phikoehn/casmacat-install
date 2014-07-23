@@ -48,7 +48,7 @@ else
   wget https://hermessvn.fbk.eu/svn/hermes/open/software/onlineMGIZA++/onlineMGIZA++_v0.2.tgz
   tar xzf onlineMGIZA++_v0.2.tgz
   sh /opt/casmacat/install/compile-online-mgiza.sh
-  #cp bin/mgiza /opt/moses/external/bin/online-mgiza
+  cp /opt/moses/external/onlineMGIZA++_v0.2/bin/mgiza /opt/moses/external/bin/online-mgiza
 fi
 
 echo 'STEP 4/7: installing fast-align '`date +%s`
