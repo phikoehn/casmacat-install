@@ -43,6 +43,7 @@ echo 'STEP 4/7: installing online mgiza '`date +%s`
 if [ -e /opt/moses/external/bin/online-mgiza ]
 then
   echo 'online mgiza already installed'
+else
   cd /opt/moses/external
   wget https://hermessvn.fbk.eu/svn/hermes/open/software/onlineMGIZA++/onlineMGIZA++_v0.2.tgz
   tar xzf onlineMGIZA++_v0.2.tgz
