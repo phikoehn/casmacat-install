@@ -3,6 +3,7 @@
 INSTALL_MOSES=no
 INSTALL_THOT=yes
 
+mkdir -p /opt/casmacat/install
 cd /opt/casmacat/install
 mkdir -p log/install
 
