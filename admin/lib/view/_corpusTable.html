@@ -3,7 +3,7 @@
 <thead><tr><td>Use</td><td>ID</td><td>Name</td><td>Segments</td><td>Uploaded</td></tr></thead>
 <tbody>
 <tr tal:repeat="corpus corpora">
-<td><input class="corpus-used" type="checkbox" tal:attributes="value corpus/checkbox_name" name="corpus[]" onchange="refreshDev();"/></td>
+<td tal:attributes="id corpus/td_name"><input class="corpus-used" type="checkbox" tal:attributes="value corpus/checkbox_name" name="corpus[]" onchange="refreshCorpusUse($(this).parent().attr('id')); refreshDev();"/></td>
 <td class="corpus-id" tal:content="corpus/id">ID</td>
 <td class="corpus-name" tal:content="corpus/name">Name</td>
 <td class="corpus-size" tal:content="corpus/lines">Segments</td>

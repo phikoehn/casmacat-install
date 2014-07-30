@@ -8,11 +8,12 @@ $ENV{"USER"} = "www-data"; # needed by mgiza
 
 my $dir = "/opt/casmacat/admin/scripts";
 
-my ($HELP,$F,$E,@CORPUS,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME,$INFO) = @_;
+my ($HELP,$F,$E,@CORPUS,@SUBSAMPLE,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME,$INFO) = @_;
 my %LINE_COUNT;
 
 $HELP = 1
     unless &GetOptions('corpus=s' => \@CORPUS,
+		       'subsample=s' => \@SUBSAMPLE,
 		       'tuning-corpus=s' => \$TUNING_CORPUS,
 		       'tuning-select=s' => \$TUNING_SELECT,
 		       'evaluation-corpus=s' => \$EVALUATION_CORPUS,
@@ -82,7 +83,12 @@ sub create_dev {
 
 # build corpus sections
 foreach my $id (@CORPUS) {
-  if (!defined($USED_IN_TUNING_OR_EVAL{$id})) {
+  my $subsample = 1;
+  foreach my $id_ratio (@SUBSAMPLE) {
+    next unless $id_ratio =~ /^$id,([\d\.]+)$/;
+    $subsample = $1;
+  }
+  if (!defined($USED_IN_TUNING_OR_EVAL{$id}) && $subsample == 1) {
     $CONFIG{"CORPUS"} .= "[CORPUS:corpus-$id]\n";
     $CONFIG{"CORPUS"} .= "raw-stem = $corpus_dir/$id\n";
   }
@@ -98,9 +104,15 @@ foreach my $id (@CORPUS) {
     open(REDUCED_E,">$data_dir/$name.$E");
     open(REDUCED_F,">$data_dir/$name.$F");
     my $line = 0;
+    my $subsample_count = 0;
     while(my $e = <CORPUS_E>) {
       my $f = <CORPUS_F>;
       next if defined($USED_IN_TUNING_OR_EVAL{$id}{$line++});
+
+      $subsample_count += $subsample;
+      next if $subsample_count < 1;
+      $subsample_count--;
+
       print REDUCED_E $e;
       print REDUCED_F $f; 
     }

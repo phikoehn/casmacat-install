@@ -25,9 +25,12 @@ class listController extends viewcontroller {
     }
     
     private function deploy($engine) {
+      // set engine name (is read by start-mt-server.perl
       $handle = fopen("/opt/casmacat/engines/deployed","w");
       fwrite($handle,$engine."\n");
       fclose($handle);
+
+      // restart MT and CAT server
       exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
       exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
     }

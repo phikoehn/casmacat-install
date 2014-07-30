@@ -21,6 +21,10 @@ $HELP = 1
                        'floatpredictions=i' => \$floatpredictions,
                        'translationoptions=i' => \$translationoptions);
 
+my $inet_string = `/sbin/ifconfig | grep 'inet addr'`;
+my $host = "localhost";
+$host = $1 if $inet_string =~ /inet addr:(192\.\d+\.\d+\.\d+)/;
+
 open(TEMPLATE,"/opt/casmacat/web-server/inc/config.ini.sample");
 open(MINE,">/opt/casmacat/web-server/inc/config.ini");
 while(<TEMPLATE>) {
@@ -38,10 +42,10 @@ while(<TEMPLATE>) {
     }
   }
   elsif(/^itpserver/) {
-    my $inet_string = `/sbin/ifconfig | grep 'inet addr'`;
-    my $host = "localhost";
-    $host = $1 if $inet_string =~ /inet addr:(192\.\d+\.\d+\.\d+)/;
     print MINE "itpserver = \"http://$host:9999/cat\"\n";
+  }
+  elsif(/^biconcorserver/) {
+    print MINE "biconcorserver = \"http://$host:9999/cat\"\n";
   }
   elsif(/^itpenabled/) {
     print MINE "itpenabled = $itpenabled\n";

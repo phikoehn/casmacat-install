@@ -278,3 +278,16 @@ function refreshDevField( field ) {
     $(field+"-count").attr("disabled", 1);
   }
 }
+
+// subsampling corpus options
+function refreshCorpusUse( id ) {
+  var optionsCell = $("#"+id);
+  var checkbox = optionsCell.find(':checkbox');
+  if (checkbox.prop("checked")) {
+    optionsCell.append(" <select name=\"subsample-"+id+"\" id=\"subsample-"+id+"\"><option>all</option><option>5%</option><option>10%</option><option>20%</option><option>50%</option></select>");
+  }
+  else {
+    optionsCell.find('select').replaceWith("");
+  }
+}
+

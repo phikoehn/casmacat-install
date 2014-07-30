@@ -154,7 +154,8 @@ close(RUN);
 `chmod +x $dir/RUN`;
 
 my $size = `du -hd0 $dir`;
-$size =~ s/ .+//;
+chop($size);
+$size =~ s/^(\S+)\s.+$/$1/;
 open(INFO,">>$dir/info");
 print INFO "size = $size\n";
 close(INFO);

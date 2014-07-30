@@ -28,6 +28,10 @@ class buildController extends viewcontroller {
 
       foreach($_POST["corpus"] as $corpus ) {
         $buildCmd .= " -corpus $corpus";
+        $subsample = $_POST["subsample-corpus-options-".$corpus];
+        if ($subsample != "all") {
+          $buildCmd .= " -subsample $corpus,".($subsample/100);
+        }
       }
 
       $_POST["previous-settings"] = ""; # TODO: delete array element instead
