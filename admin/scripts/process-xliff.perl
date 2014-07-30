@@ -52,40 +52,54 @@ if (defined($url) || $tmp_file =~ /gz$/) {
 else {
   open(XLIFF,$tmp_file);
 }
-my ($source,$target);
+my ($source,$target) = ("","");
 my $line_count = 0;
 my $next;
+my $SOURCE = \$source;
+my $TARGET = \$target;
 open(E,">$stem.$e");
 open(F,">$stem.$f");
 while(<XLIFF>) {
+   if (/^<file.*source-language=\"(..)/) {
+     if ($1 eq $e) {
+       $SOURCE = \$target;
+       $TARGET = \$source;
+     }
+     else {
+       $SOURCE = \$source;
+       $TARGET = \$target;
+     }
+   }
    if (/^<source>(.+)<\/source>$/i) { # XLIFF
-     $source = $1;
+     $$SOURCE = $1;
    }
    elsif (/<tuv xml:lang="$f[^\"]*"><seg>(.+)<\/seg><\/tuv>/i) { # TMX
-     $source = $1;
+     $$SOURCE = $1;
    }
    elsif (/<tuv xml:lang="$f[^\"]*">\s*$/i) {
      my $next = <XLIFF>;
      if ($next =~ /<seg>(.+)<\/seg>/) {
-       $source = $1;
+       $$SOURCE = $1;
      }
    }
    elsif (/^<target>(.+)<\/target>$/i) { # XLIFF
-     $target = $1;
+     $$TARGET = $1;
    }
    elsif (/<tuv xml:lang="$e[^\"]*"><seg>(.+)<\/seg><\/tuv>/i) { # TMX
-     $target = $1;
+     $$TARGET = $1;
    }
    elsif (/<tuv xml:lang="$e[^\"]*">\s*$/i) {
      my $next = <XLIFF>;
      if ($next =~ /<seg>(.+)<\/seg>/) {
-       $target = $1;
+       $$TARGET = $1;
      }
    }
    elsif (/<\/trans-unit>/i || /<\/tu>/i) { 
-     if (defined($source) && defined($target)) {
+     if ($source ne "" && $target ne "") {
        print F $source."\n";
        print E $target."\n";
+       $source = "";
+       $target = "";
        $line_count++;
      }
    }
