@@ -18,6 +18,8 @@ class catsettingsController extends viewcontroller {
           $cmd .= " -hidecontributions ".($_POST["hidecontributions"] ? 1 : 0); 
           $cmd .= " -floatpredictions ".($_POST["floatpredictions"] ? 1 : 0); 
           $cmd .= " -translationoptions ".($_POST["translationoptions"] ? 1 : 0); 
+          $cmd .= " -allowchangevisualizationoptions ".($_POST["allowchangevisualizationoptions"] ? 1 : 0); 
+          $cmd .= " -itpdraftonly ".($_POST["itpdraftonly"] ? 1 : 0); 
           exec($cmd);
           $this->msg = "Updated.";
         }
@@ -44,6 +46,12 @@ class catsettingsController extends viewcontroller {
         }
         if (preg_match("/translationoptions = (\d)/",$line,$match)) {
           $this->template->translationoptions = $match[1];
+        }
+        if (preg_match("/allowchangevisualizationoptions = (\d)/",$line,$match)) {
+          $this->template->allowchangevisualizationoptions = $match[1];
+        }
+        if (preg_match("/itpdraftonly = (\d)/",$line,$match)) {
+          $this->template->itpdraftonly = $match[1];
         }
       } 
       $this->template->msg = $this->msg;

@@ -33,6 +33,7 @@ class listController extends viewcontroller {
       // restart MT and CAT server
       exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
       exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
+      exec("/opt/casmacat/admin/scripts/update-language-setting-in-web-server.perl");
     }
 
     private function stop_building($run) {
