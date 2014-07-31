@@ -237,38 +237,38 @@ function refreshDevField( field ) {
   }
 
   // can't have same full corpus for tuning and evaluation
-  var alert = "";
+  var alertText = "";
   var tuningCorpusId = $("#tuning-corpus option").filter(":selected").val();
   var evaluationCorpusId = $("#evaluation-corpus option").filter(":selected").val();
   if (tuningCorpusId == evaluationCorpusId && 
       ($("#tuning-select-all").prop("checked") || $("#evaluation-select-all").prop("checked"))) {
-    alert += "cannot use all of the same corpus for tuning and evaluation</br>";
+    alertText += "cannot use all of the same corpus for tuning and evaluation</br>";
   }
 
   // can't have same full corpus as for training
   if ($(field + "-select-all").prop("checked") && corpus.used) {
-    alert += "cannot use all of corpus, if also used for training<br/>";
+    alertText += "cannot use all of corpus, if also used for training<br/>";
   }
 
   // can't have too big of a dev corpus
   if ($(field + "-select-all").prop("checked") && corpus.size > 5000) {
-    alert += "corpus too large (use max. 3000 segments)<br/>";
+    alertText += "corpus too large (use max. 3000 segments)<br/>";
   }
 
   // can't subsample more than there is
   if ($(field + "-select-select").prop("checked") && corpus.size < parseInt($(field + "-count").val())) {
-    alert += "cannot select more segments than corpus size (" + corpus.size + ")<br/>";
+    alertText += "cannot select more segments than corpus size (" + corpus.size + ")<br/>";
   }
 
   // can't subsample more for tuning and evaluation combined than there is
   else if (tuningCorpusId == evaluationCorpusId &&
       $("#tuning-select-select").prop("checked") && $("#evaluation-select-select").prop("checked") &&
       corpus.size < parseInt($("#tuning-count").val()) + parseInt($("#evaluation-count").val())) {
-    alert += "cannot select more segments (tuning and evaluation) than corpus size (" + corpus.size + ")<br/>";
+    alertText += "cannot select more segments (tuning and evaluation) than corpus size (" + corpus.size + ")<br/>";
   }
 
   // show alert
-  $(field + "-alert").html(alert);
+  $(field + "-alert").html(alertText);
 
   // enable / disable subsample size selection
   if ($(field+"-select-select").prop("checked")) {
@@ -289,5 +289,17 @@ function refreshCorpusUse( id ) {
   else {
     optionsCell.find('select').replaceWith("");
   }
+  checkCorpusUse();
 }
 
+function checkCorpusUse() {
+  var alertText = "No training corpora selected.";
+  var corpusList = getCorpusList();
+  for(var i=0; i<corpusList.length; i++) {
+    if (corpusList[i].used) {
+      alertText = "";
+    }    
+  }
+  // show alert
+  $("#corpus-alert").html(alertText);
+}
