@@ -22,6 +22,9 @@ class listController extends viewcontroller {
       else if (array_key_exists("delete-run",$_GET) && $run = $_GET["delete-run"]) {
         $this->delete_run($run);
       }
+      else if (array_key_exists("delete-engine",$_GET) && $engine = $_GET["delete-engine"]) {
+        $this->delete_engine($engine);
+      }
     }
     
     private function deploy($engine) {
@@ -99,6 +102,12 @@ class listController extends viewcontroller {
 
     private function delete_run($run) {
       $deleteCmd = "cd /opt/casmacat/experiment/".$_GET["lp"]." ; /opt/moses/scripts/ems/experiment.perl -delete-run $run -no-graph -exec";
+      exec($deleteCmd);
+      $this->msg = $deleteCmd;
+    }
+
+    private function delete_engine($engine) {
+      $deleteCmd = "rm -r /opt/casmacat/engines/$engine";
       exec($deleteCmd);
       $this->msg = $deleteCmd;
     }
