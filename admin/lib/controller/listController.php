@@ -25,6 +25,9 @@ class listController extends viewcontroller {
       else if (array_key_exists("delete-engine",$_GET) && $engine = $_GET["delete-engine"]) {
         $this->delete_engine($engine);
       }
+      else if (array_key_exists("download-engine",$_GET) && $engine = $_GET["download-engine"]) {
+        $this->download_engine($engine);
+      }
     }
     
     private function deploy($engine) {
@@ -109,7 +112,19 @@ class listController extends viewcontroller {
     private function delete_engine($engine) {
       $deleteCmd = "rm -r /opt/casmacat/engines/$engine";
       exec($deleteCmd);
-      $this->msg = $deleteCmd;
+      $this->msg = "Deleted Engine $enigne.";
+    }
+
+    private function download_engine($engine) {
+      $tarBall = "/opt/casmacat/engines/$engine-".rand().".tgz";
+      $tarCmd = "cd /opt/casmacat/engines ; tar czf $tarBall $engine";
+      exec($tarCmd);
+      header("Content-type: application/gnutar");
+      header("Content-length: ".filesize($tarBall));
+      header("Content-disposition: attachment ; filename=\"mt-$engine.tgz\"");
+      print readfile($tarBall);
+      exec("rm $tarBall");
+      exit();
     }
 
     private function init_lang_pair($source,$target) {
@@ -184,6 +199,7 @@ class listController extends viewcontroller {
 	      $info["action"] = "/?action=list&deploy-engine=$engine";
             }
 	    $info["delete"] = "/?action=list&delete-engine=$engine";
+	    $info["download"] = "/?action=list&download-engine=$engine";
 	    $info["not_available"] = 0;
             $lang_pair_hash[$key]["has_engines"] = 1;
             $lang_pair_hash[$key]["engines"][] = $info;

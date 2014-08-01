@@ -78,6 +78,13 @@ table.corpustable {
 #public-corpora {
   font-size:11pt;
 }
+table.enginetable {
+  font-size:11pt;
+  border: 1px solid #000000;
+  border-spacing: 0;
+  size: '100%';
+  background: #f8f8f8;
+}
 .alert {
   color:#f00;
   font-size:11pt;
@@ -96,7 +103,8 @@ h2 {
 }
 
 h3 {
-  font-size: 15pt;
+  font-size: 14pt;
+  margin-bottom: 4px;
 }
 
 progress,

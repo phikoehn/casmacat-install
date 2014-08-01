@@ -1,29 +1,31 @@
 <?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
 <script language="javascript" src="/lib/js/list.js"></script>
-<h1>List of Engines</h1>
+<h1>Manage Engines</h1>
 <p tal:content="msg"></p>
 <div tal:repeat="lang_pair list">
 <h2 tal:content="lang_pair/name"></h2>
-<a tal:condition="lang_pair/inspect_link" tal:attributes="href lang_pair/inspect_link">Inspect Details</a>
 <div tal:condition="lang_pair/has_engines">
 <h3>Available Engines</h3>
 
-<table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Build date</td><td>Size</td><td>Action</td></tr>
+<table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Build date</td><td>Size</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/engines">
 <td tal:content="run/run"></td>
 <td tal:content="run/name"></td>
 <td tal:content="run/time_started"></td>
 <td tal:content="run/size"></td>
-<td tal:condition="run/deployed">deployed</td>
+<td tal:condition="run/deployed">deployed
+<a tal:attributes="href run/download">download</a></td>
 <td tal:condition="run/available"><a tal:attributes="href run/action">deploy</a>
-<a tal:condition="run/delete" tal:attributes="href run/delete">delete</a></td>
+<a tal:condition="run/delete" tal:attributes="href run/delete">delete</a>
+<a tal:attributes="href run/download">download</a></td>
 </tr></table>
 </div>
 
 <div tal:condition="lang_pair/has_done">
-<h3>Built Prototypes</h3>
-
-<table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Build date</td><td>Action</td></tr>
+<h3>Built Prototypes
+<a tal:condition="lang_pair/inspect_link" tal:attributes="href lang_pair/inspect_link">(Inspect Details in Prototype Factory)</a>
+</h3>
+<table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Build date</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/exp_done">
 <td tal:content="run/run"></td>
 <td tal:content="structure run/name"></td>
@@ -35,7 +37,7 @@
 
 <div tal:condition="lang_pair/has_building">
 <h3>Building</h3>
-<table border="1" cellspacing="0" width="100%"><tr><td>#</td><td>Name</td><td>Status</td><td>Started</td><td>Action</td></tr>
+<table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Status</td><td>Started</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/exp_building">
 <td tal:content="run/run"></td>
 <td tal:content="structure run/name"></td>
