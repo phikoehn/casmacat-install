@@ -1,0 +1,17 @@
+<?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
+<script src="/public/js/ajaxfileupload.js"></script>
+
+<h1>Upload Engine</h1>
+
+<p tal:content="structure msg"></p>
+
+<form method='post' enctype="multipart/form-data">
+<input type="hidden" name="action" value="uploadEngine"/>
+<input type="hidden" name="do" value="upload"/>
+<table class="keyvaluetable">
+<tr valign="top"><td>Upload Engine</td>
+<td><input type="file" size="45" name="engine" class="input"/></td></tr>
+<tr><td>&nbsp;</td><td><input type="submit" value="Upload"/></td></tr>
+</table>
+</form>
+<?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>
