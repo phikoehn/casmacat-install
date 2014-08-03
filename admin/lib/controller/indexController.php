@@ -3,6 +3,7 @@
 class indexController extends viewcontroller {
     private $cat_server_online = 0;
     private $mt_server_online = 0;
+    private $msg = '';
 
     public function __construct() {
         parent::__construct();
@@ -48,6 +49,7 @@ class indexController extends viewcontroller {
         ($this->cat_server_online == 1 && $this->mt_server_online == 2);
       $this->template->url = "http://$ip:8000/";
       $this->template->url_list = "http://$ip:8000/?action=listDocuments";
+      $this->template->msg = $this->msg;
     }
 }
 
