@@ -118,7 +118,14 @@ function reUsePreviousSetting() {
   for (var parameter in setting) {
     // special case corpus - multiple values
     if (parameter == "corpus") {
+      // deselect all corpora
       $("input[name='corpus[]']").prop('checked',false);
+      corpusList = getCorpusList();
+      // also remove options for each corpus
+      for(var i=0; i<corpusList.length; i++) {
+        $("#corpus-options-" + corpusList[i].id).find('select').replaceWith("");
+      }
+      // toggle selected corpora
       for (var i in setting[parameter]) {
         $("input[name='corpus[]'][value=" + setting[parameter][i] + "]").prop('checked','checked');
         refreshCorpusUse( "corpus-options-" + setting[parameter][i] );
@@ -285,6 +292,7 @@ function refreshCorpusUse( id ) {
   var optionsCell = $("#"+id);
   var checkbox = optionsCell.find(':checkbox');
   if (checkbox.prop("checked")) {
+    optionsCell.find('select').replaceWith("");
     optionsCell.append(" <select name=\"subsample-"+id+"\" id=\"subsample-"+id+"\"><option>all</option><option>5%</option><option>10%</option><option>20%</option><option>50%</option></select>");
   }
   else {
