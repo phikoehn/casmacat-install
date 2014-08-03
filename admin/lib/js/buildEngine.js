@@ -121,6 +121,7 @@ function reUsePreviousSetting() {
       $("input[name='corpus[]']").prop('checked',false);
       for (var i in setting[parameter]) {
         $("input[name='corpus[]'][value=" + setting[parameter][i] + "]").prop('checked','checked');
+        refreshCorpusUse( "corpus-options-" + setting[parameter][i] );
       }
     }
     // radio buttons
