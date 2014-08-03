@@ -1,13 +1,14 @@
 #!/bin/sh
 
+export LOGDIR=/opt/casmacat/log/install/initial
 cd /opt/casmacat/install
-mkdir -p log/install
+mkdir -p $LOGDIR
 
-sh ./install-dependencies.sh > log/install/dependencies.out 2> log/install/dependencies.err
+sh ./install-dependencies.sh > $LOGDIR/dependencies.out 2> $LOGDIR/dependencies.err
 chown -R www-data:www-data /opt/casmacat
-sh ./install-admin.sh > log/install/admin.out 2> log/install/admin.err &
+sh ./install-admin.sh > $LOGDIR/admin.out 2> $LOGDIR/admin.err &
 
-sh ./install-dependencies2.sh >> log/install/dependencies.out 2>> log/install/dependencies.err
-sh ./install-moses.sh > log/install/moses.out 2> log/install/moses.err &
-sh ./install-casmacat.sh > log/install/casmacat.out 2> log/install/casmacat.err &
-sh ./download-test-model.sh > log/install/test-model.out 2> log/install/test-model.err &
+sh ./install-dependencies2.sh >> $LOGDIR/dependencies.out 2>> $LOGDIR/dependencies.err
+sh ./install-moses.sh > $LOGDIR/moses.out 2> $LOGDIR/moses.err &
+sh ./install-casmacat.sh > $LOGDIR/casmacat.out 2> $LOGDIR/casmacat.err &
+sh ./download-test-model.sh > $LOGDIR/test-model.out 2> $LOGDIR/test-model.err &

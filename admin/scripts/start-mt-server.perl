@@ -11,7 +11,6 @@ chop($system);
 `rm /opt/casmacat/engines/biconcor*` if -l "/opt/casmacat/engines/biconcor";
 
 # ... check if there is one
-`echo 'ls /opt/casmacat/engines/$system/biconcor*' > /opt/casmacat/engines/debug`;
 open(LS,"ls /opt/casmacat/engines/$system/biconcor*|");
 my $stem = <LS>;
 close(LS);

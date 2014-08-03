@@ -15,8 +15,8 @@ else
   chmod o+w downloads
   mkdir uploads
   chmod o+w uploads
-  mkdir logs
-  chmod o+w logs
+  mkdir -p /opt/casmacat/log/web
+  chmod o+w /opt/casmacat/log/web
 fi
 
 # mysql backend

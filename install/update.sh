@@ -5,7 +5,7 @@ git pull
 
 cd install
 export TIMESTAMP=`date +%s`;
-mkdir log/$TIMESTAMP
+export LOGDIR=/opt/casmacat/log/install/$TIMESTAMP
 
-sh ./install-moses.sh > log/$TIMESTAMP/moses.out 2> log/$TIMESTAMP/moses.err &
-sh ./install-casmacat.sh > log/$TIMESTAMP/casmacat.out 2> log/$TIMESTAMP/casmacat.err &
+sh ./install-moses.sh > $LOGDIR/moses.out 2> $LOGDIR/moses.err &
+sh ./install-casmacat.sh > $LOGDIR/casmacat.out 2> $LOGDIR/casmacat.err &
