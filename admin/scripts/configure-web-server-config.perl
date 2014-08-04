@@ -56,6 +56,9 @@ while(<TEMPLATE>) {
       }
     }
   }
+  elsif(/^directory = "logs"/) { # log dir
+    print MINE "directory = \"../log/web\"\n";
+  }
   elsif(/^itpserver/) {
     print MINE "itpserver = \"http://$host:9999/cat\"\n";
   }
