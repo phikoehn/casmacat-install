@@ -11,8 +11,10 @@ fi
 chown -R www-data:www-data /opt/casmacat/admin
 mkdir /opt/casmacat/data
 mkdir /opt/casmacat/experiment
+mkdir -p /opt/casmacat/log/web
 chown -R www-data:www-data /opt/casmacat/data
 chown -R www-data:www-data /opt/casmacat/experiment
+chown -R www-data:www-data /opt/casmacat/log
 
 echo 'STEP 2/2: restarting apache '`date +%s`
 service apache2 restart
