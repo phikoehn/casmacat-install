@@ -6,7 +6,7 @@
   if ($handle = opendir($log_dir)) {
     while (false !== ($file = readdir($handle))) {
       $timestamp = filectime("$log_dir/$file");
-      if ($file == "install") {
+      if ($file == "initial") {
         if ($most_recent_time == 0) {
           $most_recent_time = $timestamp;
           $most_recent = $file;
