@@ -17,6 +17,7 @@ apt-get -yq install python-tornado
 # needed for mt server
 echo 'STEP 5/8: installing software for mt server '`date +%s`
 apt-get -yq install python-pip
+apt-get -yq install python-levenshtein
 pip install CherryPy
 
 # needed to compile

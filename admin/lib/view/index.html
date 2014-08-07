@@ -5,15 +5,14 @@
 <ul>
 <li tal:condition="show_start_cat_server"><a href="/?action=index&do=start-cat-server">Start CAT server</a></li>
 <li tal:condition="show_start_mt_server"><a href="/?action=index&do=start-mt-server">Start MT server</a></li>
-<li tal:condition="show_translate_document"><a tal:attributes="href url">Translate new document</a></li>
-<li tal:condition="show_translate_document"><a tal:attributes="href url_list">List documents</a></li>
+<li tal:condition="show_translate_document"><a target="_blank" tal:attributes="href url">Translate new document</a></li>
+<li tal:condition="show_translate_document"><a target="_blank" tal:attributes="href url_list">List documents</a></li>
 </ul>
 <h2>Engines</h2>
 <ul>
 <li><a href="/?action=list">Manage engines</a></li>
-<li><a href="/?action=buildEngine">Build new prototype</a></li>
 <li><a href="/?action=uploadEngine">Upload engine</a></li>
-<li><a href="/inspect/">Inspect details of prototype building</a></li>
+<li><a href="/?action=buildEngine">Build new prototype</a></li>
 </ul>
 <h2>Settings</h2>
 <ul>

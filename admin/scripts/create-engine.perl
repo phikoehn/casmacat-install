@@ -3,14 +3,15 @@
 use strict;
 use Getopt::Long "GetOptions";
 
-my ($HELP,$F,$E,$RUN) = @_;
+my ($F,$E,$RUN,$NAME) = @_;
 my %LINE_COUNT;
 
-$HELP = 1
-    unless &GetOptions('run=i' => \$RUN,
+die unless &GetOptions('run=i' => \$RUN,
 		       'f=s' => \$F,
+		       'name=s' => \$NAME,
 		       'e=s' => \$E);
 die unless defined($F) && defined($E) && defined($RUN);
+$NAME = "unnamed" unless defined($NAME) && $NAME !~ /^\s*$/;
 
 # directories
 my $engine_dir = "/opt/casmacat/engines";
@@ -26,6 +27,7 @@ open(INFO,">$dir/info");
 print INFO "source = $F\n";
 print INFO "target = $E\n";
 print INFO "run = $RUN\n";
+print INFO "name = $NAME\n";
 print INFO "time_started = 1395900000\n";
 print INFO "time_done = 1395900000\n";
 print INFO "time_built = ".time()."\n";

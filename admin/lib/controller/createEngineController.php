@@ -8,7 +8,7 @@ class createEngineController extends viewcontroller {
     }
     
     public function doAction(){
-      $createCmd = "scripts/create-engine.perl -f ".$_GET["input-extension"]." -e ".$_GET["output-extension"]." -run ".$_GET["run"];
+      $createCmd = "scripts/create-engine.perl -f ".$_GET["input-extension"]." -e ".$_GET["output-extension"]." -run ".$_GET["run"]." -name '".escapeshellarg($_GET["name"])."'";
       exec($createCmd);
       $this->msg = $createCmd;
     }

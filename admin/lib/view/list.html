@@ -23,7 +23,7 @@
 
 <div tal:condition="lang_pair/has_done">
 <h3>Built Prototypes
-<a tal:condition="lang_pair/inspect_link" tal:attributes="href lang_pair/inspect_link">(Inspect Details in Prototype Factory)</a>
+<a target="_blank" tal:condition="lang_pair/inspect_link" tal:attributes="href lang_pair/inspect_link">(Inspect Details in Prototype Factory)</a>
 </h3>
 <table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Build date</td><td>Action</td></tr>
 <tr tal:repeat="run lang_pair/exp_done">

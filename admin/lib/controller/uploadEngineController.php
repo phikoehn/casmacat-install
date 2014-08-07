@@ -74,21 +74,34 @@ class uploadEngineController extends viewcontroller {
         unlink($engine);
         return;
       }
-      // okay, all's fine, let's move it into the engine directory
+      // okay, all's fine, let's unpack
       exec("cd /tmp ; tar xzf $engine");
       unlink($engine);
-      if (! file_exists("/opt/casmacat/engines/$dir")) {
-        exec("mv /tmp/$dir /opt/casmacat/engines");
-      }
-      else {
-        $rand = rand(1000,9999);
-        while(file_exists("/opt/casmacat/engines/$dir-$rand")) {
-          $rand = rand(1000,9999);
+
+      // get languages
+      foreach(file("/tmp/$dir/info") as $info) {
+        if (preg_match("/^source\s*=\s*(\S+)/",$info,$match)) {
+          $source_language = $match[1];
         }
-        exec("mv /tmp/$dir /opt/casmacat/engines/upload-$dir-$rand");
-        $this->fixDirInFile("/opt/casmacat/engines/upload-$dir-$rand/RUN","/opt/casmacat/engines/$dir","/opt/casmacat/engines/upload-$dir-$rand");
-        $this->fixDirInFile("/opt/casmacat/engines/upload-$dir-$rand/moses.ini","/opt/casmacat/engines/$dir","/opt/casmacat/engines/upload-$dir-$rand");
+        if (preg_match("/^target\s*=\s*(\S+)/",$info,$match)) {
+          $target_language = $match[1];
+        }
       }
+      if ($source_language == "" || $target_language == "") {
+        $this->msg = "Upload failed: Could not find language info";
+        unlink($dir);
+        return;
+      }
+
+      // move it into the engine directory
+      $id = 1;
+      $stem = "/opt/casmacat/engines/$source_language-$target_language-upload-";
+      while(file_exists($stem.$id)) { $id++; }
+      $engine_dir = $stem.$id;
+      exec("mv /tmp/$dir $engine_dir");
+      $this->fixDirInFile("$engine_dir/$moses_ini","/opt/casmacat/engines/$dir",$engine_dir);
+      $this->fixDirInFile("$engine_dir/RUN","/opt/casmacat/engines/$dir",$engine_dir);
+      $this->fixDirInFile("$engine_dir/RUN","LOGDIR/$dir","LOGDIR/$source_language-$target_language-upload-$id");
       $this->msg = "Successfully uploaded";
     }
 

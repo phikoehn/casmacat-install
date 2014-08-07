@@ -184,9 +184,14 @@ class listController extends viewcontroller {
 	    $info = array();
 	    $info["run"] = $info_from_file["run"];
 	    $info["name"] = $info_from_file["name"];
-            if ($info["run"] > 0) {
-	      $info["name"] = $engine_name[$key][$info["run"]];
+            if (preg_match('/upload-(\d+)/',$engine,$match)) {
+              $info["run"] = "x".$match[1];
+            }
+            else if ($info["run"] > 0) {
               $is_engine[$key][$info["run"]] = 1;
+              if ($info["name"] == "") {
+	        $info["name"] = $engine_name[$key][$info["run"]];
+              }
             }
             $info["status"] = "done";
             $info["time_started"] = pretty_time($info_from_file["time_started"]);
@@ -248,7 +253,7 @@ class listController extends viewcontroller {
 		    $info["available"] = 0; # todo
 		    $info["not_available"] = 1; # todo
                     
-		    $info["create"] = ($built) ? 0 : "/?action=createEngine&input-extension=$source&output-extension=$target&run=$run";
+		    $info["create"] = ($built) ? 0 : "/?action=createEngine&input-extension=$source&output-extension=$target&run=$run&name=".urlencode($engine_name[$key][$run]);
                     $lang_pair_hash[$key]["has_done"] = 1;
                     $lang_pair_hash[$key]["exp_done"][] = $info;
                   }
