@@ -1,6 +1,6 @@
 <?php
   require_once '/opt/casmacat/admin/lib/utils/globals.php';
-  $log_dir = "/opt/casmacat/install/log";
+  $log_dir = "/opt/casmacat/log/install";
   $most_recent = "";
   $most_recent_time = 0;
   if ($handle = opendir($log_dir)) {
@@ -20,7 +20,7 @@
       }
     }
   }
-  $recent_log_dir = "/opt/casmacat/install/log/".$most_recent;
+  $recent_log_dir = "/opt/casmacat/log/install/".$most_recent;
   $done = 1;
   $status = array();
   if ($handle = opendir($recent_log_dir)) {
