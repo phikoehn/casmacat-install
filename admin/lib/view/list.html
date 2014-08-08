@@ -7,46 +7,35 @@
 <div tal:condition="lang_pair/has_engines">
 <h3>Available Engines</h3>
 
-<table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Build date</td><td>Size</td><td>Action</td></tr>
-<tr tal:repeat="run lang_pair/engines">
+<table border="1" cellspacing="0" cellpadding="2" width="100%" class="enginetable"><tr class="enginetableheader"><td>#</td><td width="90%">Name</td><td>Size</td><td nowrap="1">Build date</td><td>Action</td></tr>
+<tr tal:repeat="run lang_pair/engines" tal:attributes="class run/status">
 <td tal:content="run/run"></td>
 <td tal:content="run/name"></td>
-<td tal:content="run/time_started"></td>
 <td tal:content="run/size"></td>
-<td tal:condition="run/deployed">deployed
+<td nowrap="1" tal:content="run/time_started"></td>
+<td nowrap="1" tal:condition="run/deployed">deployed
 <a tal:attributes="href run/download">download</a></td>
-<td tal:condition="run/available"><a tal:attributes="href run/action">deploy</a>
+<td nowrap="1" tal:condition="run/available"><a tal:attributes="href run/action">deploy</a>
 <a tal:condition="run/delete" tal:attributes="href run/delete">delete</a>
 <a tal:attributes="href run/download">download</a></td>
 </tr></table>
 </div>
 
-<div tal:condition="lang_pair/has_done">
-<h3>Built Prototypes
+<div tal:condition="lang_pair/has_prototypes">
+<h3>Prototypes
 <a target="_blank" tal:condition="lang_pair/inspect_link" tal:attributes="href lang_pair/inspect_link">(Inspect Details in Prototype Factory)</a>
 </h3>
-<table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Build date</td><td>Action</td></tr>
-<tr tal:repeat="run lang_pair/exp_done">
+<table border="1" cellspacing="0" cellpadding="2" width="100%" class="enginetable"><tr class="enginetableheader"><td>#</td><td width="90%">Name</td><td>Status</td><td nowrap="1">Build date</td><td>Action</td></tr>
+<tr tal:repeat="run lang_pair/prototypes" tal:attributes="class run/status">
 <td tal:content="run/run"></td>
 <td tal:content="structure run/name"></td>
-<td tal:content="run/time_started"></td>
-<td><a tal:condition="run/create" tal:attributes="href run/create">create engine</a>
+<td><a tal:attributes="href run/inspect_graph_link" tal:content="run/status"></a></td>
+<td nowrap="1" tal:content="run/time_started"></td>
+<td nowrap="1"><span tal:content="structure run/action"></span>
 <a tal:condition="run/delete" tal:attributes="href run/delete">delete</a></td>
 </tr></table>
 </div>
 
-<div tal:condition="lang_pair/has_building">
-<h3>Building</h3>
-<table border="1" cellspacing="0" width="100%" class="enginetable"><tr><td>#</td><td>Name</td><td>Status</td><td>Started</td><td>Action</td></tr>
-<tr tal:repeat="run lang_pair/exp_building">
-<td tal:content="run/run"></td>
-<td tal:content="structure run/name"></td>
-<td><a tal:attributes="href run/inspect_graph_link" tal:content="run/status"></a></td>
-<td tal:content="run/time_started"></td>
-<td><div tal:content="structure run/action"></div>
-<a tal:condition="run/delete" tal:attributes="href run/delete">delete</a></td>
-</tr></table>
-</div>
 </div>
 
 <?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>

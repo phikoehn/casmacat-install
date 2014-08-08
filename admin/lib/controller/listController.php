@@ -133,9 +133,8 @@ class listController extends viewcontroller {
       $lang_pair["name"] = $language[$source]."-".$language[$target];
       $lang_pair["source"] = $source;
       $lang_pair["target"] = $target;
-      $lang_pair["has_building"] = 0;
       $lang_pair["has_engines"] = 0;
-      $lang_pair["has_done"] = 0;
+      $lang_pair["has_prototypes"] = 0;
       $lang_pair["inspect_link"] = "/inspect/?setup=".$this->lp2id["$source-$target"];;
       return $lang_pair;
     }
@@ -193,15 +192,19 @@ class listController extends viewcontroller {
 	        $info["name"] = $engine_name[$key][$info["run"]];
               }
             }
-            $info["status"] = "done";
             $info["time_started"] = pretty_time($info_from_file["time_started"]);
             $info["time_done"] = pretty_time($info_from_file["time_done"]);
 	    $info["size"] = $info_from_file["size"];
-            $deployed_flag = ($engine == $deployed);
-	    $info["deployed"] = $deployed_flag;
-	    $info["available"] = !$deployed_flag;
-            if (!$deployed_flag) {
+            if ($engine == $deployed) {
+	      $info["deployed"] = 1;
+	      $info["available"] = 0;
+	      $info["status"] = "deployed";
+            }  
+            else {
+	      $info["deployed"] = 0;
+	      $info["available"] = 1;
 	      $info["action"] = "/?action=list&deploy-engine=$engine";
+	      $info["status"] = "available";
             }
 	    $info["delete"] = "/?action=list&delete-engine=$engine";
 	    $info["download"] = "/?action=list&download-engine=$engine";
@@ -212,12 +215,12 @@ class listController extends viewcontroller {
         }
       }
       
-      # get status of all experimental runs
+      # get status of all prototypes
       if ($handle = opendir($exp_dir)) {
         while (false !== ($file = readdir($handle))) {
           if (preg_match("/([a-z]{2})-([a-z]{2})/",$file,$match)) {
 
-            # process runs for one language pair
+            # process prototypes for one language pair
             $source = $match[1];
             $target = $match[2];
             $key = "$source-$target";
@@ -236,7 +239,7 @@ class listController extends viewcontroller {
                     continue;
                   }
  
-                  # get info on run
+                  # get info on prototype
 		  $info = array();
 		  $info["time_started"] = pretty_time(filectime("$lang_dir/steps/$run/config.$run"));
 		  $info["run"] = $run;
@@ -244,33 +247,27 @@ class listController extends viewcontroller {
                   $built = array_key_exists($key,$is_engine) && array_key_exists($run,$is_engine[$key]);
 	          $info["delete"] = "/?action=list&delete-run=$run&lp=$source-$target";
 		  $info["inspect_graph_link"] = "/inspect/?setup=$setup_id&show=graph.$run.png";
+		  $info["action"] = "";
 
-                  # successfully completed run
+                  # successfully completed prototype
                   if (file_exists("$lang_dir/evaluation/report.$run")) {
                     $info["status"] = "done";
                     $info["time_done"] = pretty_time(filectime("$lang_dir/evaluation/report.$run"));
-		    $info["deployed"] = 0;
-		    $info["available"] = 0; # todo
-		    $info["not_available"] = 1; # todo
-                    
-		    $info["create"] = ($built) ? 0 : "/?action=createEngine&input-extension=$source&output-extension=$target&run=$run&name=".urlencode($engine_name[$key][$run]);
-                    $lang_pair_hash[$key]["has_done"] = 1;
-                    $lang_pair_hash[$key]["exp_done"][] = $info;
+		    $info["action"] .= ($built) ? "" : "<a href=\"/?action=createEngine&input-extension=$source&output-extension=$target&run=$run&name=".urlencode($engine_name[$key][$run])."\">create engine</a>";
                   }
 
 		  # various stages of building
                   else if (file_exists("$lang_dir/steps/$run/running.$run")) {
-                    $lang_pair_hash[$key]["has_building"] = 1;
 
 		    # stopped
                     if (file_exists("$lang_dir/steps/$run/stopped.$run")) {
                       $info["status"] = "stopped";
-	              $info["action"] = "<a href=\"/?action=list&resume=$run&lp=$source-$target\">resume</a>";
+	              $info["action"] .= "<a href=\"/?action=list&resume=$run&lp=$source-$target\">resume</a>";
                     }
 		
 		    # actively building
                     else if (filectime("$lang_dir/steps/$run/running.$run")+60 > time()) {
-	              $info["action"] = "<a href=\"/?action=list&stop-building=$run&lp=$source-$target\">stop</a>";
+	              $info["action"] .= "<a href=\"/?action=list&stop-building=$run&lp=$source-$target\">stop</a>";
                       $info["status"] = "building";
 	 	      $info["delete"] = 0;
                     }
@@ -279,37 +276,32 @@ class listController extends viewcontroller {
                     else {
                       $info["status"] = "crashed";
                       $info["time_crashed"] = pretty_time(filectime("$lang_dir/steps/$run/running.$run"));
-	              $info["action"] = "<a href=\"/?action=list&resume=$run&lp=$source-$target\">resume</a>";
+	              $info["action"] .= "<a href=\"/?action=list&resume=$run&lp=$source-$target\">resume</a>";
                     }
-                    $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
 
 		  # not properly started -> old: misconfigured
                   else if (filectime("$lang_dir/steps/$run/config.$run") < time()-3600) {
                     $info["status"] = "misconfigured";
-                    $info["action"] = "";
-                    $lang_pair_hash[$key]["exp_building"][] = $info;
                   }
 
 		  # ... -> new: still starting up
                   else {
-                    $lang_pair_hash[$key]["has_building"] = 1;
                     $info["status"] = "starting";
-	            $info["action"] = "";
-                    $lang_pair_hash[$key]["exp_building"][] = $info;
 		    $info["delete"] = 0;
                   }
+
+                  # okay, it's a wrap, add it to the list
+                  $lang_pair_hash[$key]["has_prototypes"] = 1;
+                  $lang_pair_hash[$key]["prototypes"][] = $info;
                 }
               }
             }
             if ($lang_pair_hash[$key]["has_engines"]) {
               usort($lang_pair_hash[$key]["engines"], 'run_cmp');
             }
-            if ($lang_pair_hash[$key]["has_done"]) {
-              usort($lang_pair_hash[$key]["exp_done"], 'run_cmp');
-            }
-            if ($lang_pair_hash[$key]["has_building"]) {
-              usort($lang_pair_hash[$key]["exp_building"], 'run_cmp');
+            if ($lang_pair_hash[$key]["has_prototypes"]) {
+              usort($lang_pair_hash[$key]["prototypes"], 'run_cmp');
             }
           }
         }

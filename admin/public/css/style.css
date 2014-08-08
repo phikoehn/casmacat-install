@@ -89,6 +89,22 @@ table.enginetable {
   color:#f00;
   font-size:11pt;
 }
+tr.enginetableheader {
+  font-weight: bold;
+  background: #e0e0e0;
+}
+tr.building {
+  background: #ffffc0;
+}
+tr.crashed {
+  background: #ffe0e0;
+}
+tr.deployed {
+  background: #e0e0ff;
+}
+tr.available {
+  background: #e0ffe0;
+}
 
 
 .keyvaluetable tr > td:first-child { font-weight: bold; } /* first column */
@@ -103,7 +119,7 @@ h2 {
 }
 
 h3 {
-  font-size: 14pt;
+  font-size: 12pt;
   margin-bottom: 4px;
 }
 
