@@ -14,6 +14,7 @@ class indexController extends viewcontroller {
 
       if (array_key_exists("do",$_GET)) {
         if ($_GET['do'] == 'start-mt-server') {
+          exec('scripts/update-language-setting-in-web-server.perl');
           exec('scripts/start-mt-server.perl');
           usleep(2000000);
         }
