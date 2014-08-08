@@ -12,8 +12,9 @@ else
   cd /opt/casmacat/engines
   wget http://www.casmacat.eu/uploads/toy-fr-en.tgz
   tar xzf toy-fr-en.tgz
+  rm toy-fr-en.tgz
   mkdir /opt/casmacat/engines/log
-  echo "toy-fr-en" > /opt/casmacat/engines/deployed
+  echo "fr-en-upload-1" > /opt/casmacat/engines/deployed
   chown -R www-data:www-data /opt/casmacat/engines
 fi
 echo 'DONE '`date +%s`
