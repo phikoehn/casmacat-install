@@ -22,6 +22,12 @@ class indexController extends viewcontroller {
           exec('scripts/start-cat-server.sh');
           usleep(2000000);
         }
+        if ($_GET['do'] == 'reset-server') {
+          exec('scripts/update-language-setting-in-web-server.perl');
+          exec('scripts/start-mt-server.perl');
+          exec('scripts/start-cat-server.sh');
+          usleep(2000000);
+        }
         if ($_GET['do'] == 'update') {
           exec('/opt/casmacat/install/update.sh');
         }
