@@ -99,6 +99,9 @@ tr.building {
 tr.crashed {
   background: #ffe0e0;
 }
+tr.done {
+  background: #e0ffe0;
+}
 tr.deployed {
   background: #e0e0ff;
 }
