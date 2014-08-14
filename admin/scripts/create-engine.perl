@@ -137,6 +137,7 @@ killall -9 online-mgiza
 killall -9 symal
 kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_server/server.py' | grep -v grep | cut -c1-5`
 \$ROOTDIR/mt-server/python_server/server.py \\
+  -logprefix $LOGDIR/$engine \\
   -tokenizer \"\$SCRIPTDIR/tokenizer/tokenizer.perl -b -a -l $F -protected \$SCRIPTDIR/tokenizer/basic-protected-patterns\" \\
   -truecaser \"\$SCRIPTDIR/recaser/truecase.perl -b -model $dir/truecase-model.".$STEP{"TRUECASER_train"}.".$F\" \\
   -prepro \"\$SCRIPTDIR/tokenizer/normalize-punctuation.perl -b $F\" \\
