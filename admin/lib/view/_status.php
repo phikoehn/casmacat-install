@@ -17,7 +17,8 @@
                   $steps_to_run = 0;
                   foreach($log as $line) {
                     if (preg_match("/\s*\-\>\s*run$/",$line) ||
-			preg_match("/\s*\-\>\s*re-using \($run\)/",$line)) {
+			(preg_match("/\s*\-\>\s*re-using /",$line) &&
+			 preg_match("/\-\>.*[^\d]${run}[^\d]/",$line))) {
                       $steps_to_run++;
                     }
                   }
