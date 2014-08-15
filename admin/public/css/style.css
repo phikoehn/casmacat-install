@@ -94,19 +94,19 @@ tr.enginetableheader {
   background: #e0e0e0;
 }
 tr.building {
-  background: #ffffc0;
+  background: #ffffe0;
 }
 tr.crashed {
   background: #ffe0e0;
 }
 tr.done {
-  background: #e0ffe0;
+  background: #f0fff0;
 }
 tr.deployed {
-  background: #e0e0ff;
+  background: #d0d0ff;
 }
 tr.available {
-  background: #e0ffe0;
+  background: #d0ffd0;
 }
 
 

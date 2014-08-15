@@ -67,8 +67,8 @@ sub create_dev {
     while(my $e = <E>) {
       my $f = <F>;
       next if &is_too_long($e,$f);
-      print F_SGM "<seg id=\$i\">$f</seg>\n";
-      print E_SGM "<seg id=\$i\">$e</seg>\n";
+      print F_SGM "<seg id=\"$i\">$f</seg>\n";
+      print E_SGM "<seg id=\"$i\">$e</seg>\n";
       $i++;
     }
     print F_SGM "</doc>\n</srcset>\n";
