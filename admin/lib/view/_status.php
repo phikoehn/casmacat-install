@@ -2,9 +2,9 @@
 <?php
   $exp_dir = "/opt/casmacat/experiment";
   if ($handle = opendir($exp_dir)) {
-    while (false !== ($file = readdir($handle))) {
-      if (preg_match("/([a-z]{2})-([a-z]{2})/",$file,$match)) {
-        $lang_dir = "$exp_dir/$file";
+    while (false !== ($lp = readdir($handle))) {
+      if (preg_match("/([a-z]{2})-([a-z]{2})/",$lp,$match)) {
+        $lang_dir = "$exp_dir/$lp";
         if ($handle2 = opendir($lang_dir."/steps")) {
           while (false !== ($file = readdir($handle2))) {
             if (preg_match("/^(\d+)$/",$file,$match) && $match[1]>0) {
@@ -17,16 +17,21 @@
                   $steps_to_run = 0;
                   foreach($log as $line) {
                     if (preg_match("/\s*\-\>\s*run$/",$line) ||
-			preg_match("/\s*\-\>\s*re-using \($run\)/",$line)) {
+			(preg_match("/\s*\-\>\s*re-using /",$line) &&
+			 preg_match("/\-\>.*[^\d]${run}[^\d]/",$line))) {
                       $steps_to_run++;
                     }
                   }
                   $finished = array();
                   exec("ls $lang_dir/steps/$run/*DONE | wc -l",$finished);
-                  printf ("<tr><td><b>Building:</b></td><td>%d of %d steps finished</td><td><progress value=\"%d\" max=\"%d\"></progress> <img src=\"/inspect/spinner.gif\" width=12 height=12></td></tr>",$finished[0],$steps_to_run,$finished[0],$steps_to_run);
                   $step = array();
 		  exec("ls -t $lang_dir/steps/$run | grep '^[A-Z]'",$step);
-                  printf ("<tr><td></td><td colspan=\"2\">%s</td></tr>",$step[1]);
+		  $step_name = preg_replace('/\.digest$/','',$step[1]);
+                  $step_name = preg_replace('/([A-Z])_/','$1 (',$step_name);
+                  $step_name = preg_replace('/_/',' ',$step_name);
+		  $step_name = preg_replace('/\.\d+\.[A-Z]+$/',')',$step_name);
+                  printf ("<tr><td valign='top'><b>Building:</b></td><td>%s, prototype #%d<br>%d of %d steps finished</td><td><progress value=\"%d\" max=\"%d\"></progress> <img src=\"/inspect/spinner.gif\" width=12 height=12><br>%s</td></tr>",$lp,$run,$finished[0],$steps_to_run,$finished[0],$steps_to_run,$step_name);
+                  // printf ("<tr><td></td><td colspan=\"2\">%s</td></tr>",$step_name);
                 }
               }
             }
