@@ -73,11 +73,11 @@ class listController extends viewcontroller {
         $process_list = $this->get_children($root,$child);
         $killCmd = "kill -9 $process_list"; 
         exec($killCmd);
-	// mark run as stopped
-	$touchCmd = "touch $exp_dir/".$_GET["lp"]."/steps/$run/stopped.$run";
-        exec($touchCmd);
-        $this->msg = "Stopped #$run + $killCmd + $touchCmd";
       }
+      // mark run as stopped
+      $touchCmd = "touch $exp_dir/".$_GET["lp"]."/steps/$run/stopped.$run";
+      exec($touchCmd);
+      $this->msg = "Stopped #$run + $killCmd + $touchCmd";
     }
 
     private function get_children($parent,$child) {
