@@ -28,3 +28,5 @@ make
 # Install package
 echo 'STEP 4/4: installing thot '`date +%s`
 make install
+
+echo 'DONE '`date +%s`

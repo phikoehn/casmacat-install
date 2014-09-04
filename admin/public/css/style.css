@@ -123,3 +123,9 @@ progress::-webkit-progress-value {
 progress[aria-valuenow]:before  {
     background: #000080;
 }
+.external {
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-image: url(/public/img/external-link-ltr-icon.png);
+  padding-right: 13px;
+}

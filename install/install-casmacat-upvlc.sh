@@ -23,7 +23,7 @@ echo 'STEP 2/3: downloading and installing cat server '`date +%s`
 cd /opt/casmacat/itp-server
 make
 ln -sf /opt/casmacat/itp-server/src/lib/.libs/_casmacat.so /opt/casmacat/itp-server/server/_casmacat.so
-echo 'PYTHONPATH=/opt/casmacat/itp-server/src/lib:/opt/casmacat/itp-server/src/python:$PYTHONPATH LD_LIBRARY_PATH=/opt/casmacat/itp-server/src/lib/.libs /opt/casmacat/itp-server/server/casmacat-server.py -c $1 $2' > /opt/casmacat/itp-server/itp-server.sh
+echo 'PYTHONPATH=/opt/casmacat/itp-server/src/lib:/opt/casmacat/itp-server/src/python:$PYTHONPATH LD_LIBRARY_PATH=/opt/casmacat/itp-server/src/lib/.libs /opt/casmacat/itp-server/server/casmacat-server.py -c $1 $2' > /opt/casmacat/admin/scripts/itp-server.sh
 
 echo 'STEP 3/3: downloading example models '`date +%s`
 if [ ! -d /opt/casmacat/engines/eutt2-demo ]; then

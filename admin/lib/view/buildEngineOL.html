@@ -1,0 +1,63 @@
+<?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
+<script src="/public/js/ajaxfileupload.js"></script>
+
+<h1>Add data to the Online Learning server</h1>
+
+<form id='build-form' method='post' enctype="multipart/form-data">
+<input type="hidden" name="action" value="build"/>
+<table class="keyvaluetable">
+
+
+<tr><td>Input language</td>
+<td><select name="input-extension" onchange="changeLanguagePair()">
+<option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_source" tal:content="l/name"></option>
+</select></td></tr>
+<tr><td>Output language</td>
+<td><select name="output-extension" onchange="changeLanguagePair()">
+<option tal:repeat="l languages" tal:attributes="value l/code; selected l/default_target" tal:content="l/name"></option>
+</select></td></tr>
+
+<tr id="upload" valign="top"><td>Add corpus</td>
+<td>
+<p id="loading" style="display:none;">loading...</p>
+<form name="form" action="" method="POST" enctype="multipart/form-data">
+<input id="fileToUpload" type="file" size="45" name="fileToUpload" class="input"/>
+<button class="button" id="buttonUpload" onclick="return ajaxFileUpload();">Upload</button>
+</form>
+<br/>
+<div id="public-corpora">
+<a href="javascript:showPublicCorpora();">Public corpora</a>
+</div>
+</td></tr>
+
+<tr id="corpus-table" style="display:none"><td valign="top">Corpora</td><td id="corpus-table-content"></td></tr>
+
+<tr class="config"><td>Re-Use</td>
+<td id="previous-settings"></td></tr>
+
+<tr class="config"><td valign="top">Tuning set</td>
+<td><select id="tuning-corpus" name="tuning-corpus" onChange="guessDevSelect('#tuning');"></select> 
+    <input id="tuning-select-all" type="radio" name="tuning-select" value="all" checked="checked" onChange="refreshDev();"/> all 
+    <input id="tuning-select-select" type="radio" name="tuning-select" value="select" onChange="refreshDev();"/> select 
+    <select id="tuning-count" name="tuning-count" onChange="refreshDev();"><option>500</option><option selected="selected">1000</option><option>2000</option><option>3000</option></select>
+    <div id="tuning-alert" class="alert"></div>
+</td></tr>
+<tr class="config"><td valign="top">Evaluation set</td>
+<td><select id="evaluation-corpus" name="evaluation-corpus" onChange="guessDevSelect('#evaluation');"></select> 
+    <input id="evaluation-select-all" type="radio" name="evaluation-select" value="all" checked="checked" onChange="refreshDev();"/> all 
+    <input id="evaluation-select-select" type="radio" name="evaluation-select" value="select" onChange="refreshDev();"/> select 
+    <select id="evaluation-count" name="evaluation-count" onChange="refreshDev();"><option>500</option><option selected="selected">1000</option><option>2000</option><option>3000</option></select>
+    <div id="evaluation-alert" class="alert"></div>
+</td></tr>
+
+<tr class="config"><td>Name</td>
+<td><input name="name" size="40" /></td></tr>
+
+<tr class="config"><td>&nbsp;</td><td><input id="submit-build" name="submit-build" type="submit" value="build"/></td></tr>
+</table>
+</form>
+<script language="javascript" src="/lib/js/buildEngine.js"></script>
+<script>
+changeLanguagePair();
+</script>
+<?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>
