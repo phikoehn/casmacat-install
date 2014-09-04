@@ -38,7 +38,9 @@
 ?>
 <?php
   $deployed = file("/opt/casmacat/engines/deployed");
-  print "<tr><td><b>Deployed:</b></td><td colspan=\"2\">".$deployed[0]."</td></tr>";;
+  if (isset($deployed[0])) {
+    print "<tr><td><b>Deployed:</b></td><td colspan=\"2\">".$deployed[0]."</td></tr>";;
+  }
 ?>
 <?php
   $ret = array();

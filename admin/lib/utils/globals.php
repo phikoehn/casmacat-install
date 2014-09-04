@@ -25,7 +25,7 @@
       $ip = $match[1];
     }
   }
-  if ($ip) {
+  if (isset($ip)) {
     if ($_SERVER['REMOTE_ADDR'] == $ip || $_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
       $alert = "You can access this page also from a web browser on your host computer under the address: <b>http://$ip/</b>\n";
     }
