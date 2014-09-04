@@ -17,7 +17,7 @@ apt-get -yq install python-tornado
 # needed for mt server
 echo 'STEP 5/8: installing software for mt server '`date +%s`
 apt-get -yq install python-pip
-pip install CherryPy
+pip install -U CherryPy socketIO-client
 
 # needed to compile
 echo 'STEP 6/8: installing c++ compiler '`date +%s`

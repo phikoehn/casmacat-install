@@ -1,0 +1,13 @@
+<?php include "/opt/casmacat/admin/lib/view/_header.html" ?>
+<h1>Learning from uploaded corpus</h1>
+<div id="buildstatus"></div>
+<script>
+  $.Updater('/lib/view/_buildOLStatus.php',
+    { method: 'get', interval: 1000, type: 'text' },
+    function(remoteData, success, xhr, handle) {
+      $("#buildstatus").html(remoteData);
+  });
+  // new Ajax.PeriodicalUpdater("buildstatus", "/lib/view/_buildStatus.php", { method: 'get', evalScripts: true, frequency: 1 });
+</script>
+<font size="-3"><p tal:content="msg"></p></font>
+<?php include "/opt/casmacat/admin/lib/view/_footer.html" ?>
