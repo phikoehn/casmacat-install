@@ -140,10 +140,12 @@ kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_
   -logprefix \$LOGDIR/$engine \\
   -tokenizer \"\$SCRIPTDIR/tokenizer/tokenizer.perl -b -a -l $F -protected \$SCRIPTDIR/tokenizer/basic-protected-patterns\" \\
   -truecaser \"\$SCRIPTDIR/recaser/truecase.perl -b -model $dir/truecase-model.".$STEP{"TRUECASER_train"}.".$F\" \\
-  -prepro \"\$SCRIPTDIR/tokenizer/normalize-punctuation.perl -b $F\" \\
+  -prepro \"\$SCRIPTDIR/tokenizer/normalize-punctuation.perl -b -l $F\" \\
   -detruecaser \"\$SCRIPTDIR/recaser/detruecase.perl -b\" \\
   -detokenizer \"\$SCRIPTDIR/tokenizer/detokenizer.perl -b -l $E\" \\
   -tgt-tokenizer \"\$SCRIPTDIR/tokenizer/tokenizer.perl -b -a -l $E\ -protected \$SCRIPTDIR/tokenizer/basic-protected-patterns\" \\
+  -tgt-truecaser \"\$SCRIPTDIR/recaser/truecase.perl -b -model $dir/truecase-model.".$STEP{"TRUECASER_train"}.".$E\" \\
+  -tgt-prepro \"\$SCRIPTDIR/tokenizer/normalize-punctuation.perl -b -l $E\" \\
   -omgiza_tgt2src \"/opt/moses/external/bin/online-mgiza \${T2SMODEL}.gizacfg -onlineMode 1 -coocurrencefile \${T2SMODEL}.cooc -corpusfile \${PREPARED}/\${SRCLANG}-\${TGTLANG}-int-train.snt -previousa \${T2SMODEL}.a3.final -previousd \${T2SMODEL}.d3.final -previousd4 \${T2SMODEL}.d4.final -previousd42 \${T2SMODEL}.D4.final -previoushmm \${T2SMODEL}.hhmm.5 -previousn \${T2SMODEL}.n3.final -previoust \${T2SMODEL}.t3.final -sourcevocabularyfile \${PREPARED}/\$TGTLANG.vcb -sourcevocabularyclasses \${PREPARED}/\$TGTLANG.vcb.classes -targetvocabularyfile \${PREPARED}/\$SRCLANG.vcb -targetvocabularyclasses \${PREPARED}/\$SRCLANG.vcb.classes -o \$LOGDIR -m1 0 -m2 0 -m3 0 -m4 3 -mh 0 -restart 11\" \\
   -omgiza_src2tgt \"/opt/moses/external/bin/online-mgiza \${S2TMODEL}.gizacfg -onlineMode 1 -coocurrencefile \${S2TMODEL}.cooc -corpusfile \${PREPARED}/\${TGTLANG}-\${SRCLANG}-int-train.snt -previousa \${S2TMODEL}.a3.final -previousd \${S2TMODEL}.d3.final -previousd4 \${S2TMODEL}.d4.final -previousd42 \${S2TMODEL}.D4.final -previoushmm \${S2TMODEL}.hhmm.5 -previousn \${S2TMODEL}.n3.final -previoust \${S2TMODEL}.t3.final -sourcevocabularyfile \${PREPARED}/\$SRCLANG.vcb -sourcevocabularyclasses \${PREPARED}/\$SRCLANG.vcb.classes -targetvocabularyfile \${PREPARED}/\$TGTLANG.vcb -targetvocabularyclasses \${PREPARED}/\$TGTLANG.vcb.classes -o \$LOGDIR -m1 0 -m2 0 -m3 0 -m4 3 -mh 0 -restart 11\" \\
   -symal \"/opt/moses/bin/symal -alignment=grow -diagonal=yes -final=yes -both=yes\" \\

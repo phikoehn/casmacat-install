@@ -45,9 +45,9 @@ then
   echo 'online mgiza already installed'
 else
   cd /opt/moses/external
-  wget http://www.casmacat.eu/uploads/mgiza-online.v0.7.3b.tgz 
-  tar xzf mgiza-online.v0.7.3b.tgz
-  cd mgiza-online.v0.7.3b
+  wget http://www.casmacat.eu/uploads/mgiza-online.v0.7.3c.tgz 
+  tar xzf mgiza-online.v0.7.3c.tgz
+  cd mgiza-online.v0.7.3c
   cmake .
   make
   cp bin/mgiza /opt/moses/external/bin/online-mgiza
