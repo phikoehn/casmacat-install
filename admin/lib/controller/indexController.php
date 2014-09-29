@@ -19,7 +19,7 @@ class indexController extends viewcontroller {
           exec('scripts/start-cat-server.sh');
         }
         if ($_GET['do'] == 'start-ol-server') {
-          exec('scripts/itp-server.sh /opt/casmacat/engines/eutt2-demo/eutt2-es-en.cfg 8765');
+          exec('scripts/itp-server.sh /ssd/models/home-edition-ol.conf 8765');
         }
         if ($_GET['do'] == 'stop-ol-server') {
           exec('scripts/itp-server.sh stop');
@@ -41,7 +41,7 @@ class indexController extends viewcontroller {
         if (strpos($line,"/opt/casmacat/mt-server/python_server/server.py") !== false) {
           $this->mt_server_online++;
         }
-        if (strpos($line,"/opt/casmacat/itp-server/server/casmacat-server.py") !== false) {
+        if (strpos($line,"/opt/casmacat/itp-server/server/casmacat-server.py") !== false && strpos($line,"8765") !== false) {
           $this->ol_server_online++;
         }
       }

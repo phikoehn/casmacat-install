@@ -33,7 +33,7 @@ class buildOLController extends viewcontroller {
       $_POST["previous-settings"] = ""; # TODO: delete array element instead
       $buildCmd .= " --info '".json_encode($_POST)."'";
 
-      $buildCmd .= " >/tmp/build_ol_status  2>/tmp/build_ol_status.err &";
+      $buildCmd .= " --status /tmp/build_ol_status >/tmp/build_ol.log  2>/tmp/build_ol.err &";
 
       exec($buildCmd);
       $this->msg = $buildCmd;

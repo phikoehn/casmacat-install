@@ -1,19 +1,16 @@
 <?php
-  $status = file("/tmp/build_ol_status");
-  if (preg_match("/Already running/",$status[0]) ||
-      preg_match("/Identical setup/",$status[0])) {
-    print $status[0];
-    print "<p>If you want to build a different system, please change the configuration.</p>";
+  $f = fopen("/tmp/build_ol_status", 'r');
+  $line = fgets($f);
+  fclose($f);
+
+  $values = preg_split("/\s+/", $line);
+  $n = intval($values[0]);
+  $N = intval($values[1]);
+  if ($n == $N) {
+    print "<p>Online learning completed.</p>";
     print "<ul><li><a href=\"/\">Return to main menu</a></li>";
-    print "<li><a href=\"/?action=setup\">Build new engine</a></li></ul>";
   } 
-  else if (preg_match("/Started/",$status[0])) {
-    print $status[0];
-    print "<ul><li><a href=\"/\">Return to main menu</a></li>";
-    print "<li><a href=\"/?action=list\">List of engines</a></li></ul>";
-  }
   else {
-    print $status[0];
-    print "Waiting for build process to start...\n";
+    printf("<progress value='$n' max='$N'></progress>\n", $progress);
   }
 ?>
