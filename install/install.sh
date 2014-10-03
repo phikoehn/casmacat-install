@@ -8,6 +8,7 @@ mkdir -p /opt/casmacat/install
 cd /opt/casmacat/install
 mkdir -p $LOGDIR
 
+
 sh ./install-dependencies.sh > $LOGDIR/dependencies.out 2> $LOGDIR/dependencies.err
 chown -R www-data:www-data /opt/casmacat
 sh ./install-admin.sh > $LOGDIR/admin.out 2> $LOGDIR/admin.err &
