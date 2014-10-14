@@ -140,6 +140,9 @@ function reUsePreviousSetting() {
       $('input[name=evaluation-select][value=' + setting[parameter] + ']').prop('checked','checked');
       refreshDev();
     }
+    else if (parameter == "toolkit") {
+      $('input[name=toolkit][value=' + setting[parameter] + ']').prop('checked','checked');
+    }
     // all others (except the ones to be ignored)
     else if (parameter != "input-extension" &&
              parameter != "output-extension" &&

@@ -9,6 +9,7 @@
 ### directory in which experiment is run
 #
 working-dir = /opt/casmacat/experiment/<XXX F>-<XXX E>
+<THOT>thot = /opt/thot/bin
 
 # specification of the language pair
 input-extension = <XXX F>
@@ -46,7 +47,7 @@ data = /opt/casmacat/data
 decoder = $moses-bin-dir/moses
 
 # conversion of phrase table into binary on-disk format
-ttable-binarizer = $moses-bin-dir/processPhraseTableMin
+<MOSES>ttable-binarizer = $moses-bin-dir/processPhraseTableMin
 
 # conversion of rule table into binary on-disk format
 #ttable-binarizer = "$moses-bin-dir/CreateOnDiskPt 1 1 4 100 2"
@@ -109,8 +110,10 @@ max-sentence-length = 80
 
 ### tool to be used for language model training
 # kenlm training
-lm-training = "$moses-script-dir/ems/support/lmplz-wrapper.perl -bin $moses-bin-dir/lmplz"
-settings = "--prune '0 0 1' -T $working-dir/lm/tmp -S 50%"
+<MOSES>lm-training = "$moses-script-dir/ems/support/lmplz-wrapper.perl -bin $moses-bin-dir/lmplz"
+<MOSES>settings = "--prune '0 0 1' -T $working-dir/lm/tmp -S 50%"
+<THOT>lm-training = "$moses-script-dir/ems/support/thot-lm-wrapper.perl"
+<THOT>settings = "-bin $thot/thot_lm_train -tmp $working-dir"
 
 # irstlm training
 # msb = modified kneser ney; p=0 no singleton pruning
@@ -132,8 +135,8 @@ order = 4
 #lm-binarizer = $irstlm-dir/compile-lm
 
 # kenlm, also set type to 8
-lm-binarizer = $moses-bin-dir/build_binary
-type = 8
+<MOSES>lm-binarizer = $moses-bin-dir/build_binary
+<MOSES>type = 8
 
 ### script to create quantized language model format (irstlm)
 # (default: no quantization)
@@ -569,12 +572,12 @@ nist-bleu-c = "$moses-script-dir/generic/mteval-v13a.pl -c"
 #
 analysis = $moses-script-dir/ems/support/analysis.perl
 #
-# also report on input coverage
-analyze-coverage = yes
-#
-# also report on phrase mappings used
-report-segmentation = yes
-#
+<MOSES># also report on input coverage
+<MOSES>analyze-coverage = yes
+<MOSES>#
+<MOSES># also report on phrase mappings used
+<MOSES>report-segmentation = yes
+<MOSES>#
 # report precision of translations for each input word, broken down by
 # count of input word in corpus and model
 #report-precision-by-coverage = yes

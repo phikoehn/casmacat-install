@@ -8,7 +8,7 @@ $ENV{"USER"} = "www-data"; # needed by mgiza
 
 my $dir = "/opt/casmacat/admin/scripts";
 
-my ($HELP,$F,$E,@CORPUS,@SUBSAMPLE,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME,$INFO) = @_;
+my ($HELP,$F,$E,@CORPUS,@SUBSAMPLE,$TUNING_CORPUS,$TUNING_SELECT,$EVALUATION_CORPUS,$EVALUATION_SELECT,$NAME,$INFO,$TOOLKIT) = @_;
 my %LINE_COUNT;
 
 $HELP = 1
@@ -18,6 +18,7 @@ $HELP = 1
 		       'tuning-select=s' => \$TUNING_SELECT,
 		       'evaluation-corpus=s' => \$EVALUATION_CORPUS,
 		       'evaluation-select=s' => \$EVALUATION_SELECT,
+		       'toolkit=s' => \$TOOLKIT,
 		       'name=s' => \$NAME,
 		       'info=s' => \$INFO,
 		       'f=s' => \$F,
@@ -142,6 +143,14 @@ open(TEMPLATE,"$dir/config.template");
 open(CONFIG,">$exp_dir/config");
 while(<TEMPLATE>) {
   s/<XXX (\S+)>/$CONFIG{$1}/g;
+  if ($TOOLKIT eq 'thot') {
+    next if /<MOSES>/;
+    s/<THOT>//g;
+  }
+  else {
+    next if /<THOT>/;
+    s/<MOSES>//g;
+  }
   print CONFIG $_;
 }
 close(CONFIG);

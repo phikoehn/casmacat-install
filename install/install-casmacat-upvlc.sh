@@ -14,7 +14,6 @@ else
   cd /opt/casmacat/itp-server
   bash autogen.sh
   ./configure
-
 fi
 
 chown -R www-data:www-data /opt/casmacat/itp-server

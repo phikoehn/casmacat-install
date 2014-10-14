@@ -11,6 +11,8 @@ class buildController extends viewcontroller {
     public function doAction(){
       $buildCmd = "scripts/build-prototype.perl -f ".$_POST["input-extension"]." -e ".$_POST["output-extension"];
 
+      $buildCmd .= " -toolkit ".$_POST["toolkit"];
+
       $buildCmd .= " -tuning-corpus ".$_POST["tuning-corpus"];
       if ($_POST["tuning-select"] != "all") {
         $buildCmd .= " -tuning-select ".$_POST["tuning-count"];

@@ -61,7 +61,7 @@ class listController extends viewcontroller {
       // if there is a process matching the specified language pair and run number...
       if ($root) {
         // get the root of the process tree for the experiment
-        while($parent[$root] != 1) {
+        while(array_key_exists($root,$parent) && $parent[$root] != 1) {
           $root = $parent[$root];
         }
 	// note steps as killed

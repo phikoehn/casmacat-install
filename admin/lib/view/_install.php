@@ -55,6 +55,9 @@
       else if ($file == "casmacat.out") {
         print "CAT software";
       }
+      else if ($file == "casmacat-upvlc.out") {
+        print "ITP software";
+      }
       else if ($file == "dependencies.out") {
         print "Basic software";
       }
