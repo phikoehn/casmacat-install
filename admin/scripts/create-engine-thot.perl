@@ -108,13 +108,13 @@ print OUT <<"END_OF_FILE";
   "aligner": {
     "module": "/opt/thot/lib/libthot_casmacat.so", 
     "name": "thot_align_plugin",
-    "parameters": "$dir/tm/src_trg_invswm",
+    "parameters": "$dir/tm/main/src_trg_invswm",
     "online-learning": false
   },
   "confidencer": {
     "module": "/opt/thot/lib/libthot_casmacat.so", 
     "name": "thot_cm_plugin",
-    "parameters": "$dir/tm/src_trg_invswm",
+    "parameters": "$dir/tm/main/src_trg_invswm",
     "thresholds": [3, 30],
     "online-learning": false
   },
