@@ -69,7 +69,11 @@ close(RE_USE);
 `cp -r $exp_dir/model/phrase-table-thot.$STEP{"TRAINING_thot-build-ttable"} $dir/tm`;
 
 # copy language model
-`cp -r $exp_dir/lm/corpus-2.lm.$STEP{"LM_corpus-2_train"} $dir/lm`;
+foreach (keys %STEP) {
+  if (/LM_(.+)_train/) {
+    `cp -r $exp_dir/lm/$1.lm.$STEP{$_} $dir/lm`;
+  }
+}
 
 # copy truecase model
 if (defined($STEP{"TRUECASER_train"})) {
@@ -140,7 +144,16 @@ print RUN <<"END_OF_FILE";
 
 #! /bin/bash
 
+export ROOTDIR=/opt/casmacat
+export LOGDIR=\$ROOTDIR/log/mt
+
 mkdir -p \$LOGDIR
+
+killall -9 mosesserver
+killall -9 online-mgiza
+killall -9 symal
+kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/mt-server/python_server/server.py' | grep -v grep | 
+cut -c1-5`
 
 kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/itp-server/server/casmacat-server.py' | grep -v grep | cut -c1-5`
 

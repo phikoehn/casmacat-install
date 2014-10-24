@@ -31,15 +31,25 @@ class listController extends viewcontroller {
     }
     
     private function deploy($engine) {
+      global $current_engine_is_thot, $thot_itp_conf;
       // set engine name (is read by start-mt-server.perl
       $handle = fopen("/opt/casmacat/engines/deployed","w");
       fwrite($handle,$engine."\n");
       fclose($handle);
 
       // restart MT and CAT server
-      exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
-      exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
+      exec("/opt/casmacat/admin/scripts/itp-server.sh stop");
+      exec("/opt/casmacat/admin/scripts/stop-cat-server.sh");
       exec("/opt/casmacat/admin/scripts/update-language-setting-in-web-server.perl");
+      exec("/opt/casmacat/admin/scripts/start-mt-server.perl");
+      detect_engine();
+      $this->msg = "CURRENT ENGINE : $current_engine_is_thot / $thot_itp_conf";
+      if ($current_engine_is_thot) {
+        exec("/opt/casmacat/admin/scripts/itp-server.sh $thot_itp_conf 9999");
+      }
+      else {
+        exec("/opt/casmacat/admin/scripts/start-cat-server.sh");
+      }
     }
 
     private function stop_building($run) {

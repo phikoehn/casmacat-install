@@ -7,9 +7,6 @@
 <li tal:condition="show_translate_document"><a target="_blank" tal:attributes="href url_list">List documents</a></li>
 <li tal:condition="show_start_cat_server"><a href="/?action=index&do=start-cat-server">Start CAT server</a></li>
 <li tal:condition="show_start_mt_server"><a href="/?action=index&do=start-mt-server">Start MT server</a></li>
-<!--li tal:condition="show_start_ol_server"><a href="/?action=index&do=start-ol-server">Start OL server</a> (<a href="https://github.com/daormar/thot" class="external" target="_blank">with Thot</a>)</li-->
-<li tal:condition="not: show_start_ol_server">OL server started (<a href="https://github.com/daormar/thot" class="external" target="_blank">with Thot</a>)</li>
-<!--li tal:condition="not: show_start_ol_server"><a href="/?action=index&do=stop-ol-server">Stop OL server</a> (<a href="https://github.com/daormar/thot" class="external" target="_blank">with Thot</a>)</li-->
 </ul>
 <h2>Engines</h2>
 <ul>

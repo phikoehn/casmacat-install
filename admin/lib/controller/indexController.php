@@ -11,6 +11,7 @@ class indexController extends viewcontroller {
     }
     
     public function doAction(){
+      global $current_engine_is_thot, $thot_itp_conf;
 
       if (array_key_exists("do",$_GET)) {
         if ($_GET['do'] == 'start-mt-server') {
@@ -19,20 +20,28 @@ class indexController extends viewcontroller {
           usleep(2000000);
         }
         if ($_GET['do'] == 'start-cat-server') {
-          exec('scripts/start-cat-server.sh');
+          exec('scripts/itp-server.sh stop');
+          exec('scripts/stop-cat-server.sh');
+          if ($current_engine_is_thot) {
+            exec('scripts/itp-server.sh $thot_itp_conf 9999');
+          }
+          else {
+            exec('scripts/start-cat-server.sh');
+          }
           usleep(2000000);
         }
         if ($_GET['do'] == 'reset-server') {
+          exec('scripts/itp-server.sh stop');
+          exec('scripts/stop-cat-server.sh');
           exec('scripts/update-language-setting-in-web-server.perl');
           exec('scripts/start-mt-server.perl');
-          exec('scripts/start-cat-server.sh');
+          if ($current_engine_is_thot) {
+            exec('scripts/itp-server.sh $thot_itp_conf 9999');
+          }
+          else {
+            exec('scripts/start-cat-server.sh');
+          }
           usleep(2000000);
-        }
-        if ($_GET['do'] == 'start-ol-server') {
-          exec('scripts/itp-server.sh /ssd/models/home-edition-ol.conf 8765');
-        }
-        if ($_GET['do'] == 'stop-ol-server') {
-          exec('scripts/itp-server.sh stop');
         }
         if ($_GET['do'] == 'update') {
           exec('/opt/casmacat/install/update.sh');
@@ -52,16 +61,21 @@ class indexController extends viewcontroller {
           $this->mt_server_online++;
         }
         if (strpos($line,"/opt/casmacat/itp-server/server/casmacat-server.py") !== false && strpos($line,"8765") !== false) {
-          $this->ol_server_online++;
+          $this->mt_server_online++;
         }
       }
     }
     
     public function setTemplateVars() {
-      global $ip;
-      $this->template->show_start_cat_server = ! $this->cat_server_online;
-      $this->template->show_start_mt_server = ($this->mt_server_online != 2);
-      $this->template->show_start_ol_server = ! $this->ol_server_online;
+      global $ip,$current_engine_is_thot;
+      if ($current_engine_is_thot) {
+        $this->template->show_start_cat_server = ! $this->ol_server_online;
+        $this->template->show_start_mt_server = ! $this->mt_server_online;
+      }
+      else {
+        $this->template->show_start_cat_server = ! $this->cat_server_online;
+        $this->template->show_start_mt_server = ($this->mt_server_online != 2);
+      }
       $this->template->show_translate_document = 
         ($this->cat_server_online == 1 && $this->mt_server_online == 2);
       $this->template->url = "http://$ip:8000/";

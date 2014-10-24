@@ -44,7 +44,14 @@
 <?php
   $deployed = file("/opt/casmacat/engines/deployed");
   if (isset($deployed[0])) {
-    print "<tr><td><b>Deployed:</b></td><td colspan=\"2\">".$deployed[0]."</td></tr>";;
+    if ($handle = opendir("/opt/casmacat/engines/".rtrim($deployed[0]))) {
+      while (false !== ($file = readdir($handle))) {
+        if (preg_match("/^thot/",$file,$match)) {
+          $thot = 1;
+        }
+      }
+    }
+    print "<tr><td><b>Deployed:</b></td><td colspan=\"2\">".$deployed[0].($thot ? "(Thot)" : "(Moses)")."</td></tr>";;
   }
 ?>
 <?php

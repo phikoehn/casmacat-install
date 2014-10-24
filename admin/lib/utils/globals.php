@@ -1,5 +1,5 @@
 <?php
-  global $language, $data_dir,$exp_dir,$id,$alert;
+  global $language, $data_dir,$exp_dir,$id,$alert,$current_engine_is_thot,$thot_itp_conf;
   $language = array( "da" => "Danish",
                      "nl" => "Dutch",
                      "cs" => "Czech",
@@ -33,6 +33,24 @@
   else {
     $alert = "Networking is not set up correctly!<p>Install a NAT and Host-only adapter";
   }
+
+  // check type of current engine
+  function detect_engine() {
+    global $current_engine_is_thot,$thot_itp_conf;
+    $deployed = file("/opt/casmacat/engines/deployed");
+    $current_engine_is_thot = 0;
+    if (isset($deployed[0])) {
+      if ($handle = opendir("/opt/casmacat/engines/".rtrim($deployed[0]))) {
+        while (false !== ($file = readdir($handle))) {
+          if (preg_match("/^itp-server.conf.\d+/",$file,$match)) {
+            $current_engine_is_thot = 1;
+            $thot_itp_conf = "/opt/casmacat/engines/".rtrim($deployed[0])."/$file";
+          }
+        }
+      }
+    }
+  }
+  detect_engine();
 
   // pretty time printing
   function pretty_time($timestamp) {

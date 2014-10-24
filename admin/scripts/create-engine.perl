@@ -128,6 +128,8 @@ export PREPARED=\$MODELDIR/prepared.".$STEP{"TRAINING_prepare-data"}."
 
 mkdir -p \$LOGDIR
 
+kill -9 `ps -eo pid,cmd -C python | grep 'python /opt/casmacat/itp-server/server/casmacat-server.py' | grep -v grep | cut -c1-5`
+
 killall -9 mosesserver
 /opt/moses/bin/mosesserver -config \$MODELDIR/moses.tuned.ini.".$STEP{"TUNING_apply-weights"}." --server-port 9010 -mp -search-algorithm 1 -cube-pruning-pop-limit 100 -s 100 \\
   >  \$LOGDIR/$engine.moses.stdout \\
