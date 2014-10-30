@@ -107,20 +107,20 @@ print OUT <<"END_OF_FILE";
     "module": "/opt/thot/lib/libthot_casmacat.so", 
     "name": "thot_imt_plugin",
     "parameters": "-c $dir/thot.tuned.ini.$STEP{"TUNING_thot-tune"}",
-    "online-learning": false
+    "online-learning": true
   },
   "aligner": {
     "module": "/opt/thot/lib/libthot_casmacat.so", 
     "name": "thot_align_plugin",
     "parameters": "$dir/tm/main/src_trg_invswm",
-    "online-learning": false
+    "online-learning": true
   },
   "confidencer": {
     "module": "/opt/thot/lib/libthot_casmacat.so", 
     "name": "thot_cm_plugin",
     "parameters": "$dir/tm/main/src_trg_invswm",
     "thresholds": [3, 30],
-    "online-learning": false
+    "online-learning": true
   },
   "word-prioritizer": [ ],
   "source-processor": {
