@@ -19,7 +19,7 @@ fi
 echo 'STEP 2/4: configuring thot '`date +%s`
 cd ${thot_clone_dir}
 ./reconf
-./configure --prefix=${thot_install_dir} --with-casmacat=${casmacat_server_install_dir}
+./configure --prefix=${thot_install_dir} --with-casmacat=${casmacat_server_install_dir} --enable-casmacat-he
 
 # Build package
 echo 'STEP 3/4: building thot '`date +%s`
