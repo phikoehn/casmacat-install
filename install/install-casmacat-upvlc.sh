@@ -1,7 +1,5 @@
 #!/bin/bash -x
 
-apt-get install libtool pkg-config autoconf-archive swig python-dev libperl-dev
-
 # Install UPVLC CAT Server
 echo 'STEP 1/3: downloading and installing cat server '`date +%s`
 if [ -d /opt/casmacat/itp-server ]

@@ -47,13 +47,16 @@
     foreach($status as $file => $status_line) {
       print "<tr><td valign=\"top\" width=\"200\">";
       if ($file == "moses.out") {
-        print "MT software";
+        print "MT software Moses";
       }
       else if ($file == "admin.out") {
         print "Administration tool";
       }
       else if ($file == "casmacat.out") {
         print "CAT software";
+      }
+      else if ($file == "thot.out") {
+        print "MT software Thot";
       }
       else if ($file == "casmacat-upvlc.out") {
         print "ITP software";

@@ -23,7 +23,7 @@ pip install -U CherryPy socketIO-client
 # needed to compile
 echo 'STEP 6/9: installing c++ compiler '`date +%s`
 apt-get -yq install g++
-apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip-dev libbz2-dev libxmlrpc-c++-dev libgoogle-perftools-dev libcmph-dev cmake
+apt-get -yq install libboost-all-dev automake xmlrpc-api-utils libtool libzip-dev libbz2-dev libxmlrpc-c++8 libxmlrpc-c++8-dev libgoogle-perftools-dev libcmph-dev cmake
 
 # dependencies of moses tools
 echo 'STEP 7/9: installing software for moses tools '`date +%s`
@@ -33,7 +33,7 @@ apt-get -yq install imagemagick graphviz
 
 # needed for thot / itp server
 echo 'STEP 8/9: installing software for thot '`date +%s`
-apt-get -yq install autoconf-archive swig libperl-dev python-dev
+apt-get -yq install libtool pkg-config autoconf-archive swig python-dev libperl-dev
 
 # not really needed, but handy
 echo 'STEP 9/9: installing additional optional software '`date +%s`
