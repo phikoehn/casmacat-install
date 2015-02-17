@@ -60,7 +60,7 @@ my $TARGET = \$target;
 open(E,">$stem.$e");
 open(F,">$stem.$f");
 while(<XLIFF>) {
-   if (/^<file.*source-language=\"(..)/) {
+   if (/<file.*source-language=\"(..)/) {
      if ($1 eq $e) {
        $SOURCE = \$target;
        $TARGET = \$source;
@@ -70,7 +70,7 @@ while(<XLIFF>) {
        $TARGET = \$target;
      }
    }
-   if (/^<source>(.+)<\/source>$/i) { # XLIFF
+   if (/<source[^\>]*>(.+)<\/source>/i) { # XLIFF
      $$SOURCE = $1;
    }
    elsif (/<tuv xml:lang="$f[^\"]*"><seg>(.+)<\/seg><\/tuv>/i) { # TMX
@@ -82,7 +82,7 @@ while(<XLIFF>) {
        $$SOURCE = $1;
      }
    }
-   elsif (/^<target>(.+)<\/target>$/i) { # XLIFF
+   elsif (/<target[^\>]*>(.+)<\/target>/i) { # XLIFF
      $$TARGET = $1;
    }
    elsif (/<tuv xml:lang="$e[^\"]*"><seg>(.+)<\/seg><\/tuv>/i) { # TMX
